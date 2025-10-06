@@ -6,7 +6,7 @@
 if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == 'www.localhost') :
     define('BASE2', 'https://localhost/resiparceiros'); //Url raiz do site no localhost
 else :
-    define('BASE2', 'https://painel.resicore.com.br'); //Url raiz do site no servidor
+    define('BASE2', 'https://painel.residere.com.br'); //Url raiz do site no servidor
 endif;
 
 /*
