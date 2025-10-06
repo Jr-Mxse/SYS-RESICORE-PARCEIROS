@@ -65,20 +65,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;
             endif;
 
-            if (isset($PostData['leads_password'])) :
-                if (!empty($PostData['leads_password'])) :
-                    if (strlen($PostData['leads_password']) >= 5) :
-                        $PostData['leads_password'] = hash('sha512', $PostData['leads_password']);
-                    else :
-                        $jSON['trigger'] = AjaxErro("<b>ERRO DE SENHA:</b><br>A senha deve ter no mínimo 5 caracteres para ser redefinida!", E_USER_WARNING);
-                        echo json_encode($jSON);
-                        return;
-                    endif;
-                else :
-                    unset($PostData['leads_password']);
-                endif;
-            endif;
-
             if (isset($PostData['leads_status'])) :
                 $PostData['leads_status'] = (!empty($PostData['leads_status']) ? '1' : '0');
             endif;
@@ -179,7 +165,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO NÃO EXISTE:</b><br>Você tentou deletar um registro que não existe ou já foi removido!", E_USER_WARNING);
             else :
                 extract($Read->getResult()[0]);
-                $Delete->ExeDelete(DB_LEADS_ADDR, "WHERE leads_id = :user", "user={$leads_id}");
 
                 if (file_exists("../../uploads/{$leads_thumb}") && !is_dir("../../uploads/{$leads_thumb}")) :
                     unlink("../../uploads/{$leads_thumb}");
@@ -188,48 +173,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO REMOVIDO COM SUCESSO!</b>");
                 $jSON['redirect'] = "dashboard.php?wc=leads/home";
-            endif;
-            break;
-
-        case 'addr_manage':
-            $AddrId = $PostData['addr_id'];
-            $especial = $PostData['especial'];
-            unset($PostData['addr_id'], $PostData['especial']);
-
-            $Update->ExeUpdate(DB_LEADS_ADDR, $PostData, "WHERE addr_id = :id", "id={$AddrId}");
-            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
-            if(isset($especial)):
-                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['leads_id']}#address";
-            endif;
-            break;
-
-        case 'addr_delete':
-            $Read->FullRead("SELECT leads_id FROM " . DB_LEADS_ADDR . " WHERE addr_id={$PostData['del_id']}", "");
-            if ($Read->getResult()):
-                $PostData['leads_id'] = $Read->getResult()[0]['leads_id'];
-                $Delete->ExeDelete(DB_LEADS_ADDR, "WHERE addr_id = :id", "id={$PostData['del_id']}");
-                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['leads_id']}#address";
-            else:
-                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>OPSS:</b> Desculpe, mas você tentou excluir um registro que não existe ou que foi removido recentemente!", E_USER_WARNING);
-            endif;
-            break;
-
-        case 'cnpj_manage':
-            $CnpjId = $PostData['cnpj_id'];
-            unset($PostData['cnpj_id']);
-
-            $Update->ExeUpdate(DB_LEADS_CNPJ, $PostData, "WHERE cnpj_id = :id", "id={$CnpjId}");
-            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
-            break;
-
-        case 'cnpj_delete':
-            $Read->FullRead("SELECT leads_id FROM " . DB_LEADS_CNPJ . " WHERE cnpj_id={$PostData['del_id']}", "");
-            if ($Read->getResult()):
-                $PostData['leads_id'] = $Read->getResult()[0]['leads_id'];
-                $Delete->ExeDelete(DB_LEADS_CNPJ, "WHERE cnpj_id = :id", "id={$PostData['del_id']}");
-                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['leads_id']}#empresas";
-            else:
-                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>OPSS:</b> Desculpe, mas você tentou excluir um registro que não existe ou que foi removido recentemente!", E_USER_WARNING);
             endif;
             break;
     endswitch;
