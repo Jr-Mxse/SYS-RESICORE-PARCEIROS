@@ -32,31 +32,31 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'manager':
-            $RegId = $PostData['clientes_id'];
-            $PostData['clientes_level'] = 2;
-            unset($PostData['clientes_id'], $PostData['clientes_thumb'], $PostData['conjuge_thumb']);
+            $RegId = $PostData['leads_id'];
+            $PostData['leads_level'] = 2;
+            unset($PostData['leads_id'], $PostData['leads_thumb'], $PostData['conjuge_thumb']);
 
-            if (isset($PostData['clientes_datebirth'])) :
-                $PostData['clientes_datebirth'] = (!empty($PostData['clientes_datebirth']) ? Check::Nascimento($PostData['clientes_datebirth']) : null);
+            if (isset($PostData['leads_datebirth'])) :
+                $PostData['leads_datebirth'] = (!empty($PostData['leads_datebirth']) ? Check::Nascimento($PostData['leads_datebirth']) : null);
             endif;
 
             if (isset($PostData['conjuge_datebirth'])) :
                 $PostData['conjuge_datebirth'] = (!empty($PostData['conjuge_datebirth']) ? Check::Nascimento($PostData['conjuge_datebirth']) : null);
             endif;
 
-            if (isset($_FILES['clientes_thumb'])) :
-                if (!empty($_FILES['clientes_thumb'])) :
-                    $UserThumb = $_FILES['clientes_thumb'];
-                    $Read->FullRead("SELECT clientes_thumb FROM " . DB_CLIENTES . " WHERE clientes_id = :id", "id={$RegId}");
+            if (isset($_FILES['leads_thumb'])) :
+                if (!empty($_FILES['leads_thumb'])) :
+                    $UserThumb = $_FILES['leads_thumb'];
+                    $Read->FullRead("SELECT leads_thumb FROM " . DB_LEADS . " WHERE leads_id = :id", "id={$RegId}");
                     if ($Read->getResult()) :
-                        if (file_exists("../../uploads/{$Read->getResult()[0]['clientes_thumb']}") && !is_dir("../../uploads/{$Read->getResult()[0]['clientes_thumb']}")) :
-                            unlink("../../uploads/{$Read->getResult()[0]['clientes_thumb']}");
+                        if (file_exists("../../uploads/{$Read->getResult()[0]['leads_thumb']}") && !is_dir("../../uploads/{$Read->getResult()[0]['leads_thumb']}")) :
+                            unlink("../../uploads/{$Read->getResult()[0]['leads_thumb']}");
                         endif;
                     endif;
 
-                    $Upload->Image($UserThumb, $RegId . "-" . Check::Name($PostData['clientes_name'] . $PostData['clientes_lastname']) . '-' . time(), 600);
+                    $Upload->Image($UserThumb, $RegId . "-" . Check::Name($PostData['leads_name'] . $PostData['leads_lastname']) . '-' . time(), 600);
                     if ($Upload->getResult()) :
-                        $PostData['clientes_thumb'] = $Upload->getResult();
+                        $PostData['leads_thumb'] = $Upload->getResult();
                     else :
                         $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO AO ENVIAR FOTO:</b><br>Selecione uma imagem JPG ou PNG para enviar como foto!", E_USER_WARNING);
                         echo json_encode($jSON);
@@ -65,45 +65,45 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;
             endif;
 
-            if (isset($PostData['clientes_password'])) :
-                if (!empty($PostData['clientes_password'])) :
-                    if (strlen($PostData['clientes_password']) >= 5) :
-                        $PostData['clientes_password'] = hash('sha512', $PostData['clientes_password']);
+            if (isset($PostData['leads_password'])) :
+                if (!empty($PostData['leads_password'])) :
+                    if (strlen($PostData['leads_password']) >= 5) :
+                        $PostData['leads_password'] = hash('sha512', $PostData['leads_password']);
                     else :
                         $jSON['trigger'] = AjaxErro("<b>ERRO DE SENHA:</b><br>A senha deve ter no mínimo 5 caracteres para ser redefinida!", E_USER_WARNING);
                         echo json_encode($jSON);
                         return;
                     endif;
                 else :
-                    unset($PostData['clientes_password']);
+                    unset($PostData['leads_password']);
                 endif;
             endif;
 
-            if (isset($PostData['clientes_status'])) :
-                $PostData['clientes_status'] = (!empty($PostData['clientes_status']) ? '1' : '0');
+            if (isset($PostData['leads_status'])) :
+                $PostData['leads_status'] = (!empty($PostData['leads_status']) ? '1' : '0');
             endif;
 
-            if (isset($PostData['clientes_renda'])) :
-                if (!empty($PostData['clientes_renda'])) :
-                    if (strpos($PostData['clientes_renda'], ",") && strpos($PostData['clientes_renda'], ".")) :
-                        $PostData['clientes_renda'] = str_replace(",", ".", str_replace(".", "", $PostData['clientes_renda']));
-                    elseif (strpos($PostData['clientes_renda'], ",") && !strpos($PostData['clientes_renda'], ".")) :
-                        $PostData['clientes_renda'] = str_replace(",", ".", $PostData['clientes_renda']);
+            if (isset($PostData['leads_renda'])) :
+                if (!empty($PostData['leads_renda'])) :
+                    if (strpos($PostData['leads_renda'], ",") && strpos($PostData['leads_renda'], ".")) :
+                        $PostData['leads_renda'] = str_replace(",", ".", str_replace(".", "", $PostData['leads_renda']));
+                    elseif (strpos($PostData['leads_renda'], ",") && !strpos($PostData['leads_renda'], ".")) :
+                        $PostData['leads_renda'] = str_replace(",", ".", $PostData['leads_renda']);
                     endif;
                 else :
-                    $PostData['clientes_renda'] = null;
+                    $PostData['leads_renda'] = null;
                 endif;
             endif;
 
-            if (isset($PostData['clientes_patrimonio'])) :
-                if (!empty($PostData['clientes_patrimonio'])) :
-                    if (strpos($PostData['clientes_patrimonio'], ",") && strpos($PostData['clientes_patrimonio'], ".")) :
-                        $PostData['clientes_patrimonio'] = str_replace(",", ".", str_replace(".", "", $PostData['clientes_patrimonio']));
-                    elseif (strpos($PostData['clientes_patrimonio'], ",") && !strpos($PostData['clientes_patrimonio'], ".")) :
-                        $PostData['clientes_patrimonio'] = str_replace(",", ".", $PostData['clientes_patrimonio']);
+            if (isset($PostData['leads_patrimonio'])) :
+                if (!empty($PostData['leads_patrimonio'])) :
+                    if (strpos($PostData['leads_patrimonio'], ",") && strpos($PostData['leads_patrimonio'], ".")) :
+                        $PostData['leads_patrimonio'] = str_replace(",", ".", str_replace(".", "", $PostData['leads_patrimonio']));
+                    elseif (strpos($PostData['leads_patrimonio'], ",") && !strpos($PostData['leads_patrimonio'], ".")) :
+                        $PostData['leads_patrimonio'] = str_replace(",", ".", $PostData['leads_patrimonio']);
                     endif;
                 else :
-                    $PostData['clientes_patrimonio'] = null;
+                    $PostData['leads_patrimonio'] = null;
                 endif;
             endif;
 
@@ -131,18 +131,18 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;
             endif;
 
-            if (isset($PostData['clientes_cell'])):
-                $PostData['clientes_cell'] = str_replace(["(", ")", "-", " "], "", $PostData['clientes_cell']);
+            if (isset($PostData['leads_cell'])):
+                $PostData['leads_cell'] = str_replace(["(", ")", "-", " "], "", $PostData['leads_cell']);
             endif;
 
-            if (isset($PostData['clientes_telephone'])):
-                $PostData['clientes_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['clientes_telephone']);
+            if (isset($PostData['leads_telephone'])):
+                $PostData['leads_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['leads_telephone']);
             endif;
 
             if (isset($_FILES['conjuge_thumb'])) :
                 if (!empty($_FILES['conjuge_thumb'])) :
                     $conjugeThumb = $_FILES['conjuge_thumb'];
-                    $Read->FullRead("SELECT conjuge_thumb FROM " . DB_CLIENTES . " WHERE clientes_id = :id", "id={$RegId}");
+                    $Read->FullRead("SELECT conjuge_thumb FROM " . DB_LEADS . " WHERE leads_id = :id", "id={$RegId}");
                     if ($Read->getResult()) :
                         if (file_exists("../../uploads/{$Read->getResult()[0]['conjuge_thumb']}") && !is_dir("../../uploads/{$Read->getResult()[0]['conjuge_thumb']}")) :
                             unlink("../../uploads/{$Read->getResult()[0]['conjuge_thumb']}");
@@ -168,24 +168,24 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData['conjuge_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['conjuge_telephone']);
             endif;
 
-            $Update->ExeUpdate(DB_CLIENTES, $PostData, "WHERE clientes_id = :id", "id={$RegId}");
+            $Update->ExeUpdate(DB_LEADS, $PostData, "WHERE leads_id = :id", "id={$RegId}");
             $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
             break;
 
         case 'delete':
             $RegId = $PostData['del_id'];
-            $Read->ExeRead(DB_CLIENTES, "WHERE clientes_id = :user", "user={$RegId}");
+            $Read->ExeRead(DB_LEADS, "WHERE leads_id = :user", "user={$RegId}");
             if (!$Read->getResult()) :
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO NÃO EXISTE:</b><br>Você tentou deletar um registro que não existe ou já foi removido!", E_USER_WARNING);
             else :
                 extract($Read->getResult()[0]);
-                $Delete->ExeDelete(DB_CLIENTES_ADDR, "WHERE clientes_id = :user", "user={$clientes_id}");
+                $Delete->ExeDelete(DB_LEADS_ADDR, "WHERE leads_id = :user", "user={$leads_id}");
 
-                if (file_exists("../../uploads/{$clientes_thumb}") && !is_dir("../../uploads/{$clientes_thumb}")) :
-                    unlink("../../uploads/{$clientes_thumb}");
+                if (file_exists("../../uploads/{$leads_thumb}") && !is_dir("../../uploads/{$leads_thumb}")) :
+                    unlink("../../uploads/{$leads_thumb}");
                 endif;
 
-                $Delete->ExeDelete(DB_CLIENTES, "WHERE clientes_id = :user", "user={$clientes_id}");
+                $Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO REMOVIDO COM SUCESSO!</b>");
                 $jSON['redirect'] = "dashboard.php?wc=leads/home";
             endif;
@@ -196,19 +196,19 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $especial = $PostData['especial'];
             unset($PostData['addr_id'], $PostData['especial']);
 
-            $Update->ExeUpdate(DB_CLIENTES_ADDR, $PostData, "WHERE addr_id = :id", "id={$AddrId}");
+            $Update->ExeUpdate(DB_LEADS_ADDR, $PostData, "WHERE addr_id = :id", "id={$AddrId}");
             $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
             if(isset($especial)):
-                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['clientes_id']}#address";
+                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['leads_id']}#address";
             endif;
             break;
 
         case 'addr_delete':
-            $Read->FullRead("SELECT clientes_id FROM " . DB_CLIENTES_ADDR . " WHERE addr_id={$PostData['del_id']}", "");
+            $Read->FullRead("SELECT leads_id FROM " . DB_LEADS_ADDR . " WHERE addr_id={$PostData['del_id']}", "");
             if ($Read->getResult()):
-                $PostData['clientes_id'] = $Read->getResult()[0]['clientes_id'];
-                $Delete->ExeDelete(DB_CLIENTES_ADDR, "WHERE addr_id = :id", "id={$PostData['del_id']}");
-                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['clientes_id']}#address";
+                $PostData['leads_id'] = $Read->getResult()[0]['leads_id'];
+                $Delete->ExeDelete(DB_LEADS_ADDR, "WHERE addr_id = :id", "id={$PostData['del_id']}");
+                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['leads_id']}#address";
             else:
                 $jSON['trigger'] = AjaxErro("<b class='icon-warning'>OPSS:</b> Desculpe, mas você tentou excluir um registro que não existe ou que foi removido recentemente!", E_USER_WARNING);
             endif;
@@ -218,16 +218,16 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $CnpjId = $PostData['cnpj_id'];
             unset($PostData['cnpj_id']);
 
-            $Update->ExeUpdate(DB_CLIENTES_CNPJ, $PostData, "WHERE cnpj_id = :id", "id={$CnpjId}");
+            $Update->ExeUpdate(DB_LEADS_CNPJ, $PostData, "WHERE cnpj_id = :id", "id={$CnpjId}");
             $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
             break;
 
         case 'cnpj_delete':
-            $Read->FullRead("SELECT clientes_id FROM " . DB_CLIENTES_CNPJ . " WHERE cnpj_id={$PostData['del_id']}", "");
+            $Read->FullRead("SELECT leads_id FROM " . DB_LEADS_CNPJ . " WHERE cnpj_id={$PostData['del_id']}", "");
             if ($Read->getResult()):
-                $PostData['clientes_id'] = $Read->getResult()[0]['clientes_id'];
-                $Delete->ExeDelete(DB_CLIENTES_CNPJ, "WHERE cnpj_id = :id", "id={$PostData['del_id']}");
-                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['clientes_id']}#empresas";
+                $PostData['leads_id'] = $Read->getResult()[0]['leads_id'];
+                $Delete->ExeDelete(DB_LEADS_CNPJ, "WHERE cnpj_id = :id", "id={$PostData['del_id']}");
+                $jSON['redirect'] = "dashboard.php?wc=leads/create&id={$PostData['leads_id']}#empresas";
             else:
                 $jSON['trigger'] = AjaxErro("<b class='icon-warning'>OPSS:</b> Desculpe, mas você tentou excluir um registro que não existe ou que foi removido recentemente!", E_USER_WARNING);
             endif;
