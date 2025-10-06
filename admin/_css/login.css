@@ -1,0 +1,702 @@
+/***********************************
+############## LOGIN ###############
+***********************************/
+:root {
+    --color-green: #28a745;
+    --color-blue: #007bff;
+    --color-yellow: #ffc107;
+    --color-red: #dc3545;
+    
+    --color-green-light: #d4edda;
+    --color-blue-light: #d1ecf1;
+    --color-yellow-light: #fff3cd;
+    --color-red-light: #f8d7da;
+    
+    --color-green-dark: #155724;
+    --color-blue-dark: #004085;
+    --color-yellow-dark: #856404;
+    --color-red-dark: #721c24;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.login {
+    background: #151922;
+}
+
+.login_container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Lado Esquerdo - Formulário */
+.login_left {
+    flex: 1;
+    background: #151922;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.login_content {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.login_logo {
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 2rem;
+}
+
+.login_title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+}
+
+.login_subtitle {
+    font-size: 1rem;
+    color: #718096;
+    margin-bottom: 2rem;
+}
+
+.login_form {
+    text-align: left;
+    width: 100%;
+}
+
+.form_group {
+    margin-bottom: 1.5rem;
+}
+
+.form_label {
+    display: block;
+    width: 100%;
+}
+
+.label_text {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #e7e7e7;
+    margin-bottom: 0.5rem;
+}
+
+.form_label input[type="text"],
+.form_label input[type="email"],
+.form_label input[type="password"] {
+    width: 100%;
+    padding: 0 16px;
+    height: 68px;
+    border: 1px solid #2b313c;
+    margin: 0;
+    background-color: transparent !important;
+    border-radius: 0.5rem;
+    color: #e7e7e7;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.form_label input:focus {
+    outline: none;
+    border-color: #1abc9c;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.password_wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password_wrapper input {
+  width: 100%;
+  padding-right: 2.75rem;
+}
+
+.toggle_password {
+  position: absolute;
+  right: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.toggle_password svg {
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.toggle_password:focus-visible {
+  box-shadow: 0 0 0 3px rgba(26,188,156,.35);
+  border-radius: 6px;
+}
+
+
+.form_options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.checkbox_label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #4a5568;
+    user-select: none;
+}
+
+.checkbox_label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.checkbox_label input[type="checkbox"]:checked + .checkmark {
+    background: #1abc9c;
+    border-color: #1abc9c;
+}
+
+.checkbox_label input[type="checkbox"]:checked + .checkmark:after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form_submit {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.btn_login {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    background: #2b313c;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;;
+}
+
+.btn_login:hover {
+    transform: translateY(-2px);
+}
+
+.btn_login:active {
+    transform: translateY(0);
+}
+
+.form_load {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
+
+.login_links {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.link_primary, .link_secondary {
+    display: inline-block;
+    margin: 0 0.5rem;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.link_primary {
+    color: #1abc9c;
+    font-weight: 600;
+}
+
+.link_primary:hover {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+.link_secondary {
+    color: #41b798;
+    font-weight: 500;
+}
+
+.link_secondary:hover {
+    color: #4a5568;
+    text-decoration: underline;
+}
+
+.login_footer {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.partner_logo {
+    max-width: 100px;
+    height: auto;
+    opacity: 0.7;
+}
+
+.login_right {
+    flex: 1;
+    background: linear-gradient(135deg, #000 0%, #1abc9c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.login_visual {
+    text-align: center;
+    color: white;
+    z-index: 2;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+.visual_title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.visual_subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feature_item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feature_icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.feature_item span {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.login_right:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: url('../_img/login/banner.png');
+    animation: float 20s ease-in-out infinite;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .login_container {
+        flex-direction: column;
+    }
+    
+    .login_left, .login_right {
+        flex: none;
+    }
+    
+    .login_left {
+        min-height: 60vh;
+        padding: 1.5rem;
+    }
+    
+    .login_right {
+        min-height: 40vh;
+    }
+    
+    .visual_title {
+        font-size: 2rem;
+    }
+    
+    .features {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .feature_item {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .login_container {
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .login_left {
+        padding: 1rem;
+    }
+    
+    .login_content {
+        max-width: 350px;
+    }
+    
+    .login_title {
+        font-size: 1.75rem;
+    }
+    
+    .visual_title {
+        font-size: 1.75rem;
+    }
+    
+    .features {
+        flex-direction: column;
+    }
+    
+    .feature_item {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .login_right {
+        display: none;
+    }
+    
+    .login_left {
+        min-height: 100vh;
+    }
+    
+    .login_links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+.callback_return {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.callback_return.trigger_accept {
+    background: #f0fff4;
+    color: #38a169;
+    border: 1px solid #9ae6b4;
+}
+
+.callback_return.trigger_error {
+    background: #fed7d7;
+    color: #e53e3e;
+    border: 1px solid #feb2b2;
+}
+
+.none {
+    display: none !important;
+}
+
+.clear {
+    clear: both;
+}
+
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px; 
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/*TRIGGER*/
+.trigger{
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    background: #333;
+    font-size: 1em;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+/*mensagens notificacoes ajax*/
+.trigger_ajax{
+    position: fixed;
+    max-width: 350px;
+    color: #fff;
+    top: 25px;
+    right: 30px;
+    border-radius: 5px;
+    background: #fff;
+    padding: 15px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    z-index: 1000;
+}
+
+.trigger_ajax.active{
+    transform: translateX(0%);
+}
+
+.trigger_ajax .toast-content{
+    display: flex;
+    align-items: center;
+}
+
+.toast-content .check{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: #4070f4;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.trigger_ajax .message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-content .message{
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text{
+    font-size: 20px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.message .text.text-1 {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.1;
+}
+
+.trigger_ajax .close{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.trigger_ajax .close:hover{
+    opacity: 1;
+}
+
+.trigger_ajax .progress{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: #ddd;
+}
+
+.trigger_ajax .progress:before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.progress.active:before{
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100%{
+        right: 100%;
+    }
+}
+
+.trigger_none{margin-bottom: 0;}
+.trigger p{margin-top: 10px;}
+
+/* Definindo as cores e suas variáveis para cada tipo */
+.trigger_success {
+    --color: #28a745;
+    --color-dark: #1e7e34;
+    background-color: var(--color)!important;
+}
+
+.trigger_info {
+    --color: #007bff;
+    --color-dark: #0056b3;
+    background-color: var(--color)!important;
+}
+
+.trigger_alert {
+    --color: #ffc107;
+    --color-dark: #e0a800;
+    background-color: var(--color)!important;
+}
+
+.trigger_error {
+    --color: #dc3545;
+    --color-dark: #c82333;
+    background-color: var(--color)!important;
+}
+
+.trigger_ajax.active ~ button{
+    pointer-events: none;
+}
+
+/* Progress bar com cor mais escura */
+.trigger_ajax.trigger_success .progress:before {
+    background-color: var(--color-dark)!important;
+}
+
+.trigger_ajax.trigger_info .progress:before {
+    background-color: var(--color-dark)!important;
+}
+
+.trigger_ajax.trigger_alert .progress:before {
+    background-color: var(--color-dark)!important;
+}
+
+.trigger_ajax.trigger_error .progress:before {
+    background-color: var(--color-dark)!important;
+}
+
+.trigger_ajax i {
+    opacity: .4;
+}
+
+/* Aplicando as cores de fundo para cada tipo */
+.trigger_ajax.trigger_success {
+    background-color: var(--color)!important;
+}
+
+.trigger_ajax.trigger_info {
+    background-color: var(--color)!important;
+}
+
+.trigger_ajax.trigger_alert {
+    background-color: var(--color)!important;
+}
+
+.trigger_ajax.trigger_error {
+    background-color: var(--color)!important;
+}
+
+.trigger_ajax.trigger_success i {
+    color: #fff;
+    font-size: 2rem;
+}
+
+.trigger_ajax.trigger_info i {
+    color: #fff;
+    font-size: 2rem;
+}
+
+.trigger_ajax.trigger_alert i {
+    color: #fff;
+    font-size: 2rem;
+}
+
+.trigger_ajax.trigger_error i {
+    color: #fff;
+    font-size: 2rem;
+}
+
+.trigger_modal .trigger{
+    padding: 20px;
+    margin: auto 30px auto auto;
+}

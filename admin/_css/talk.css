@@ -1,0 +1,347 @@
+.chats {
+    max-width: 75%;
+    margin-bottom: 1.5rem;
+    display: flex;
+    display: -webkit-flex;
+}
+
+.chat-avatar {
+    padding: 8px 15px 0 8px;
+    display: flex;
+    display: -webkit-flex;
+    align-items: flex-end;
+    -webkit-align-items: flex-end;
+}
+
+.chat-profile-name h6 {
+    margin-bottom: 0;
+    color: #232323;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.chats:last-child {
+    margin-bottom: 0;
+}
+
+.chats .chat-time {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    margin-bottom: 0;
+}
+
+.chats .chat-time .avatar {
+    margin-right: 1rem;
+}
+
+.chats .chat-time h5 {
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.chats .chat-time .time {
+    color: #232323;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.chats .chat-time .time i {
+    color: rgba(247, 247, 247, 0.5);
+}
+
+.chats .chat-time .time i img {
+    width: 14px;
+    height: auto;
+    margin-left: 2px;
+    vertical-align: 0px;
+}
+
+.chats .message-content {
+    background-color: #FFF;
+    border-radius: 20px 20px 20px 0;
+    padding: 14px 20px;
+    color: #232323;
+    font-weight: 500;
+}
+
+.chats.chats-right {
+    margin-left: auto;
+    justify-content: flex-end;
+}
+
+.chats.chats-right .chat-time {
+    justify-content: flex-end;
+}
+
+.chats.chats-right .message-content {
+    background-color: #d9fdd3;
+    color: #232323;
+    border-radius: 20px 20px 0 20px;
+}
+
+.chats.chats-right .chat-action-btns {
+    order: 2;
+    -webkit-order: 2;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+
+.chats.chats-right .chat-action-btns .chat-action-col {
+    width: 100%;
+    text-align: center;
+}
+
+.chats.chats-right .chat-action-btns .chat-read-col {
+    display: flex;
+    display: -webkit-flex;
+    align-items: flex-end;
+    -webkit-align-items: flex-end;
+    padding-bottom: 22px;
+    color: #008024;
+}
+
+.chats.chats-right .chat-content {
+    order: 1;
+    -webkit-order: 1;
+    border-bottom: 10px;
+}
+
+.chats.chats-right .chat-avatar {
+    padding: 8px 0px 0 15px;
+}
+
+.chats.chats-right .message-content .chat-time {
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+}
+
+.chats.chats-right .message-content .chat-time .time {
+    color: #909090;
+}
+
+.chats.chats-right .message-content .chat-time .time i {
+    color: #A3C2FF;
+}
+
+.download-col {
+    position: relative;
+}
+
+.download-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 5px 0;
+    display: flex;
+    display: -webkit-flex;
+}
+
+.download-col ul li {
+    margin: 5px;
+}
+
+.download-col .image-download-col {
+    position: relative;
+}
+
+.download-col .image-download-col a>img {
+    border: 1px solid transparent
+}
+
+.download-col .image-download-col.image-not-download a>img {
+    -webkit-filter: blur(4px);
+    filter: blur(4px);
+    border-color: #000;
+}
+
+.download-col .download-action,
+.file-download .download-action,
+.file-download-col .download-action {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    line-height: 0;
+}
+
+.file-download .download-action {
+    bottom: 14px;
+}
+
+.download-col .download-action a,
+.file-download .download-action a,
+.file-download-col .download-action a {
+    color: #fff;
+    font-size: 10px;
+}
+
+.download-col .download-action div+div,
+.file-download .download-action div+div,
+.file-download-col .download-action div+div {
+    margin-left: 8px;
+}
+
+.download-col .download-action div img,
+.file-download .download-action div img,
+.file-download-col .download-action div img {
+    width: 13px;
+}
+
+.file-download {
+    position: relative;
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 7px;
+}
+
+.file-download .file-type {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 87, 255, 0.1);
+    color: #D7BCE8;
+}
+
+.file-download .file-details span.file-name {
+    color: #FFF;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-download .file-details span.file-size {
+    color: #909090;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-download .download-action a {
+    color: #FFF;
+}
+
+.chat-line {
+    margin: 0px 0 20px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.chat-line:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    background-color: #EEEEEE;
+    width: 100%;
+    height: 1px;
+}
+
+.chat-date {
+    background-color: #EEEEEE;
+    color: #232323;
+    font-size: 13px;
+    padding: 4px 20px;
+    border-radius: 3px;
+    display: inline-block;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    position: relative;
+}
+
+.chat .chat-footer {
+    padding: 10px 0px 15px;
+}
+
+.chat .chat-footer form {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    position: relative;
+}
+
+.chat .chat-footer form .form-buttons {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+.chat .chat-footer form .form-buttons .btn {
+    margin-left: 0px;
+    color: #BDBFC7;
+    font-size: 20px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.chat .chat-footer form .form-buttons .btn:last-child {
+    margin-right: 0;
+}
+
+.chat .chat-footer form .specker-col,
+.chat .chat-footer form .smile-col,
+.chat .chat-footer form .attach-col {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+.chat .chat-footer form .specker-col span {
+    color: #FFF;
+    font-size: 25px;
+}
+
+.chat .chat-footer form .attach-col i,
+.chat .chat-footer form .smile-col i {
+    color: #FFF;
+    font-size: 20px;
+}
+
+.chat .chat-footer form .smile-col i {
+    font-size: 22px;
+}
+
+.chat .chat-footer form .smile-col {
+    right: inherit;
+    left: 15px;
+}
+
+.chat .chat-footer form .attach-col {
+    right: inherit;
+    left: 60px;
+}
+
+.chat+.sidebar-group {
+    margin-right: 0px;
+}
+
+.chat+.sidebar-group .sidebar {
+    margin-right: 0px;
+}
