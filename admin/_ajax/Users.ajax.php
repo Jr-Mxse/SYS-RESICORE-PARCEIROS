@@ -31,25 +31,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     //SELECIONA AÇÃO
     switch ($Case):
-
-        case 'comercial':
-            $n = 0;
-            $ids = array_keys($PostData['user_comercial']);
-
-            $Update->ExeUpdate(DB_USERS, ["user_comercial" => null], "", "");
-
-            foreach ($ids as $user_id) {
-                $Update->ExeUpdate(DB_USERS, ["user_comercial" => 1], "WHERE user_id = :id", "id={$user_id}");
-            }
-
-            $jSON['redirect'] = 'dashboard.php?wc=users/comercial';
-            $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>EQUIPE COMERCIAL ATUALIZADA COM SUCESSO!</b>");
-            break;
-
-
         case 'manager':
             $UserId = $PostData['user_id'];
             unset($PostData['user_id'], $PostData['user_thumb']);
+            $PostData['user_level'] = 10;
 
             $Read->FullRead("SELECT user_id FROM " . DB_USERS . " WHERE user_email = :email AND user_id != :id", "email={$PostData['user_email']}&id={$UserId}");
             if ($Read->getResult()):

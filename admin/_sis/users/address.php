@@ -48,9 +48,7 @@ endif;
     <div class="dashboard_header_title">
         <h1 class="icon-pagebreak">Endereço de <?= "{$user_name} {$user_lastname}"; ?></h1>
         <p class="dashboard_header_breadcrumbs">
-            &raquo; Parceiros Residere
-            <span class="crumb">/</span>
-            <a title="Parceiros Residere" href="dashboard.php?wc=home">Dashboard</a>
+            <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
             <a title="Parceiros Residere" href="dashboard.php?wc=users/home">Usuários</a>
             <span class="crumb">/</span>
