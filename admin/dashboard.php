@@ -297,8 +297,8 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                                 <span>Meus Imóveis</span>
                                 <span class="badge">3</span>
                             </div> -->
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-item">
+                            <!-- <div class="dropdown-divider"></div>
+                            <!-- <div class="dropdown-item">
                                 <span>Modo</span>
                                 <i class="fa-solid fa-toggle-on"></i>
                             </div>
