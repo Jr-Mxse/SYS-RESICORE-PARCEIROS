@@ -16,7 +16,7 @@
 </li>
 <li class="dashboard_nav_menu_li">
     <a title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
-        <i class="icon-books"></i>
+        <i class="icon-star-full"></i>
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
