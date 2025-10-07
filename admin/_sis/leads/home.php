@@ -22,8 +22,11 @@
                 <th style="text-align: left;">Cadastro</th>
                 <th style="text-align: left;">ID</th>
                 <th style="text-align: left;">Nome</th>
-                <th style="text-align: left;">E-mail</th>
-                <th style="text-align: left;">Telefone</th>
+                <th style="text-align: left;">Negócio</th>
+                <th style="text-align: left;">Previsao<br>Terreno</th>
+                <th style="text-align: left;">Indicação</th>
+                <th style="text-align: left;">Ind. + Acomp.</th>
+                <th style="text-align: left;">Ind. e Fechamento</th>
                 <th style="text-align: left;"></th>
             </tr>
         </thead>
@@ -45,13 +48,22 @@
                     if ($leads_lastname):
                         $leads_name .=  " " . $leads_lastname;
                     endif;
-            ?>
+
+                    $leads_terreno = (20 * $leads_proposta / 100);
+
+                    $leads_proposta2 = (0.48 * ($leads_proposta - $leads_terreno) / 100) ;
+                    $leads_proposta3 = (1.5 * ($leads_proposta - $leads_terreno) / 100);
+                    $leads_proposta4 = (6 * ($leads_proposta - $leads_terreno) / 100);
+                    ?>
                     <tr role="row">
                         <td style="text-align: left" data-sort="<?= strtotime($leads_registration) ?>"><?= date("d/m/Y", strtotime($leads_registration)) ?></td>
                         <td style="text-align: left"><?= $leads_id ?></td>
                         <td style="text-align: left"><?= $leads_name ?></td>
-                        <td style="text-align: left"><?= $leads_email ?></td>
-                        <td style="text-align: left"><?= $leads_cell ?></td>
+                        <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta, '2', ',', '.') ?></td>
+                        <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_terreno, '2', ',', '.') ?></td>
+                        <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta2, '2', ',', '.') ?></td>
+                        <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta3, '2', ',', '.') ?></td>
+                        <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta4, '2', ',', '.') ?></td>
                         <td>
                             <div class='fl_right'>
                                 <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-notext icon-pencil btn  btn_green"></a>

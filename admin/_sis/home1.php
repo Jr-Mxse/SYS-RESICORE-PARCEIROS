@@ -1,4 +1,7 @@
 
+<?php
+header('Location: dashboard.php?wc=leads/home');
+?>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <h1 class="icon-home">Dashboard</h1>
