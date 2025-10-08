@@ -26,7 +26,6 @@ if (!$Read->getResult()):
 
     $Read->ExeRead(DB_USERS, "WHERE user_id = '{$user_id}'", "");
     $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
-    header("Location: dashboard.php?wc=home");
 
     $nome = explode(" ", $Token[0])[0];
     $destino["numero"] = "55" . $Token[2];
@@ -70,7 +69,7 @@ Equipe Grupo Residere";
         $msg = $response;
     }
     curl_close($ch);
-
+/*
     $destino["numero"] = "5518996653770";
 
     $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
@@ -100,9 +99,9 @@ Equipe Grupo Residere";
         $msg = $response;
     }
     curl_close($ch);
-
+*/
 else:
     unset($_SESSION['userLoginParceiros']);
-    header("Location: https://painel.residere.com.br");
-    exit;
 endif;
+sleep(3);
+header("Location: https://painel.residere.com.br/admin");
