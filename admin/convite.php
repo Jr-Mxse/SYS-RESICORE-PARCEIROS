@@ -13,14 +13,14 @@ $Token = explode("-|-", base64_decode(filter_input(INPUT_GET, 'tk', FILTER_DEFAU
 
 $Read->ExeRead(DB_USERS, "WHERE user_email = '{$Token[1]}' OR user_cell = '{$Token[2]}'", "");
 if (!$Read->getResult()):
-    $pass =
-        $RegCreate = [
-            'user_name' => $Token[0],
-            'user_email' => $Token[1],
-            'user_password' => hash('sha512', $pass),
-            'user_cell' => $Token[2],
-            'especialista_id' => 44,
-        ];
+    $pass = rand(1000, 9999999);
+    $RegCreate = [
+        'user_name' => $Token[0],
+        'user_email' => $Token[1],
+        'user_password' => hash('sha512', $pass),
+        'user_cell' => $Token[2],
+        'especialista_id' => 44,
+    ];
     $Create->ExeCreate(DB_USERS, $RegCreate);
     $user_id = $Create->getResult();
 
@@ -32,11 +32,8 @@ if (!$Read->getResult()):
     $destino["mensagem"] = "Parabéns {$nome}!\n 
 
 Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualqeur momento:\n
-
 👉 {$pass}\n
-
 Ficamos à disposição para o que precisar.\n
-
 Um grande abraço,\n
 Equipe Grupo Residere";
 
@@ -69,7 +66,7 @@ Equipe Grupo Residere";
         $msg = $response;
     }
     curl_close($ch);
-/*
+
     $destino["numero"] = "5518996653770";
 
     $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
@@ -99,7 +96,7 @@ Equipe Grupo Residere";
         $msg = $response;
     }
     curl_close($ch);
-*/
+
 else:
     unset($_SESSION['userLoginParceiros']);
 endif;
