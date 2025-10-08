@@ -28,7 +28,78 @@ if (!$Read->getResult()):
     $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
     header("Location: dashboard.php?wc=home");
 
-//mandar msg
+    $nome = explode(" ", $Token[0])[0];
+    $destino["numero"] = "55" . $Token[2];
+    $destino["mensagem"] = "Parabéns {$nome}!\n 
+
+Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualqeur momento:\n
+
+👉 {$pass}\n
+
+Ficamos à disposição para o que precisar.\n
+
+Um grande abraço,\n
+Equipe Grupo Residere";
+
+    $destino["numero"] = "5521979158558";
+
+    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+    $headers = [
+        "Content-Type: application/json",
+        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+    ];
+    $payload = [
+        "number" => "{$destino["numero"]}@s.whatsapp.net",
+        "text"   => $destino["mensagem"]
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_TIMEOUT => 30,
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        $msg = curl_error($ch);
+    } else {
+        $msg = $response;
+    }
+    curl_close($ch);
+
+    $destino["numero"] = "5518996653770";
+
+    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+    $headers = [
+        "Content-Type: application/json",
+        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+    ];
+    $payload = [
+        "number" => "{$destino["numero"]}@s.whatsapp.net",
+        "text"   => $destino["mensagem"]
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_TIMEOUT => 30,
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        $msg = curl_error($ch);
+    } else {
+        $msg = $response;
+    }
+    curl_close($ch);
 
 else:
     unset($_SESSION['userLoginParceiros']);
