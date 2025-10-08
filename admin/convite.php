@@ -11,8 +11,6 @@ $Delete = new Delete;
 
 $Token = explode("-|-", base64_decode(filter_input(INPUT_GET, 'tk', FILTER_DEFAULT)));
 
-var_dump($Token);
-
 $Read->ExeRead(DB_USERS, "WHERE user_email = '{$Token[1]}' OR user_cell = '{$Token[2]}'", "");
 if (!$Read->getResult()):
     $pass =
