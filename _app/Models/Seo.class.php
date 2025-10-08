@@ -278,7 +278,7 @@ class Seo {
 
     private function set404() {
         $this->Schema = 'WebSite';
-        $this->Title = "Oppsss, nada encontrado! - " . SITE_NAME2;
+        $this->Title = "Parceiros Residere";
         $this->Description = SITE_DESC;
         $this->Image = INCLUDE_PATH . '/images/default.jpg';
     }
