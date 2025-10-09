@@ -3,9 +3,11 @@ ob_start();
 session_start();
 require '../_app/Config.inc.php';
 
+unset($_SESSION['userLoginParceiros']);
+
 if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiros']['user_level']) && $_SESSION['userLoginParceiros']['user_level'] >= 6):
     header('Location: dashboard.php?wc=home');
-exit;
+    exit;
 endif;
 
 $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
@@ -50,9 +52,9 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         endif;
                         ?>
                     </div>
-                    
+
                     <div class="form_group">
-                        <label class="form_label">
+                        <label class="form_label" style="text-align: center">
                             <h3 style="color: #fff">Ficha cadastral de Parceiro Comercial</h3>
                         </label>
                     </div>
@@ -86,13 +88,13 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                                 <input name="user_document" value="" placeholder="Seu CPF" required />
                             </label>
                         </div>
-                    </div>    
+                    </div>
 
                     <div class="label_50">
                         <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">E-mail</span>
-                                <input name="user_mail" value="" required placeholder="Seu E-mail" />
+                                <input name="user_email" value="" required placeholder="Seu E-mail" />
                             </label>
                         </div>
                         <div class="form_group">

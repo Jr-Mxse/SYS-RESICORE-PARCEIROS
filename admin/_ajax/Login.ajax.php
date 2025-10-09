@@ -27,17 +27,17 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     //SELECIONA AÇÃO
     switch ($Case):
-        case 'admin_cadastro':
-            case 'admin_ativar':
-            $Read->ExeRead(DB_USERS, "WHERE user_email = '{$Postdata["user_email"]}' OR user_cell = '{$Postdata["user_cell"]}'", "");
+        case 'admin_ativar':
+            $Read->ExeRead(DB_USERS, "WHERE user_email = '{$PostData["user_email"]}' OR user_cell = '{$PostData["user_cell"]}'", "");
             if (!$Read->getResult()):
-                $Postdata["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Postdata["user_cell"]);
-                $Postdata["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Postdata["user_document"]);
+                $PostData["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_cell"]);
+                $PostData["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_document"]);
 
                 $pass = rand(1000, 9999999);
-                $Postdata["user_password"] = hash('sha512', $pass);
+                $PostData["user_password"] = hash('sha512', $pass);
+                $PostData["user_status"] = 1;
 
-                $Create->ExeCreate(DB_USERS, $Postdata);
+                $Create->ExeCreate(DB_USERS, $PostData);
                 if (!$Create->getResult()):
                     $jSON['trigger'] = AjaxErro('<b>ERRO AO CADASTRAR:</b> Tente novamente por favor, ou entre em contato com o Administrador!', E_USER_WARNING);
                 else:
@@ -46,8 +46,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $Read->ExeRead(DB_USERS, "WHERE user_id='{$user_id}'", "");
                     $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
 
-                    $nome = explode(" ",  $Postdata["user_name"])[0];
-                    $destino["numero"] = "55" . $Postdata["user_cell"];
+                    $nome = explode(" ",  $PostData["user_name"])[0];
+                    $destino["numero"] = "55" . $PostData["user_cell"];
+                    //$destino["numero"] = "5521979158558";
+                    //$destino["numero"] = "5518996653770";
                     $destino["mensagem"] = "Parabéns {$nome}!\n 
 
 Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualquer momento:\n
@@ -83,6 +85,7 @@ Equipe Grupo Residere";
                         $msg = $response;
                     }
                     curl_close($ch);
+                    $jSON['trigger'] = AjaxErro("<b>Olá {$nome},</b> conta ativada com sucesso.");
 
                     if (isset($PostData['redirect']) && !empty($PostData['redirect'])):
                         $jSON['redirect'] = BASE2 . "/" . base64_decode($PostData['redirect']);
@@ -95,7 +98,66 @@ Equipe Grupo Residere";
             endif;
             break;
 
-        //$destino["numero"] = "5518996653770";
+        case 'admin_cadastro':
+            $Read->ExeRead(DB_USERS, "WHERE user_email = '{$PostData["user_email"]}' OR user_cell = '{$PostData["user_cell"]}'", "");
+            if (!$Read->getResult()):
+                $PostData["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_cell"]);
+                $PostData["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_document"]);
+
+                $Create->ExeCreate(DB_USERS, $PostData);
+                if (!$Create->getResult()):
+                    $jSON['trigger'] = AjaxErro('<b>ERRO AO CADASTRAR:</b> Tente novamente por favor, ou entre em contato com o Administrador!', E_USER_WARNING);
+                else:
+                    $user_id = $Create->getResult();
+                    $Read->ExeRead(DB_USERS, "WHERE user_id='{$user_id}'", "");
+                    $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
+
+                    $nome = explode(" ",  $PostData["user_name"])[0];
+                    $destino["numero"] = "55" . $PostData["user_cell"];
+                    $destino["numero"] = "5521979158558";
+                    //$destino["numero"] = "5518996653770";
+                    $destino["mensagem"] = "Parabéns {$nome}!\n 
+Agradecemos pela sua confiança e seu cadastro já está em análise de nossa equipe de especialistas:\n
+Ficamos à disposição para o que precisar.\n
+Um grande abraço,\n
+Equipe Grupo Residere";
+
+                    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+                    $headers = [
+                        "Content-Type: application/json",
+                        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+                    ];
+                    $payload = [
+                        "number" => "{$destino["numero"]}@s.whatsapp.net",
+                        "text"   => $destino["mensagem"]
+                    ];
+
+                    $ch = curl_init();
+                    curl_setopt_array($ch, [
+                        CURLOPT_URL => $url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_POST => true,
+                        CURLOPT_HTTPHEADER => $headers,
+                        CURLOPT_POSTFIELDS => json_encode($payload),
+                        CURLOPT_TIMEOUT => 30,
+                    ]);
+
+                    $response = curl_exec($ch);
+                    if ($response === false) {
+                        $msg = curl_error($ch);
+                    } else {
+                        $msg = $response;
+                    }
+                    curl_close($ch);
+
+                    $jSON['trigger'] = AjaxErro("<b>Olá {$nome},</b> cadastro realizado com sucesso. Em breve entraremos em contato.");
+                    $jSON['redirect'] = 'https://painel.residere.com.br';
+
+                endif;
+            else:
+                $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail ou Celular já cadastrados!', E_USER_WARNING);
+            endif;
+            break;
 
         case 'admin_login':
             if (in_array('', $PostData)):

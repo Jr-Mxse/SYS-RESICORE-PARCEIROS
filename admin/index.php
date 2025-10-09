@@ -3,6 +3,8 @@ ob_start();
 session_start();
 require '../_app/Config.inc.php';
 
+unset($_SESSION['userLoginParceiros']);
+
 if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiros']['user_level']) && $_SESSION['userLoginParceiros']['user_level'] >= 6):
     header('Location: dashboard.php?wc=home');
     exit;
@@ -92,6 +94,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
             </form>
 
             <div class="login_links">
+                <a href="cadastro.php" class="link_secondary">Cadastro</a> &nbsp;&nbsp;&nbsp;
                 <a href="recover.php" class="link_secondary">Esqueceu sua senha?</a>
             </div>
             <img style="max-width: 350px;" class="login_logo" src="_img/marcas.png" alt="ResiPlace" />
