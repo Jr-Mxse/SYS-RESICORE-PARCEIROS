@@ -157,6 +157,10 @@
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+.label_50 {
+    float: unset;
+}
+
 .password_wrapper {
   position: relative;
   display: flex;
@@ -465,6 +469,14 @@
     
     .feature_item {
         min-width: auto;
+    }
+
+    .label_50 div {
+        width: 100%;
+    }
+
+    .label_50 div:nth-child(2n+0) {
+         margin-left: 0; 
     }
 }
 
