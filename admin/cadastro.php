@@ -112,7 +112,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                 </form>
 
                 <div class="login_links">
-                    <a href="recover.php" class="link_secondary">Esqueceu sua senha?</a>
+                    <a href="index.php" class="link_secondary">Acesso / Login</a>
                 </div>
                 <img style="max-width: 350px;" class="login_logo" src="_img/marcas.png" alt="ResiPlace" />
             </div>
