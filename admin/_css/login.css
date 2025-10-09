@@ -18,6 +18,15 @@
     --color-red-dark: #721c24;
 }
 
+.label_50 div{
+    display: inline-block;
+    width: 48%;
+}
+
+.label_50 div:nth-child(2n+0){
+    margin-left: 3%;
+}
+
 
 * {
     margin: 0;

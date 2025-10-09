@@ -3,6 +3,12 @@
 session_start();
 require '../../_app/Config.inc.php';
 
+$Read = new Read;
+$Create = new Create;
+$Update = new Update;
+$Delete = new Delete;
+$Email = new Email;
+
 usleep(50000);
 
 //DEFINE O CALLBACK E RECUPERA O POST
@@ -21,7 +27,111 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     //SELECIONA AÇÃO
     switch ($Case):
-            //LOGIN
+        case 'admin_cadastro':
+
+            break;
+
+        case 'admin_ativar':
+
+
+            $Read->ExeRead(DB_USERS, "WHERE user_email = '{$Token[1]}' OR user_cell = '{$Token[2]}'", "");
+            if (!$Read->getResult()):
+                $pass = rand(1000, 9999999);
+                $RegCreate = [
+                    'user_name' => $Token[0],
+                    'user_email' => $Token[1],
+                    'user_password' => hash('sha512', $pass),
+                    'user_cell' => $Token[2],
+                    'especialista_id' => 44,
+                ];
+                $Create->ExeCreate(DB_USERS, $RegCreate);
+                $user_id = $Create->getResult();
+            /*
+    $Read->ExeRead(DB_USERS, "WHERE user_id = '{$user_id}'", "");
+    $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
+    if ($Create->getResult()):
+        $nome = explode(" ", $Token[0])[0];
+        $destino["numero"] = "55" . $Token[2];
+        $destino["mensagem"] = "Parabéns {$nome}!\n 
+
+Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualqeur momento:\n
+👉 {$pass}\n
+Ficamos à disposição para o que precisar.\n
+Um grande abraço,\n
+Equipe Grupo Residere";
+
+        $destino["numero"] = "5521979158558";
+
+        $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+        $headers = [
+            "Content-Type: application/json",
+            "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+        ];
+        $payload = [
+            "number" => "{$destino["numero"]}@s.whatsapp.net",
+            "text"   => $destino["mensagem"]
+        ];
+
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_TIMEOUT => 30,
+        ]);
+
+        $response = curl_exec($ch);
+        if ($response === false) {
+            $msg = curl_error($ch);
+        } else {
+            $msg = $response;
+        }
+        curl_close($ch);
+    /*
+    $destino["numero"] = "5518996653770";
+
+    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+    $headers = [
+        "Content-Type: application/json",
+        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+    ];
+    $payload = [
+        "number" => "{$destino["numero"]}@s.whatsapp.net",
+        "text"   => $destino["mensagem"]
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_TIMEOUT => 30,
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        $msg = curl_error($ch);
+    } else {
+        $msg = $response;
+    }
+    curl_close($ch);
+*/
+            //endif;
+            /*
+else:
+    $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
+endif;
+sleep(3);
+header("Location: https://painel.residere.com.br/admin");
+
+*/
+            endif;
+            break;
+
         case 'admin_login':
             if (in_array('', $PostData)):
                 $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> Informe seu e-mail e senha para logar!', E_USER_NOTICE);
@@ -31,7 +141,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 elseif (strlen($PostData['user_password']) < 5):
                     $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> Senha informada não é compatível!', E_USER_NOTICE);
                 else:
-                    $Read = new Read;
                     $Read->FullRead("SELECT user_id FROM " . DB_USERS . " WHERE user_email = :email", "email={$PostData['user_email']}");
                     if (!$Read->getResult()):
                         $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail informado não é cadastrado!', E_USER_WARNING);
@@ -80,7 +189,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
         case 'admin_recover':
             if (isset($PostData['user_email']) && Check::Email($PostData['user_email']) && filter_var($PostData['user_email'], FILTER_VALIDATE_EMAIL)):
-                $Read = new Read;
                 $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_email = :email AND user_level >= :level", "email={$PostData['user_email']}&level=6");
                 if (!$Read->getResult()):
                     $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
@@ -97,7 +205,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     ";
                     $Mensagem = str_replace('#mail_body#', $BodyMail, $MailContent);
 
-                    $Email = new Email;
                     $Email->EnviarMontando('Recupere sua Senha', $Mensagem, ADMIN_NAME, MAIL_USER, $Read->getResult()[0]['user_name'], $Read->getResult()[0]['user_email']);
 
                     $_SESSION['trigger_login'] = AjaxErro("<b>SUCESSO:</b> Olá {$Read->getResult()[0]['user_name']}, confira o link enviado em seu e-mail para recuperar sua senha!");
@@ -122,7 +229,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     $DecodeValidate = base64_decode($_SESSION['RecoverPass']);
                     parse_str($DecodeValidate, $Validate);
 
-                    $Read = new Read;
                     $Read->FullRead("SELECT user_name, user_id FROM " . DB_USERS . " WHERE user_id = :id AND user_email = :email AND user_password = :pass", "id={$Validate['user_id']}&email={$Validate['user_email']}&pass={$Validate['user_password']}");
                     if ($Read->getResult()):
                         $UpdatePass = ['user_password' => hash('sha512', $PostData['user_password'])];
