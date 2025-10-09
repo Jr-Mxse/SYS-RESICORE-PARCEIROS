@@ -101,7 +101,38 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: #e7e7e7;
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem;
+}
+
+.form_group input,
+.form_group select {
+    background: transparent;
+    width: 100%;
+    padding: 0 16px;
+    height: 68px;
+    border: 1px solid #2b313c;
+    margin: 0;
+    background-color: transparent !important;
+    border-radius: 0.5rem;
+    color: #e7e7e7;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.form_group select:focus,
+.form_group input:focus {
+    border-color: #1abc9c;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+}
+
+.form_group select option {
+    background-color: #1e1f25;
+    color: #e7e7e7;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
 }
 
 .form_label input[type="text"],
