@@ -28,109 +28,74 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     //SELECIONA AÇÃO
     switch ($Case):
         case 'admin_cadastro':
-
-            break;
-
-        case 'admin_ativar':
-
-
-            $Read->ExeRead(DB_USERS, "WHERE user_email = '{$Token[1]}' OR user_cell = '{$Token[2]}'", "");
+            case 'admin_ativar':
+            $Read->ExeRead(DB_USERS, "WHERE user_email = '{$Postdata["user_email"]}' OR user_cell = '{$Postdata["user_cell"]}'", "");
             if (!$Read->getResult()):
-                $pass = rand(1000, 9999999);
-                $RegCreate = [
-                    'user_name' => $Token[0],
-                    'user_email' => $Token[1],
-                    'user_password' => hash('sha512', $pass),
-                    'user_cell' => $Token[2],
-                    'especialista_id' => 44,
-                ];
-                $Create->ExeCreate(DB_USERS, $RegCreate);
-                $user_id = $Create->getResult();
-            /*
-    $Read->ExeRead(DB_USERS, "WHERE user_id = '{$user_id}'", "");
-    $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
-    if ($Create->getResult()):
-        $nome = explode(" ", $Token[0])[0];
-        $destino["numero"] = "55" . $Token[2];
-        $destino["mensagem"] = "Parabéns {$nome}!\n 
+                $Postdata["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Postdata["user_cell"]);
+                $Postdata["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Postdata["user_document"]);
 
-Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualqeur momento:\n
+                $pass = rand(1000, 9999999);
+                $Postdata["user_password"] = hash('sha512', $pass);
+
+                $Create->ExeCreate(DB_USERS, $Postdata);
+                if (!$Create->getResult()):
+                    $jSON['trigger'] = AjaxErro('<b>ERRO AO CADASTRAR:</b> Tente novamente por favor, ou entre em contato com o Administrador!', E_USER_WARNING);
+                else:
+                    $user_id = $Create->getResult();
+                    setcookie('resiparceiros', $PostData['user_email'], time() + 2592000, '/');
+                    $Read->ExeRead(DB_USERS, "WHERE user_id='{$user_id}'", "");
+                    $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
+
+                    $nome = explode(" ",  $Postdata["user_name"])[0];
+                    $destino["numero"] = "55" . $Postdata["user_cell"];
+                    $destino["mensagem"] = "Parabéns {$nome}!\n 
+
+Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualquer momento:\n
 👉 {$pass}\n
 Ficamos à disposição para o que precisar.\n
 Um grande abraço,\n
 Equipe Grupo Residere";
 
-        $destino["numero"] = "5521979158558";
+                    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+                    $headers = [
+                        "Content-Type: application/json",
+                        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+                    ];
+                    $payload = [
+                        "number" => "{$destino["numero"]}@s.whatsapp.net",
+                        "text"   => $destino["mensagem"]
+                    ];
 
-        $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
-        $headers = [
-            "Content-Type: application/json",
-            "apikey: 429683C4C977415CAAFCCE10F7D57E11"
-        ];
-        $payload = [
-            "number" => "{$destino["numero"]}@s.whatsapp.net",
-            "text"   => $destino["mensagem"]
-        ];
+                    $ch = curl_init();
+                    curl_setopt_array($ch, [
+                        CURLOPT_URL => $url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_POST => true,
+                        CURLOPT_HTTPHEADER => $headers,
+                        CURLOPT_POSTFIELDS => json_encode($payload),
+                        CURLOPT_TIMEOUT => 30,
+                    ]);
 
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POSTFIELDS => json_encode($payload),
-            CURLOPT_TIMEOUT => 30,
-        ]);
+                    $response = curl_exec($ch);
+                    if ($response === false) {
+                        $msg = curl_error($ch);
+                    } else {
+                        $msg = $response;
+                    }
+                    curl_close($ch);
 
-        $response = curl_exec($ch);
-        if ($response === false) {
-            $msg = curl_error($ch);
-        } else {
-            $msg = $response;
-        }
-        curl_close($ch);
-    /*
-    $destino["numero"] = "5518996653770";
-
-    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
-    $headers = [
-        "Content-Type: application/json",
-        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
-    ];
-    $payload = [
-        "number" => "{$destino["numero"]}@s.whatsapp.net",
-        "text"   => $destino["mensagem"]
-    ];
-
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => $headers,
-        CURLOPT_POSTFIELDS => json_encode($payload),
-        CURLOPT_TIMEOUT => 30,
-    ]);
-
-    $response = curl_exec($ch);
-    if ($response === false) {
-        $msg = curl_error($ch);
-    } else {
-        $msg = $response;
-    }
-    curl_close($ch);
-*/
-            //endif;
-            /*
-else:
-    $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
-endif;
-sleep(3);
-header("Location: https://painel.residere.com.br/admin");
-
-*/
+                    if (isset($PostData['redirect']) && !empty($PostData['redirect'])):
+                        $jSON['redirect'] = BASE2 . "/" . base64_decode($PostData['redirect']);
+                    else:
+                        $jSON['redirect'] = 'dashboard.php?wc=home';
+                    endif;
+                endif;
+            else:
+                $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail ou Celular já cadastrados!', E_USER_WARNING);
             endif;
             break;
+
+        //$destino["numero"] = "5518996653770";
 
         case 'admin_login':
             if (in_array('', $PostData)):
@@ -163,14 +128,10 @@ header("Location: https://painel.residere.com.br/admin");
                                     setcookie('resiparceiros', '', 60, '/');
                                 endif;
 
-                                if (!EAD_STUDENT_MULTIPLE_LOGIN):
-                                    $wc_ead_login_cookie = hash("sha512", time());
-                                    setcookie('wc_ead_login', $wc_ead_login_cookie, time() + 2592000, '/');
+                                $wc_ead_login_cookie = hash("sha512", time());
 
-                                    $UpdateUserLogin = ['user_lastaccess' => date('Y-m-d H:i:s'), 'user_login' => time(), 'user_login_cookie' => $wc_ead_login_cookie];
-                                    $Update = new Update;
-                                    $Update->ExeUpdate(DB_USERS, $UpdateUserLogin, "WHERE user_id = :user", "user={$Read->getResult()[0]['user_id']}");
-                                endif;
+                                $UpdateUserLogin = ['user_lastaccess' => date('Y-m-d H:i:s'), 'user_login' => time(), 'user_login_cookie' => $wc_ead_login_cookie];
+                                $Update->ExeUpdate(DB_USERS, $UpdateUserLogin, "WHERE user_id = :user", "user={$Read->getResult()[0]['user_id']}");
 
                                 $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
                                 $jSON['trigger'] = AjaxErro("<b>Olá {$Read->getResult()[0]['user_name']},</b> Seja bem-vindo(a) de volta!");
