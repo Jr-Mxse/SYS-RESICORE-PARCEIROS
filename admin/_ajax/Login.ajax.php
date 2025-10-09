@@ -114,7 +114,7 @@ Equipe Grupo Residere";
 
                     $nome = explode(" ",  $PostData["user_name"])[0];
                     $destino["numero"] = "55" . $PostData["user_cell"];
-                    $destino["numero"] = "5521979158558";
+                    //$destino["numero"] = "5521979158558";
                     //$destino["numero"] = "5518996653770";
                     $destino["mensagem"] = "Parabéns {$nome}!\n 
 Agradecemos pela sua confiança e seu cadastro já está em análise de nossa equipe de especialistas:\n
