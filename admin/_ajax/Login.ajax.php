@@ -37,6 +37,10 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData["user_password"] = hash('sha512', $pass);
                 $PostData["user_status"] = 1;
 
+                if (!isset($PostData["especialista_id"]) || !$PostData["especialista_id"]):
+                    $PostData["especialista_id"] = 44;
+                endif;
+
                 $Create->ExeCreate(DB_USERS, $PostData);
                 if (!$Create->getResult()):
                     $jSON['trigger'] = AjaxErro('<b>ERRO AO CADASTRAR:</b> Tente novamente por favor, ou entre em contato com o Administrador!', E_USER_WARNING);
