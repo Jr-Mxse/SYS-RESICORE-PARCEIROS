@@ -95,6 +95,27 @@ $(function(){
       $fraseEl.text(`"${frases[index]}"`);
     }, 6000);
 
+        //############## MASK INPUT
+    $(".formPhone").mask("(00) 0000-00009");
+    $(".formDate").mask("99/99/9999");
+    $(".formTime").mask("99/99/9999 99:99");
+    $(".formCep").mask("99999-999");
+    $(".formCpf").mask("999.999.999-99");
+    $(".formCnpj").mask("99.999.999/9999-99");
+    $(".formDecimal").mask("##0,00", { reverse: true });
+    $(".formInt").mask("0000");
+    $(".formMoney").mask("000.000.000.000.000,00", { reverse: true });
+        
+    $('.formPhone').mask('(00) 0000-00009', {
+        onKeyPress: function(phone, e, field, options) {
+            var masks = ['(00) 0000-00009', '(00) 00000-0000'];
+            var mask = phone.length > 14 ? masks[1] : masks[0];
+            $('.formPhone').mask(mask, options);
+        }
+    });
+
+
+
 });
 
 //############## MODAL MESSAGE
