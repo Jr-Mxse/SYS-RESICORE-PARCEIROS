@@ -1,11 +1,7 @@
-
-<?php
-header('Location: dashboard.php?wc=leads/home');
-?>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <h1 class="icon-home">Dashboard</h1>
-        <p class="dashboard_header_breadcrumbs">
+        <p class="dashboard_header_breadcrumbs"> 
             &raquo; Parceiros Residere
             <span class="crumb">/</span>
             <a title="Parceiros Residere" href="dashboard.php?wc=home">Dashboard</a>
@@ -14,20 +10,9 @@ header('Location: dashboard.php?wc=leads/home');
 </header>
 
 <div class="dashboard_content">
-    <?php
-    $texto = "O trabalho em equipe é a chave para alcançar metas ambiciosas e superar desafios.";
-    echo Erro("<span class='icon-happy2 al_center'>Estamos apenas começando, em breve teremos novidades!<br>{$texto}</span>", E_USER_NOTICE);
-    ?>
+    <div class="box box60" style="text-align: center">
+        <iframe id="panda-c1efedbb-4798-4b15-a630-7076dcff826d" src="https://player-vz-a527f663-fed.tv.pandavideo.com.br/embed/?v=c1efedbb-4798-4b15-a630-7076dcff826d" style="border:none; width: 844px; height: 475px" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" allowfullscreen=true fetchpriority="high"></iframe>
+    </div>
+    <div class="box box40">
+    </div>
 </div>
-
-<script>
-    //ICON REFRESH IN DASHBOARD
-    $('#loopDashboard').click(function () {
-        Dashboard();
-    });
-
-    //DASHBOARD REALTIME
-    setInterval(function () {
-        Dashboard();
-    }, 10000);
-</script>
