@@ -93,7 +93,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;
             endif;
 
-             if (isset($PostData['conjuge_renda'])) :
+            if (isset($PostData['conjuge_renda'])) :
                 if (!empty($PostData['conjuge_renda'])) :
                     if (strpos($PostData['conjuge_renda'], ",") && strpos($PostData['conjuge_renda'], ".")) :
                         $PostData['conjuge_renda'] = str_replace(",", ".", str_replace(".", "", $PostData['conjuge_renda']));
@@ -156,6 +156,31 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
             $Update->ExeUpdate(DB_LEADS, $PostData, "WHERE leads_id = :id", "id={$RegId}");
             $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
+
+            //Webhook PipeDrive
+            $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastralead';
+            $url .= "?lead={$RegId}";
+
+            try {
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                ));
+
+                $response = (array) json_decode(curl_exec($curl), true);
+                curl_close($curl);
+            } catch (Exception $e) {
+                $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
+                echo json_encode($jSON);
+                return;
+            }
             break;
 
         case 'delete':
