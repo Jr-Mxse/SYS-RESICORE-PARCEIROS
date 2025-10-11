@@ -1,4 +1,12 @@
-<li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>"><a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Dashboard</a></li>
+<li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>">
+    <a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Dashboard</a>
+</li>
+<li class="dashboard_nav_menu_li">
+    <a title="Especialista" href="dashboard.php?wc=especialista/create" data-tooltip="Especialista">
+        <i class="icon-user"></i>
+        <span class="menu-text">Especialista</span>
+    </a>
+</li>
 <li class="dashboard_nav_menu_li has-submenu">
     <a title="Leads" href="dashboard.php?wc=leads/home" data-tooltip="Leads">
         <i class="icon-users"></i>
@@ -15,15 +23,15 @@
     </ul>
 </li>
 <li class="dashboard_nav_menu_li">
-    <a title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
+    <a target="_New" title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
         <i class="icon-star-full"></i>
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
 <li class="dashboard_nav_menu_li">
-    <a title="ResiH" href="https://ead.resiplace.com.br" data-tooltip="Academia ResiH">
+    <a target="_New" title="ResiH" href="https://ead.resiplace.com.br" data-tooltip="Academia">
         <i class="icon-books"></i>
-        <span class="menu-text">Academia ResiH</span>
+        <span class="menu-text">Treinamentos</span>
     </a>
 </li>
 

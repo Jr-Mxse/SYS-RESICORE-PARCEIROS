@@ -204,16 +204,14 @@ function ajusteValores($origem): float
 function ajusteFotoPerfil($user_thumb)
 {
     $localPath = "../uploads/{$user_thumb}";
-    $fallbackURL = "https://www.resih.com.br/uploads/{$user_thumb}";
-
-    // Verifica se a imagem existe no FTP local
-    if (file_exists($localPath) && !is_dir($localPath)) {
-        return "uploads/{$user_thumb}";
-    }
+    $fallbackURL = "https://www.resicore.com.br/uploads/{$user_thumb}";
+    $fallbackURL2 = "https://www.resih.com.br/uploads/{$user_thumb}";
 
     // Tenta verificar se a imagem remota existe via HEAD request
     if (remoteFileExists($fallbackURL)) {
         return $fallbackURL;
+    } elseif (remoteFileExists($fallbackURL2)) {
+        return $fallbackURL2;
     }
 
     // Se não achar, retorna imagem padrão
@@ -299,7 +297,7 @@ function selAcabamento($type)
         strripos($txt, "básico") !== false ||
         strripos($txt, "basico") !== false ||
         strripos($txt, "comercial") !== false
-        
+
     ) {
         return 1;
     } elseif (
