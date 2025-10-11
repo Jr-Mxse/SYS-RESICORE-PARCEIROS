@@ -18,7 +18,7 @@ if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiro
         exit;
     else :
         $Admin = $_SESSION['userLoginParceiros'];
-        $Admin['user_thumb'] = ajusteFotoPerfil($Admin['user_thumb']);
+        $Admin['user_thumb'] = (!empty($Admin['user_thumb']) && file_exists("../uploads/{$Admin['user_thumb']}") && !is_dir("../uploads/{$Admin['user_thumb']}") ? "uploads/".$Admin['user_thumb'] : '../admin/_img/no_avatar.jpg');
         $DashboardLogin = true;
     endif;
 else :
