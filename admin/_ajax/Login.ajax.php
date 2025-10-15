@@ -132,6 +132,7 @@ Equipe Grupo Residere";
             if (!$Read->getResult()):
                 $PostData["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_cell"]);
                 $PostData["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_document"]);
+                $PostData["user_status"] = 1;
 
                 $Create->ExeCreate(DB_USERS, $PostData);
                 if (!$Create->getResult()):
