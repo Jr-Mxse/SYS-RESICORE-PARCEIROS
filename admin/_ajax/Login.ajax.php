@@ -96,6 +96,31 @@ Equipe Grupo Residere";
                     else:
                         $jSON['redirect'] = 'dashboard.php?wc=home';
                     endif;
+
+                    //Webhook PipeDrive
+                    $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastroparceiro';
+                    $url .= "?parceiro={$user_id}&zap=0";
+
+                    try {
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => $url,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                        ));
+
+                        $response = (array) json_decode(curl_exec($curl), true);
+                        curl_close($curl);
+                    } catch (Exception $e) {
+                        $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
+                        echo json_encode($jSON);
+                        return;
+                    }
                 endif;
             else:
                 $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail ou Celular já cadastrados!', E_USER_WARNING);
@@ -156,6 +181,31 @@ Equipe Grupo Residere";
 
                     $jSON['trigger'] = AjaxErro("<b>Olá {$nome},</b> cadastro realizado com sucesso. Em breve entraremos em contato.");
                     $jSON['redirect'] = 'https://painel.residere.com.br';
+
+                    //Webhook PipeDrive
+                    $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastroparceiro';
+                    $url .= "?parceiro={$user_id}&zap=1";
+
+                    try {
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => $url,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                        ));
+
+                        $response = (array) json_decode(curl_exec($curl), true);
+                        curl_close($curl);
+                    } catch (Exception $e) {
+                        $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
+                        echo json_encode($jSON);
+                        return;
+                    }
 
                 endif;
             else:
