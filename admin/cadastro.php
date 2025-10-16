@@ -107,7 +107,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
 
                     <div class="form_submit">
                         <img class="form_load none" alt="Enviando..." src="_img/load.gif" />
-                        <button class="btn_login" type="submit">Entrar</button>
+                        <button class="btn_login" type="submit">Concluir meu cadastro</button>
                     </div>
                 </form>
 

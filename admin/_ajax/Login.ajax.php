@@ -270,30 +270,102 @@ Equipe Grupo Residere";
 
         case 'admin_recover':
             if (isset($PostData['user_email']) && Check::Email($PostData['user_email']) && filter_var($PostData['user_email'], FILTER_VALIDATE_EMAIL)):
-                $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_email = :email AND user_level >= :level", "email={$PostData['user_email']}&level=6");
+                $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_email = :email", "email={$PostData['user_email']}");
                 if (!$Read->getResult()):
-                    $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
+                    if (isset($PostData['user_cell'])):
+                        $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
+                        $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
+                        if (!$Read->getResult()):
+                            $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
+                        else:
+                            $Reg = $Read->getResult()[0];
+                        endif;
+                    else:
+                        $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
+                    endif;
                 else:
-                    $CodeReset = "user_id={$Read->getResult()[0]['user_id']}&user_email={$Read->getResult()[0]['user_email']}&user_password={$Read->getResult()[0]['user_password']}";
-                    $CodePass = base64_encode($CodeReset);
+                    $Reg = $Read->getResult()[0];
+                endif;
+            else:
+                if (isset($PostData['user_cell'])):
+                    $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
+                    $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
+                    if (!$Read->getResult()):
+                        $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
+                    else:
+                        $Reg = $Read->getResult()[0];
+                    endif;
+                else:
+                    $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
+                endif;
+            endif;
 
-                    require '../_tpl/Mail.email.php';
-                    $BodyMail = "
+            if ($Reg):
+                $pass = rand(1000, 9999999);
+                $PostData2["user_password"] = hash('sha512', $pass);
+                $Reg["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Reg["user_cell"]);
+                $Update->ExeUpdate(DB_USERS, $PostData2, "WHERE user_id = :user", "user={$Reg['user_id']}");
+
+                $nome = explode(" ", $Reg["user_name"])[0];
+
+                $destino["numero"] = "55" . $Reg["user_cell"];
+                //$destino["numero"] = "5521979158558";
+                //$destino["numero"] = "5518996653770";
+                $destino["mensagem"] = "Parabéns {$nome}!\n 
+Sua senha em nosso painel de parceiros foi alterada e seu cadastro já está ativo. Segue a nova senha que pode ser alterada a qualquer momento:\n
+👉 {$pass}\n
+Ficamos à disposição para o que precisar.\n
+Um grande abraço,\n
+Equipe Grupo Residere";
+
+                $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
+                $headers = [
+                    "Content-Type: application/json",
+                    "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+                ];
+                $payload = [
+                    "number" => "{$destino["numero"]}@s.whatsapp.net",
+                    "text"   => $destino["mensagem"]
+                ];
+
+                $ch = curl_init();
+                curl_setopt_array($ch, [
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POST => true,
+                    CURLOPT_HTTPHEADER => $headers,
+                    CURLOPT_POSTFIELDS => json_encode($payload),
+                    CURLOPT_TIMEOUT => 30,
+                ]);
+
+                $response = curl_exec($ch);
+                if ($response === false) {
+                    $msg = curl_error($ch);
+                } else {
+                    $msg = $response;
+                }
+                curl_close($ch);
+
+                /*
+                require '../_tpl/Mail.email.php';
+                $BodyMail = "
                     <p style='font-size: 1.5em;'>Olá {$Read->getResult()[0]['user_name']}, recupere sua senha do " . ADMIN_NAME . "!</p>
                     <p>Caso não tenha feito essa solicitação. Por favor ignore esse e-mail e nenhuma ação será tomada quanto aos dados de acesso!</p>
                     <p>Ou para criar uma nova senha de acesso <a title='Criar Nova Senha' href='" . BASE2 . "/admin/newpass.php?key={$CodePass}'>CLIQUE AQUI!</a>!</p>
                     <p>Você será redirecionado para uma página onde poderá definir uma nova senha de acesso ao painel! Cuide bem dos seus dados.</p>
                     ";
-                    $Mensagem = str_replace('#mail_body#', $BodyMail, $MailContent);
+                $Mensagem = str_replace('#mail_body#', $BodyMail, $MailContent);
 
-                    $Email->EnviarMontando('Recupere sua Senha', $Mensagem, ADMIN_NAME, MAIL_USER, $Read->getResult()[0]['user_name'], $Read->getResult()[0]['user_email']);
+                $Email->EnviarMontando('Recupere sua Senha', $Mensagem, ADMIN_NAME, MAIL_USER, $Read->getResult()[0]['user_name'], $Read->getResult()[0]['user_email']);
 
-                    $_SESSION['trigger_login'] = AjaxErro("<b>SUCESSO:</b> Olá {$Read->getResult()[0]['user_name']}, confira o link enviado em seu e-mail para recuperar sua senha!");
-                    $jSON['trigger'] = AjaxErro('<b>SUCESSO:</b> O link foi enviado para seu e-mail!');
-                    $jSON['redirect'] = './';
-                endif;
+                $_SESSION['trigger_login'] = AjaxErro("<b>SUCESSO:</b> Olá {$Read->getResult()[0]['user_name']}, confira o link enviado em seu e-mail para recuperar sua senha!");
+                */
+
+                $jSON['trigger'] = AjaxErro('<b>SUCESSO:</b> Nova senha enviada para seu Whatsapp!');
+                $jSON['redirect'] = './';
+
             else:
-                $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> Infor seu e-mail para recuperar a senha!', E_USER_WARNING);
+                $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
             endif;
             break;
 
