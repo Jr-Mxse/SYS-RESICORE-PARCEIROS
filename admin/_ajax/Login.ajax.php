@@ -127,6 +127,7 @@ Equipe Grupo Residere";
             break;
 
         case 'admin_cadastro':
+            $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
             $Read->ExeRead(DB_USERS, "WHERE user_email = '{$PostData["user_email"]}' OR user_cell = '{$PostData["user_cell"]}'", "");
             if (!$Read->getResult()):
                 $PostData["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_cell"]);
@@ -300,7 +301,7 @@ Equipe Grupo Residere";
                 endif;
             endif;
 
-            if ($Reg):
+            if (isset($Reg)):
                 $pass = rand(1000, 9999999);
                 $PostData2["user_password"] = hash('sha512', $pass);
                 $Reg["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Reg["user_cell"]);

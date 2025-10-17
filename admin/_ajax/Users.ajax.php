@@ -98,6 +98,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;
 
                 $PostData['user_datebirth'] = (!empty($PostData['user_datebirth']) ? Check::Nascimento($PostData['user_datebirth']) : null);
+                $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
 
                 //ATUALIZA USUÁRIO
                 $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$UserId}");
