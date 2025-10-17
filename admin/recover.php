@@ -97,12 +97,11 @@ $Cookie = filter_input(INPUT_COOKIE, 'resiparceiros', FILTER_VALIDATE_EMAIL);
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <script src="../_cdn/jquery.js"></script>
     <script src="../_cdn/jquery.form.js"></script>
+    <script src="_js/jquery.mask.js"></script>
     <script src="_js/login.js"></script>
 </body>
 
