@@ -12,15 +12,14 @@ $Delete = new Delete;
 if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiros']['user_level']) && $_SESSION['userLoginParceiros']['user_level'] >= 6) :
     $Read = new Read;
     $Read->FullRead("SELECT user_level FROM " . DB_USERS . " WHERE user_id = :user", "user={$_SESSION['userLoginParceiros']['user_id']}");
-    if (!$Read->getResult() || $Read->getResult()[0]['user_level'] < 6) :
-        unset($_SESSION['userLoginParceiros']);
-        header('Location: ./index.php');
-        exit;
-    else :
-        $Admin = $_SESSION['userLoginParceiros'];
-        $Admin['user_thumb'] = (!empty($Admin['user_thumb']) && file_exists("../uploads/{$Admin['user_thumb']}") && !is_dir("../uploads/{$Admin['user_thumb']}") ? "uploads/".$Admin['user_thumb'] : '../admin/_img/no_avatar.jpg');
-        $DashboardLogin = true;
-    endif;
+
+    $Admin = $_SESSION['userLoginParceiros'];
+    $Admin['user_thumb'] = (!empty($Admin['user_thumb']) && file_exists("../uploads/{$Admin['user_thumb']}") && !is_dir("../uploads/{$Admin['user_thumb']}") ? "uploads/" . $Admin['user_thumb'] : '../admin/_img/no_avatar.jpg');
+    $DashboardLogin = true;
+
+    $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $Admin['user_cell']);
+    $Admin['user_cell'] = $PostData['user_cell'];
+    $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$_SESSION['userLoginParceiros']['user_id']}");
 else :
     unset($_SESSION['userLoginParceiros']);
     header('Location: ./index.php');
