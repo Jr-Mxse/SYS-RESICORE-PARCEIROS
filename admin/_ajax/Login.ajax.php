@@ -270,11 +270,11 @@ Equipe Grupo Residere";
 
         case 'admin_recover':
             if (isset($PostData['user_email']) && Check::Email($PostData['user_email']) && filter_var($PostData['user_email'], FILTER_VALIDATE_EMAIL)):
-                $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_email = :email", "email={$PostData['user_email']}");
+                $Read->FullRead("SELECT user_id, user_name, user_email, user_password, user_cell FROM " . DB_USERS . " WHERE user_email = :email", "email={$PostData['user_email']}");
                 if (!$Read->getResult()):
                     if (isset($PostData['user_cell'])):
                         $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
-                        $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
+                        $Read->FullRead("SELECT user_id, user_name, user_email, user_password, user_cell FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
                         if (!$Read->getResult()):
                             $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
                         else:
@@ -289,7 +289,7 @@ Equipe Grupo Residere";
             else:
                 if (isset($PostData['user_cell'])):
                     $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
-                    $Read->FullRead("SELECT user_id, user_name, user_email, user_password FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
+                    $Read->FullRead("SELECT user_id, user_name, user_email, user_password, user_cell FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
                     if (!$Read->getResult()):
                         $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
                     else:
@@ -311,7 +311,7 @@ Equipe Grupo Residere";
                 $destino["numero"] = "55" . $Reg["user_cell"];
                 //$destino["numero"] = "5521979158558";
                 //$destino["numero"] = "5518996653770";
-                $destino["mensagem"] = "Parabéns {$nome}!\n 
+                $destino["mensagem"] = "Olá novamente {$nome}!\n 
 Sua senha em nosso painel de parceiros foi alterada e seu cadastro já está ativo. Segue a nova senha que pode ser alterada a qualquer momento:\n
 👉 {$pass}\n
 Ficamos à disposição para o que precisar.\n

@@ -107,6 +107,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         $_SESSION['userLoginParceiros'] = $Read->getResult()[0];
                     endif;
                 endif;
+                $jSON['redirect'] = "dashboard.php?wc=users/home";
             endif;
             //endif;
             break;
