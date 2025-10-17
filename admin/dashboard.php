@@ -17,6 +17,7 @@ if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiro
     $Admin['user_thumb'] = (!empty($Admin['user_thumb']) && file_exists("../uploads/{$Admin['user_thumb']}") && !is_dir("../uploads/{$Admin['user_thumb']}") ? "uploads/" . $Admin['user_thumb'] : '../admin/_img/no_avatar.jpg');
     $DashboardLogin = true;
 
+    $PostData['user_document'] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Admin['user_document']);
     $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $Admin['user_cell']);
     $Admin['user_cell'] = $PostData['user_cell'];
     $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$_SESSION['userLoginParceiros']['user_id']}");
