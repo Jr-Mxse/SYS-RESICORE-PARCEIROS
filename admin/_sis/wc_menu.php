@@ -28,12 +28,13 @@
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
+<?php /*
 <li class="dashboard_nav_menu_li">
     <a target="_New" title="ResiH" href="https://ead.resiplace.com.br" data-tooltip="Academia">
         <i class="icon-books"></i>
         <span class="menu-text">Treinamentos</span>
     </a>
-</li>
+</li> */?>
 
 <script>
     document.querySelectorAll(".dashboard_nav_menu_toggle").forEach(toggle => {
