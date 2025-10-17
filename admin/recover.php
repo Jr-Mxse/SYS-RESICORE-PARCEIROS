@@ -46,7 +46,7 @@ $Cookie = filter_input(INPUT_COOKIE, 'resiparceiros', FILTER_VALIDATE_EMAIL);
                     <div class="form_group">
                         <label class="form_label">
                             <span class="label_text">E-mail</span>
-                            <input name="user_email" value="" required placeholder="Seu E-mail" />
+                            <input name="user_email" value="" placeholder="Seu E-mail" />
                         </label>
                     </div>
 
