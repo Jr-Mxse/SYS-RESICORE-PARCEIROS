@@ -15,6 +15,9 @@ else:
     header('Location: ./index.php');
     exit;
 endif;
+
+ $Image = (file_exists("../uploads/{$user_thumb}") && !is_dir("../uploads/{$user_thumb}") ? "uploads/{$user_thumb}" : 'admin/_img/no_avatar.jpg');
+
 ?>
 
 <header class="dashboard_header">
@@ -29,20 +32,46 @@ endif;
 </header>
 
 <div class="dashboard_content dashboard_users">
-    <div class="box box70">
-        <article class="wc_tab_target wc_active" id="profile">
+    <div class="box box100">
+
+        <section class="wc_tab_target wc_active m_top_15" id="profile">
 
             <div class="panel_header default">
-                <h2 class="icon-user">Dados de <?= $user_name; ?></h2>
+                <h2 class="font_18">Dados de <?= $user_name; ?></h2>
             </div>
 
-            <div class="panel" style="border-radius: 0 0 5px 5px;">
+             <div class="panel padding_32 radius_bottom_left_10 radius_bottom_right_10">
                 <form class="auto_save" class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="callback" value="Users" />
-                    <input type="hidden" name="callback_action" value="manager" />
-                    <input type="hidden" name="user_id" value="<?= $UserId; ?>" />
+                    <input type="hidden" name="callback" value="Users"/>
+                    <input type="hidden" name="callback_action" value="manager"/>
+                    <input type="hidden" name="user_id" value="<?= $UserId; ?>"/>
+                    <div class="dashboard_profile_photo box box100">
+                        <div class="dashboard_profile_photo_container">
+                            <img class="user_thumb radius_10" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="Foto do usuário">
+                            <input type="file" name="user_thumb" id="uploadPhoto" class="file-input wc_loadimage" accept="image/png, image/jpg, image/jpeg">
 
-                    <div class="label_50">
+                            <label for="uploadPhoto" class="btn-edit wc_tooltip tooltip-white tooltip-top">
+                                <i class="ki-duotone ki-pencil fs-7">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                                <span class="wc_tooltip_text font_weight_600">Editar foto</span>
+                            </label>
+
+                            <button class="btn-delete wc_tooltip tooltip-white">
+                                <i class="ki-duotone ki-cross fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                                <span class="wc_tooltip_text font_weight_600">Remover foto</span>
+                            </button>
+                        </div>
+
+                        <p class="dashboard_profile_photo_infor"><?= AVATAR_W; ?>x<?= AVATAR_H; ?>px,Tipos de arquivo permitidos: png, jpg, jpeg</p>
+
+                    </div>
+
+                     <div class="label_50">
                         <label class="label">
                             <span class="legend">Primeiro nome:</span>
                             <input value="<?= $user_name; ?>" type="text" name="user_name" placeholder="Primeiro Nome:" required />
@@ -53,11 +82,6 @@ endif;
                             <input value="<?= $user_lastname; ?>" type="text" name="user_lastname" placeholder="Sobrenome:" required />
                         </label>
                     </div>
-
-                    <label class="label">
-                        <span class="legend">Foto (<?= AVATAR_W; ?>x<?= AVATAR_H; ?>px, JPG ou PNG):</span>
-                        <input type="file" name="user_thumb" class="wc_loadimage" />
-                    </label>
 
                     <div class="label_33">
                         <label class="label">
@@ -97,16 +121,15 @@ endif;
                     </label>
                     </div>
 
-                    <div class="clear"></div>
-
-                    <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif" />
-                    <button name="public" value="1" class="btn btn_green fl_right icon-share" style="margin-left: 5px;">Atualizar</button>
+                    <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif"/>
+                    <button name="public" value="1" class="btn btn_green fl_right btn_pad_large" style="margin-left: 5px;">Salvar Alterações</button>
                     <div class="clear"></div>
                 </form>
             </div>
-        </article>
+        </section>
 
-        <article class="box box100 wc_tab_target" id="address" style="padding: 0; margin: 0; display: none;">
+
+        <article class="padding_top_8">
             <div class="panel_header default">
                 <span>
                     <a href="dashboard.php?wc=users/address&user=<?= $user_id; ?>" class="btn btn_green icon-plus a icon-notext"></a>
@@ -146,19 +169,5 @@ endif;
                 <div class="clear"></div>
             </div>
         </article>
-    </div>
-
-    <div class="box box30">
-        <?php
-        $Image = (file_exists("../uploads/{$user_thumb}") && !is_dir("../uploads/{$user_thumb}") ? "uploads/{$user_thumb}" : 'admin/_img/no_avatar.jpg');
-        ?>
-        <img class="user_thumb" style="width: 100%;" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="" title="" />
-
-        <div class="panel" style="border-radius: 0 0 5px 5px;">
-            <div class="box_conf_menu">
-                <a class='conf_menu wc_tab wc_active' href='#profile'>Perfil</a>
-                <a class='conf_menu wc_tab' href='#address'>Endereços</a>
-            </div>
-        </div>
     </div>
 </div>
