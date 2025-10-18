@@ -20,10 +20,9 @@
         <thead>
             <tr role="row" style="background: #CCC">
                 <th style="text-align: left;">Cadastro</th>
-                <th style="text-align: left;">ID</th>
                 <th style="text-align: left;">Nome</th>
-                <th style="text-align: left;">Negócio</th>
-                <th style="text-align: left;">Previsao<br>Terreno</th>
+                <th style="text-align: left;">Previsão<br>Negócio</th>
+                <th style="text-align: left;">Previsão<br>Terreno</th>
                 <th style="text-align: left;">Indicação</th>
                 <th style="text-align: left;">Ind. + Acomp.</th>
                 <th style="text-align: left;">Ind. e Fechamento</th>
@@ -57,7 +56,6 @@
                     ?>
                     <tr role="row">
                         <td style="text-align: left" data-sort="<?= strtotime($leads_registration) ?>"><?= date("d/m/Y", strtotime($leads_registration)) ?></td>
-                        <td style="text-align: left"><?= $leads_id ?></td>
                         <td style="text-align: left"><?= $leads_name ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta, '2', ',', '.') ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_terreno, '2', ',', '.') ?></td>
