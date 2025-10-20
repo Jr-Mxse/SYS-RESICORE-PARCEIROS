@@ -69,17 +69,24 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         </label>
                     </div>
 
+                    <div class="form_group">
+                        <label class="form_label">
+                            <span class="label_text">Nome Completo</span>
+                            <input name="user_name" value="<?= $Token[0] ?>" required />
+                        </label>
+                    </div>
+
                     <div class="label_50">
-                        <div class="form_group">
-                            <label class="form_label">
-                                <span class="label_text">Nome Completo</span>
-                                <input name="user_name" value="<?= $Token[0]?>" required />
-                            </label>
-                        </div>
                         <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">CPF</span>
                                 <input name="user_document" placeholder="Seu CPF" required />
+                            </label>
+                        </div>
+                        <div class="form_group">
+                            <label class="form_label">
+                                <span class="label_text">Telefone</span>
+                                <input name="user_cell" value="<?= $Token[2] ?>" placeholder="Seu telefone" required />
                             </label>
                         </div>
                     </div>
@@ -88,13 +95,13 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">E-mail</span>
-                                <input name="user_email" value="<?= $Token[1]?>" required placeholder="Seu E-mail" />
+                                <input name="user_email" value="<?= $Token[1] ?>" required placeholder="Seu E-mail" />
                             </label>
                         </div>
                         <div class="form_group">
                             <label class="form_label">
-                                <span class="label_text">Telefone</span>
-                                <input name="user_cell" value="<?= $Token[2]?>" placeholder="Seu telefone" required />
+                                <span class="label_text">Senha</span>
+                                <input name="user_password" value="" required placeholder="Sua Senha"/>
                             </label>
                         </div>
                     </div>
