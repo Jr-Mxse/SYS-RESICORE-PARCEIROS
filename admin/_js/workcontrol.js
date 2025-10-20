@@ -1470,7 +1470,7 @@ $(function () {
         ButtonClip.removeClass('icon-new-tab').addClass('icon-checkmark active');
     });
 
-
+ 
     $('.wc_clip').click(function () {
         $('#' + $(this).attr('rel')).select();
         document.execCommand('copy');
