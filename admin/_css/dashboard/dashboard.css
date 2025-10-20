@@ -808,71 +808,143 @@
 
 
 /*****************************************
-********** THEME SWITCHER DROPDOWN ********
+********** THEME SWITCHER BUTTON *********
 ******************************************/
 .dashboard_theme_switcher {
     position: relative;
     display: inline-block;
 }
 
-.dashboard_theme_switcher button {
+/* Botão que mostra o tema atual */
+.dashboard_btn_theme {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
     color: #475569;
-    transition: background 0.25s ease, color 0.25s ease;
+    transition: all 0.25s ease;
+    font-family: inherit;
+    min-width: 150px;
 }
 
-.dashboard_theme_switcher button:hover {
+.dashboard_btn_theme:hover {
     background: rgba(0, 0, 0, 0.06);
+    border-color: #cbd5e1;
     color: #1e293b;
 }
 
-/* ==========================
-   DROPDOWN BASE
-========================== */
+.dashboard_theme_switcher.active .dashboard_btn_theme {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: #00d4aa;
+}
+
+/* Wrapper do Ícone no Botão */
+.theme-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+}
+
+.theme-icon {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+    color: #64748b;
+}
+
+.theme-icon.active {
+    opacity: 1;
+    transform: scale(1);
+    color: #00d4aa;
+}
+
+/* Label do Tema no Botão */
+.theme-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    flex: 1;
+}
+
+/* Seta do Dropdown */
+.dropdown-arrow {
+    font-size: 12px;
+    color: #64748b;
+    transition: transform 0.25s ease;
+}
+
+.dashboard_theme_switcher.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/*****************************************
+********** THEME DROPDOWN ****************
+******************************************/
 .dashboard_theme_dropdown {
     position: absolute;
     top: 110%;
     right: 0;
-    min-width: 160px;
+    min-width: 220px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
-    padding: 8px 0;
+    padding: 0;
     opacity: 0;
     transform: translateY(6px);
     pointer-events: none;
     transition: all 0.25s ease;
     z-index: 1000;
+    overflow: hidden;
 }
 
-.dashboard_theme_dropdown.show {
+.dashboard_theme_switcher.active .dashboard_theme_dropdown {
     opacity: 1;
     transform: translateY(0);
     pointer-events: all;
 }
 
-/* ==========================
-   ITENS DO DROPDOWN
-========================== */
+/* Cabeçalho do Dropdown */
+.theme-dropdown-header {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #1e293b;
+    text-align: center;
+}
+
+.theme-dropdown-header strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.8px;
+}
+
+/* Lista de Opções */
 .dashboard_theme_dropdown ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 6px;
 }
 
 .dashboard_theme_dropdown li {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
+    gap: 10px;
+    padding: 10px 12px;
     cursor: pointer;
     font-size: 14px;
     color: #475569;
     transition: all 0.2s ease;
+    border-radius: 6px;
+    position: relative;
 }
 
 .dashboard_theme_dropdown li:hover {
@@ -881,23 +953,72 @@
 }
 
 .dashboard_theme_dropdown li.active {
-    color: #00d4aa;
+    background: #d1fae5;
+    border: 1px solid #a7f3d0;
+}
+
+/* Texto das Opções */
+.theme-text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.dashboard_theme_dropdown li.active .theme-text {
+    color: #059669;
     font-weight: 600;
 }
 
-/* ==========================
-   ÍCONES DO TEMA
-========================== */
-.dashboard_theme_dropdown i {
-    font-size: 1.1em;
+/* Ícone de Check */
+.check-mark {
+    font-size: 16px;
+    color: #00d4aa;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.dashboard_theme_dropdown li.active .check-mark {
+    opacity: 1;
+}
+
+/* Ícones do Tema nas Opções */
+.dashboard_theme_dropdown li > i:first-child {
+    font-size: 1.2em;
+    flex-shrink: 0;
+    color: #64748b;
+}
+
+.dashboard_theme_dropdown li.active > i:first-child {
+    color: #00d4aa;
 }
 
 /*****************************************
 ********** DARK THEME SUPPORT ************
 ******************************************/
+.dark-theme .dashboard_btn_theme {
+    background: transparent;
+    border-color: #374151;
+    color: #e2e8f0;
+}
+
+.dark-theme .dashboard_btn_theme:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #4b5563;
+}
+
+.dark-theme .theme-label {
+    color: #e2e8f0;
+}
+
 .dark-theme .dashboard_theme_dropdown {
     background: #1e1f25;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .theme-dropdown-header {
+    background: #16171d;
+    border-bottom-color: #2a2b33;
 }
 
 .dark-theme .dashboard_theme_dropdown li {
@@ -910,15 +1031,51 @@
 }
 
 .dark-theme .dashboard_theme_dropdown li.active {
-    color: #00d4aa;
+    background: #1a3a2e;
+    border-color: #0f5132;
 }
 
-.dark-theme .dashboard_theme_switcher button {
+.dark-theme .theme-text {
     color: #e2e8f0;
 }
 
-.dark-theme .dashboard_theme_switcher button:hover {
-    background: rgba(255, 255, 255, 0.05);
+.dark-theme .dashboard_theme_dropdown li.active .theme-text {
+    color: #00d4aa;
+}
+
+.theme-button-icon {
+    font-size: 18px;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.theme-icon-hidden {
+    display: none !important;
+}
+
+.theme-icon-active {
+    display: inline-flex !important;
+    color: #00d4aa;
+}
+
+
+/*****************************************
+********** RESPONSIVIDADE ****************
+******************************************/
+@media (max-width: 768px) {
+    .dashboard_btn_theme {
+        min-width: 130px;
+        padding: 7px 12px;
+    }
+    
+    .theme-label {
+        font-size: 13px;
+    }
+    
+    .dashboard_theme_dropdown {
+        min-width: 200px;
+    }
+}
 }
 
 

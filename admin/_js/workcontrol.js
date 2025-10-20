@@ -159,22 +159,41 @@ $(function () {
     const $themeToggle = $('#dashboardThemeToggle');
     const $themeDropdown = $('#dashboardThemeDropdown');
     const $themeOptions = $('.theme-option');
+    const $themeLabel = $('#themeLabel');
+    const $themeSwitcher = $('.dashboard_theme_switcher');
+
+    // Mapeamento dos nomes dos temas
+    const themeNames = {
+        'light': 'Tema Claro',
+        'dark': 'Tema Escuro',
+        'auto': 'Automático'
+    };
 
     function applyTheme(theme) {
         $('html').removeClass('light-theme dark-theme');
-        if (theme === 'dark') $('html').addClass('dark-theme');
-        else if (theme === 'light') $('html').addClass('light-theme');
-        else {
+        
+        if (theme === 'dark') {
+            $('html').addClass('dark-theme');
+        } else if (theme === 'light') {
+            $('html').addClass('light-theme');
+        } else {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             $('html').addClass(prefersDark ? 'dark-theme' : 'light-theme');
         }
+        
         localStorage.setItem('dashboard_theme', theme);
         updateThemeUI(theme);
     }
 
     function updateThemeUI(theme) {
-        $('.theme-icon').hide();
-        $(`.theme-icon[data-theme="${theme}"]`).show();
+        // Atualizar ícones do BOTÃO (usando seletor específico)
+        $('.theme-button-icon').removeClass('theme-icon-active').addClass('theme-icon-hidden');
+        $(`.theme-button-icon[data-theme="${theme}"]`).removeClass('theme-icon-hidden').addClass('theme-icon-active');
+        
+        // Atualizar label do botão
+        $themeLabel.text(themeNames[theme]);
+        
+        // Atualizar opção ativa no dropdown
         $themeOptions.removeClass('active');
         $(`.theme-option[data-theme="${theme}"]`).addClass('active');
     }
@@ -184,27 +203,37 @@ $(function () {
         applyTheme(theme);
     }
 
+    // Toggle do dropdown
     $themeToggle.on('click', function (e) {
         e.stopPropagation();
-        $themeDropdown.toggleClass('show');
+        $themeSwitcher.toggleClass('active');
     });
 
+    // Selecionar tema
     $themeOptions.on('click', function () {
-        applyTheme($(this).data('theme'));
-        $themeDropdown.removeClass('show');
+        const selectedTheme = $(this).data('theme');
+        applyTheme(selectedTheme);
+        $themeSwitcher.removeClass('active');
     });
 
+    // Fechar dropdown ao clicar fora
     $(document).on('click', function (e) {
         if (!$(e.target).closest('.dashboard_theme_switcher').length) {
-            $themeDropdown.removeClass('show');
+            $themeSwitcher.removeClass('active');
         }
     });
 
+    // Detectar mudança de preferência do sistema (modo auto)
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
-        if (localStorage.getItem('dashboard_theme') === 'auto') applyTheme('auto');
+        if (localStorage.getItem('dashboard_theme') === 'auto') {
+            applyTheme('auto');
+        }
     });
 
+    // Carregar tema ao iniciar
     loadTheme();
+
+
 
     // ===============================
     // MENU DO USUÁRIO (avatar)
