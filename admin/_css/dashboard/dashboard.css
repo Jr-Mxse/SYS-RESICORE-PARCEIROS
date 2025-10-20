@@ -1414,6 +1414,11 @@ body.dark-theme {
     color: #fff;
 }
 
+.dark-theme .dashboard_sidebar_panel {
+    background: #15171C;
+    border-right: 1px solid #1f212a;
+}
+
 .dark-theme .dashboard_content {
     background-color: #0F1014;
 }
