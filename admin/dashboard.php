@@ -182,78 +182,75 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                     <div class="dashboard_header_right">
 
                  <!-- Botão de Troca de Tema -->
-<div class="dashboard_theme_switcher">
-    <button class="dashboard_btn_theme" id="dashboardThemeToggle" aria-label="Alternar tema">
-        <!-- Ícone do Tema Atual (apenas um visível por vez) -->
-        <i class="ki-duotone ki-sun theme-button-icon theme-icon-active" data-theme="light">
-            <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-            <span class="path4"></span><span class="path5"></span><span class="path6"></span>
-        </i>
-        
-        <i class="ki-duotone ki-moon theme-button-icon theme-icon-hidden" data-theme="dark">
-            <span class="path1"></span><span class="path2"></span>
-        </i>
-        
-        <i class="ki-duotone ki-screen theme-button-icon theme-icon-hidden" data-theme="auto">
-            <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-            <span class="path4"></span>
-        </i>
-        
-        <!-- Texto do Tema Atual -->
-        <span class="theme-label" id="themeLabel">Tema Claro</span>
-        
-        <!-- Seta de Dropdown -->
-        <i class="ki-duotone ki-down dropdown-arrow">
-            <span class="path1"></span>
-        </i>
-    </button>
+                    <div class="dashboard_theme_switcher">
+                        <button class="dashboard_btn_theme" id="dashboardThemeToggle" aria-label="Alternar tema">
+                            <!-- Ícone do Tema Atual (apenas um visível por vez) -->
+                            <i class="ki-duotone ki-sun theme-button-icon theme-icon-active" data-theme="light">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                <span class="path4"></span><span class="path5"></span><span class="path6"></span>
+                            </i>
+                            
+                            <i class="ki-duotone ki-moon theme-button-icon theme-icon-hidden" data-theme="dark">
+                                <span class="path1"></span><span class="path2"></span>
+                            </i>
+                            
+                            <i class="ki-duotone ki-screen theme-button-icon theme-icon-hidden" data-theme="auto">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                <span class="path4"></span>
+                            </i>
+                            
+                            <!-- Texto do Tema Atual -->
+                            <span class="theme-label" id="themeLabel">Tema Claro</span>
+                            
+                            <!-- Seta de Dropdown -->
+                            <i class="ki-duotone ki-down dropdown-arrow">
+                                <span class="path1"></span>
+                            </i>
+                        </button>
 
-    <!-- Dropdown do Tema -->
-    <div class="dashboard_theme_dropdown" id="dashboardThemeDropdown">
-        <!-- Cabeçalho -->
-        <div class="theme-dropdown-header">
-            <strong>SELECIONE O TEMA</strong>
-        </div>
-        
-        <ul>
-            <li data-theme="light" class="theme-option active">
-                <i class="ki-duotone ki-sun">
-                    <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-                    <span class="path4"></span><span class="path5"></span><span class="path6"></span>
-                </i>
-                <span class="theme-text">Tema Claro</span>
-                <i class="ki-duotone ki-check check-mark">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </li>
-            
-            <li data-theme="dark" class="theme-option">
-                <i class="ki-duotone ki-moon">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                <span class="theme-text">Tema Escuro</span>
-                <i class="ki-duotone ki-check check-mark">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </li>
-            
-            <li data-theme="auto" class="theme-option">
-                <i class="ki-duotone ki-screen">
-                    <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-                    <span class="path4"></span>
-                </i>
-                <span class="theme-text">Automático</span>
-                <i class="ki-duotone ki-check check-mark">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </li>
-        </ul>
-    </div>
-</div>
+                        <!-- Dropdown do Tema -->
+                        <div class="dashboard_theme_dropdown" id="dashboardThemeDropdown">
+                            <!-- Cabeçalho -->
+                            <div class="theme-dropdown-header">
+                                <strong>SELECIONE O TEMA</strong>
+                            </div>
+                            
+                            <ul>
+                                <li data-theme="light" class="theme-option active">
+                                    <i class="ki-duotone ki-sun">
+                                        <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                        <span class="path4"></span><span class="path5"></span><span class="path6"></span>
+                                    </i>
+                                    <span class="theme-text">Tema Claro</span>
+                                    <i class="ki-duotone ki-check check-mark">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                </li>
+                                
+                                <li data-theme="dark" class="theme-option">
+                                    <i class="ki-duotone ki-moon">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                    <span class="theme-text">Tema Escuro</span>
+                                    <i class="ki-duotone ki-check check-mark">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                </li>
+                                
+                                <li data-theme="auto" class="theme-option">
+                                    <i class="ki-duotone ki-screen">
+                                        <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                        <span class="path4"></span>
+                                    </i>
+                                    <span class="theme-text">Automático</span>
+                                    <i class="ki-duotone ki-check check-mark">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
-
-
-                        
                     </div>
                 </div>
 
