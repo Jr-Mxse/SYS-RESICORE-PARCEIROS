@@ -33,7 +33,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_cell"]);
                 $PostData["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_document"]);
 
-                $pass = rand(1000, 9999999);
+                $pass = $PostData["user_password"];
                 $PostData["user_password"] = hash('sha512', $pass);
                 $PostData["user_status"] = 1;
 
@@ -134,7 +134,7 @@ Equipe Grupo Residere";
                 $PostData["user_document"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $PostData["user_document"]);
                 $PostData["user_status"] = 1;
 
-                $pass = rand(1000, 9999999);
+                $pass = $PostData["user_password"];
                 $PostData["user_password"] = hash('sha512', $pass);
 
                 $Create->ExeCreate(DB_USERS, $PostData);
@@ -347,22 +347,20 @@ Equipe Grupo Residere";
                 }
                 curl_close($ch);
 
-                /*
-                require '../_tpl/Mail.email.php';
-                $BodyMail = "
-                    <p style='font-size: 1.5em;'>Olá {$Read->getResult()[0]['user_name']}, recupere sua senha do " . ADMIN_NAME . "!</p>
-                    <p>Caso não tenha feito essa solicitação. Por favor ignore esse e-mail e nenhuma ação será tomada quanto aos dados de acesso!</p>
-                    <p>Ou para criar uma nova senha de acesso <a title='Criar Nova Senha' href='" . BASE2 . "/admin/newpass.php?key={$CodePass}'>CLIQUE AQUI!</a>!</p>
-                    <p>Você será redirecionado para uma página onde poderá definir uma nova senha de acesso ao painel! Cuide bem dos seus dados.</p>
+                if ($PostData['user_email']):
+                    require '../_tpl/Mail.email.php';
+                    $BodyMail = "
+                    <p style='font-size: 1.5em;'>Olá novamente {$nome}</p>
+                    <p>Sua senha em nosso painel de parceiros foi alterada e seu cadastro já está ativo. Segue a nova senha que pode ser alterada a qualquer momento:</p>
+                    <p>👉 {$pass}</p>
+                    <p>Ficamos à disposição para o que precisar. Um grande abraço, Equipe Grupo Residere</p>
                     ";
-                $Mensagem = str_replace('#mail_body#', $BodyMail, $MailContent);
+                    $Mensagem = str_replace('#mail_body#', $BodyMail, $MailContent);
 
-                $Email->EnviarMontando('Recupere sua Senha', $Mensagem, ADMIN_NAME, MAIL_USER, $Read->getResult()[0]['user_name'], $Read->getResult()[0]['user_email']);
+                    $Email->EnviarMontando($nome . ', sua Senha nova do Painel de Parceiros Residere', $Mensagem, ADMIN_NAME, MAIL_USER, $Reg["user_name"], $Reg['user_email']);
+                endif;
 
-                $_SESSION['trigger_login'] = AjaxErro("<b>SUCESSO:</b> Olá {$Read->getResult()[0]['user_name']}, confira o link enviado em seu e-mail para recuperar sua senha!");
-                */
-
-                $jSON['trigger'] = AjaxErro('<b>SUCESSO:</b> Nova senha enviada para seu Whatsapp!');
+                $jSON['trigger'] = AjaxErro('<b>SUCESSO:</b> Nova senha enviada para seu Whatsapp e E-mail!');
                 $jSON['redirect'] = './';
 
             else:

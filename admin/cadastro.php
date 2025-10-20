@@ -75,17 +75,24 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         </label>
                     </div>
 
-                    <div class="label_50">
-                        <div class="form_group">
+                    <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">Nome Completo</span>
                                 <input name="user_name" value="" placeholder="Nome Completo" required />
                             </label>
                         </div>
+
+                    <div class="label_50">
                         <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">CPF</span>
                                 <input class="formCpf" name="user_document" value="" placeholder="Seu CPF" required />
+                            </label>
+                        </div>
+                        <div class="form_group">
+                            <label class="form_label">
+                                <span class="label_text">Telefone</span>
+                                <input class="formPhone" name="user_cell" value="" placeholder="Seu telefone" required />
                             </label>
                         </div>
                     </div>
@@ -99,8 +106,8 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         </div>
                         <div class="form_group">
                             <label class="form_label">
-                                <span class="label_text">Telefone</span>
-                                <input class="formPhone" name="user_cell" value="" placeholder="Seu telefone" required />
+                                <span class="label_text">Senha</span>
+                                <input name="user_password" value="" required placeholder="Sua Senha"/>
                             </label>
                         </div>
                     </div>
