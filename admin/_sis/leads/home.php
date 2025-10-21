@@ -1,6 +1,6 @@
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1>Leads</h1>
+        <h1 class="icon-users">Leads</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>

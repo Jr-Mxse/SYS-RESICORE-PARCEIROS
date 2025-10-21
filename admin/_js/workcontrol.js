@@ -1,267 +1,199 @@
 $(function () {
 
-   // ===============================
-    // ELEMENTOS PRINCIPAIS
-    // ===============================
-    const $mobileToggleBtn       = $('#mobileToggleBtn');
-    const $dashboardNav          = $('#dashboardSidebar');
-    const $dashboardSidebarPanel = $('#dashboardSidebarPanel');
-    const $dashboardOverlay      = $('#dashboardOverlay');
-    const $dashboardPanelToggle  = $('#dashboardPanelToggle');
-    const $dashboardPanelClose   = $('#dashboardPanelClose');
-    const $dashboardMainContent  = $('#dashboardMainContent');
-    const $dashboardMenuItems    = $('.dashboard_nav_menu_li[data-menu]');
-    const $panelSections         = $('.dashboard_panel_section');
-    const $userAvatar            = $(".dashboard_user_avatar");
-    const $userMenu              = $("#userMenu");
 
-    // ===============================
-    // TOOLTIP GLOBAL
-    // ===============================
-    let $dynamicTooltip = $('#dynamicTooltip');
-    if (!$dynamicTooltip.length) {
-        $dynamicTooltip = $(`
-            <div id="dynamicTooltip" class="dynamic_tooltip">
-                <div class="dynamic_tooltip_arrow"></div>
-                <span class="dynamic_tooltip_text"></span>
-            </div>
-        `).appendTo('body');
+    const nav = $('#dashboardNav');
+    const body = $('body');
+    const scrollContainer = $('.dashboard_nav_menu_scroll');
+    let currentTooltip = null;
+    let isExpanded = false;
+    const MENU_STORAGE_KEY = 'dashboardMenuState';
+
+    function createTooltip(text) {
+        const tooltip = $('<div>')
+            .addClass('custom-tooltip')
+            .text(text)
+            .css({
+                position: 'fixed',
+                background: '#34495e',
+                color: '#ecf0f1',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                whiteSpace: 'nowrap',
+                zIndex: '1001',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                border: '1px solid #1abc9c',
+                pointerEvents: 'none',
+                opacity: '0',
+                transition: 'opacity 0.3s ease'
+            });
+        $('body').append(tooltip);
+        return tooltip;
     }
 
-    function showTooltip($element, text) {
-        if ($dashboardSidebarPanel.hasClass('dashboard_panel_open')) return;
-        $dynamicTooltip.find('.dynamic_tooltip_text').text(text);
+    function positionTooltip(element, tooltip) {
+        const rect = element[0].getBoundingClientRect();
+        const tooltipHeight = tooltip.outerHeight();
 
-        const rect = $element[0].getBoundingClientRect();
-        const tooltipRect = $dynamicTooltip[0].getBoundingClientRect();
-        let left = rect.right + 12;
-        let top = rect.top + (rect.height / 2) - (tooltipRect.height / 2);
-
-        const ww = $(window).width(), wh = $(window).height();
-        if (left + tooltipRect.width > ww - 10) {
-            left = rect.left - tooltipRect.width - 12;
-            $dynamicTooltip.removeClass('right').addClass('left');
-        } else {
-            $dynamicTooltip.removeClass('left').addClass('right');
-        }
-
-        if (top < 10) top = 10;
-        if (top + tooltipRect.height > wh - 10) top = wh - tooltipRect.height - 10;
-
-        $dynamicTooltip.css({ left, top }).addClass('show');
+        tooltip.css({
+            left: '75px',
+            top: (rect.top + (rect.height / 2) - (tooltipHeight / 2)) + 'px',
+            opacity: '1'
+        });
     }
 
-    function hideTooltip() {
-        $dynamicTooltip.removeClass('show');
-    }
+    function handleTooltips() {
+        $('.dashboard_nav_menu_li > a[data-tooltip]').off('mouseenter.tooltip mouseleave.tooltip');
 
-    $('.dashboard_tooltip_container').hover(
-        function () {
-            const txt = $(this).data('tooltip');
-            if (txt) showTooltip($(this), txt);
-        },
-        hideTooltip
-    );
-
-    $('.dashboard_nav_menu').on('scroll', hideTooltip);
-    $(window).on('resize', hideTooltip);
-
-    // ===============================
-    // PAINEL LATERAL
-    // ===============================
-    function toggleDashboardPanel() {
-        $dashboardSidebarPanel.toggleClass('dashboard_panel_open');
-        $dashboardMainContent.toggleClass('dashboard_content_panel_open');
-
-        const $icon = $dashboardPanelToggle.find('i');
-        if ($dashboardSidebarPanel.hasClass('dashboard_panel_open')) {
-            $icon.css('transform', 'rotate(180deg)');
-            $('.dashboard_expand_btn').addClass('active');
-        } else {
-            $icon.css('transform', 'rotate(0deg)');
-            $('.dashboard_expand_btn').removeClass('active');
+        if (!isExpanded && window.innerWidth > 768) {
+            $('.dashboard_nav_menu_li > a[data-tooltip]').on({
+                'mouseenter.tooltip': function () {
+                    const tooltipText = $(this).attr('data-tooltip');
+                    if (tooltipText && !currentTooltip) {
+                        currentTooltip = createTooltip(tooltipText);
+                        positionTooltip($(this), currentTooltip);
+                    }
+                },
+                'mouseleave.tooltip': function () {
+                    if (currentTooltip) {
+                        currentTooltip.fadeOut(200, function () {
+                            $(this).remove();
+                        });
+                        currentTooltip = null;
+                    }
+                }
+            });
         }
     }
 
-    function showPanelSection(sectionName) {
-        $panelSections.removeClass('dashboard_section_active');
-        $(`[data-section="${sectionName}"]`).addClass('dashboard_section_active');
+    $('#menuToggle').click(function () {
+        toggleMenu();
+    });
+
+    $('.mobile_menu, .mobile_menu_mobile').click(function () {
+        if (window.innerWidth <= 768) {
+            if (nav.hasClass('expanded')) {
+                nav.removeClass('expanded').css('left', '-280px');
+                $('.dashboard_fix').animate({ 'margin-left': '0px' }, 300);
+            } else {
+                nav.addClass('expanded').css('left', '0px');
+                $('.dashboard_fix').animate({ 'margin-left': '0px' }, 300);
+            }
+        } else {
+            toggleMenu();
+        }
+    });
+
+    function toggleMenu() {
+        isExpanded = !isExpanded;
+
+        if (currentTooltip) {
+            currentTooltip.remove();
+            currentTooltip = null;
+        }
+
+        if (isExpanded) {
+            nav.addClass('expanded');
+            body.addClass('menu-expanded').css('margin-left', '280px');
+            $('.dashboard_fix').animate({ 'margin-left': '0' }, 300);
+            localStorage.setItem(MENU_STORAGE_KEY, 'expanded');
+        } else {
+            nav.removeClass('expanded');
+            body.removeClass('menu-expanded').css('margin-left', '70px');
+            $('.dashboard_fix').animate({ 'margin-left': '0' }, 300);
+            $('.dashboard_nav_menu_li.has-submenu.open').removeClass('open');
+            localStorage.setItem(MENU_STORAGE_KEY, 'collapsed');
+        }
+
+        setTimeout(() => {
+            if (currentTooltip) {
+                currentTooltip.remove();
+                currentTooltip = null;
+            }
+            handleTooltips();
+        }, 350);
     }
 
-    // ===============================
-    // MOBILE E OVERLAY
-    // ===============================
-    $mobileToggleBtn.on('click', function () {
-        $dashboardNav.toggleClass('dashboard_mobile_open');
-        $dashboardSidebarPanel.toggleClass('dashboard_mobile_open');
-        $dashboardOverlay.toggleClass('active');
-    });
-
-    $dashboardOverlay.on('click', function () {
-        $dashboardNav.removeClass('dashboard_mobile_open');
-        $dashboardSidebarPanel.removeClass('dashboard_mobile_open');
-        $dashboardOverlay.removeClass('active');
-    });
-
-    // ===============================
-    // ABRIR/FECHAR PAINEL
-    // ===============================
-    $dashboardPanelToggle.on('click', toggleDashboardPanel);
-    $dashboardPanelClose.on('click', toggleDashboardPanel);
-
-    // ===============================
-    // CLICAR EM ÍCONE DO MENU
-    // ===============================
-    $dashboardMenuItems.on('click', function (e) {
+    $('.dashboard_nav_menu_li.has-submenu > a').click(function (e) {
         e.preventDefault();
-        $dashboardMenuItems.removeClass('dashboard_nav_menu_active');
-        $(this).addClass('dashboard_nav_menu_active');
 
-        if (!$dashboardSidebarPanel.hasClass('dashboard_panel_open')) {
-            toggleDashboardPanel();
-        }
-        showPanelSection($(this).data('menu'));
-    });
+        const parentLi = $(this).parent();
+        const isOpen = parentLi.hasClass('open');
 
-    // ===============================
-    // FECHAR PAINEL AO CLICAR FORA
-    // ===============================
-    $(document).on('click', function (e) {
-        if (
-            $dashboardSidebarPanel.hasClass('dashboard_panel_open') &&
-            !$dashboardSidebarPanel.is(e.target) && $dashboardSidebarPanel.has(e.target).length === 0 &&
-            !$dashboardPanelToggle.is(e.target) && $dashboardPanelToggle.has(e.target).length === 0 &&
-            !$('.dashboard_nav').is(e.target) && $('.dashboard_nav').has(e.target).length === 0
-        ) {
-            toggleDashboardPanel();
-        }
-    });
+        if (!isExpanded && window.innerWidth > 768) {
+            toggleMenu();
 
-    // ===============================
-    // SUBMENUS
-    // ===============================
-    $('.dashboard_expandable_item').on('click', function () {
-        const $submenu = $(this).next('.dashboard_submenu');
-        const isOpen = $submenu.hasClass('dashboard_submenu_open');
-
-        $('.dashboard_submenu').removeClass('dashboard_submenu_open').css('max-height', 0);
-
-        if (!isOpen) {
-            $submenu.addClass('dashboard_submenu_open');
-            const newHeight = $submenu.prop('scrollHeight') + 'px';
-            $submenu.css('max-height', newHeight);
-        }
-    });
-
-    // ===============================
-    // TEMA (Light / Dark / Auto)
-    // ===============================
-    const $themeToggle = $('#dashboardThemeToggle');
-    const $themeDropdown = $('#dashboardThemeDropdown');
-    const $themeOptions = $('.theme-option');
-    const $themeLabel = $('#themeLabel');
-    const $themeSwitcher = $('.dashboard_theme_switcher');
-
-    // Mapeamento dos nomes dos temas
-    const themeNames = {
-        'light': 'Tema Claro',
-        'dark': 'Tema Escuro',
-        'auto': 'Automático'
-    };
-
-    function applyTheme(theme) {
-        $('html').removeClass('light-theme dark-theme');
-        
-        if (theme === 'dark') {
-            $('html').addClass('dark-theme');
-        } else if (theme === 'light') {
-            $('html').addClass('light-theme');
+            setTimeout(function () {
+                $('.dashboard_nav_menu_li.has-submenu.open').not(parentLi).removeClass('open');
+                parentLi.addClass('open');
+            }, 350);
         } else {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            $('html').addClass(prefersDark ? 'dark-theme' : 'light-theme');
-        }
-        
-        localStorage.setItem('dashboard_theme', theme);
-        updateThemeUI(theme);
-    }
-
-    function updateThemeUI(theme) {
-        // Atualizar ícones do BOTÃO (usando seletor específico)
-        $('.theme-button-icon').removeClass('theme-icon-active').addClass('theme-icon-hidden');
-        $(`.theme-button-icon[data-theme="${theme}"]`).removeClass('theme-icon-hidden').addClass('theme-icon-active');
-        
-        // Atualizar label do botão
-        $themeLabel.text(themeNames[theme]);
-        
-        // Atualizar opção ativa no dropdown
-        $themeOptions.removeClass('active');
-        $(`.theme-option[data-theme="${theme}"]`).addClass('active');
-    }
-
-    function loadTheme() {
-        const theme = localStorage.getItem('dashboard_theme') || 'light';
-        applyTheme(theme);
-    }
-
-    // Toggle do dropdown
-    $themeToggle.on('click', function (e) {
-        e.stopPropagation();
-        $themeSwitcher.toggleClass('active');
-    });
-
-    // Selecionar tema
-    $themeOptions.on('click', function () {
-        const selectedTheme = $(this).data('theme');
-        applyTheme(selectedTheme);
-        $themeSwitcher.removeClass('active');
-    });
-
-    // Fechar dropdown ao clicar fora
-    $(document).on('click', function (e) {
-        if (!$(e.target).closest('.dashboard_theme_switcher').length) {
-            $themeSwitcher.removeClass('active');
+            $('.dashboard_nav_menu_li.has-submenu.open').not(parentLi).removeClass('open');
+            parentLi.toggleClass('open', !isOpen);
         }
     });
 
-    // Detectar mudança de preferência do sistema (modo auto)
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
-        if (localStorage.getItem('dashboard_theme') === 'auto') {
-            applyTheme('auto');
+    $('.dashboard_nav_menu_li.disabled a').click(function (e) {
+        e.preventDefault();
+    });
+
+    $(window).resize(function () {
+        if (currentTooltip) {
+            currentTooltip.remove();
+            currentTooltip = null;
+        }
+
+        if (window.innerWidth <= 768) {
+            nav.css('left', nav.hasClass('expanded') ? '0px' : '-280px');
+            $('.dashboard_fix').css('margin-left', '0px');
+            body.css('margin-left', '0px').removeClass('menu-expanded');
+        } else {
+            nav.css('left', '0px');
+
+            if (isExpanded) {
+                $('.dashboard_fix').css('margin-left', '280px');
+                body.css('margin-left', '280px').addClass('menu-expanded');
+            } else {
+                $('.dashboard_fix').css('margin-left', '0');
+                body.css('margin-left', '70px').removeClass('menu-expanded');
+            }
+        }
+
+        setTimeout(handleTooltips, 100);
+    });
+
+    $('.dashboard_nav_menu_scroll').on('scroll', function () {
+        if (currentTooltip) {
+            const hovered = $('.dashboard_nav_menu_li > a[data-tooltip]:hover');
+            if (hovered.length) {
+                positionTooltip(hovered, currentTooltip);
+            }
         }
     });
 
-    // Carregar tema ao iniciar
-    loadTheme();
+    $(function () {
+        const savedState = localStorage.getItem(MENU_STORAGE_KEY);
 
-
-
-    // ===============================
-    // MENU DO USUÁRIO (avatar)
-    // ===============================
-    $userAvatar.on('click', function (e) {
-        e.stopPropagation();
-        $userMenu.toggleClass('active');
-    });
-
-    $(document).on('click', function (e) {
-        if (!$userMenu.is(e.target) && $userMenu.has(e.target).length === 0) {
-            $userMenu.removeClass('active');
+        if (window.innerWidth > 768) {
+            if (savedState === 'expanded') {
+                isExpanded = true;
+                nav.addClass('expanded');
+                body.addClass('menu-expanded').css('margin-left', '280px');
+                $('.dashboard_fix').css('margin-left', '0');
+            } else {
+                isExpanded = false;
+                nav.removeClass('expanded');
+                body.removeClass('menu-expanded').css('margin-left', '70px');
+                $('.dashboard_fix').css('margin-left', '0');
+            }
         }
-    });
 
-    $userMenu.find('a').on('click', function () {
-        $userMenu.removeClass('active');
-    });
-
-    $(document).on('keydown', function (e) {
-        if (e.key === 'Escape') {
-            $userMenu.removeClass('active');
-        }
+        handleTooltips();
     });
 
     //WC LOGIN FIX
     setInterval(function () {
-        $.post('_ajax/Dashboard.ajax.php', {callback: 'Dashboard', callback_action: 'wc_login_fix'}, function (data) {
+        $.post('_ajax/Dashboard.ajax.php', { callback: 'Dashboard', callback_action: 'wc_login_fix' }, function (data) {
             if (data.redirect) {
                 window.location.href = data.redirect;
             }
@@ -273,16 +205,16 @@ $(function () {
             $(window).on("swipeleft", function () {
                 //$('.mobile_menu').click();
                 if ($('.dashboard_nav, .dashboard_nav_normalize').css('left') !== '-220px') {
-                    $('.dashboard_nav, .dashboard_nav_normalize').animate({left: '-220px'}, 300);
-                    $('.dashboard_fix').animate({'margin-left': '0px'}, 300);
+                    $('.dashboard_nav, .dashboard_nav_normalize').animate({ left: '-220px' }, 300);
+                    $('.dashboard_fix').animate({ 'margin-left': '0px' }, 300);
                 }
             });
 
             $(window).on("swiperight", function () {
                 //$('.mobile_menu').click();
                 if ($('.dashboard_nav, .dashboard_nav_normalize').css('left') === '-220px') {
-                    $('.dashboard_nav, .dashboard_nav_normalize').animate({left: '0px'}, 300);
-                    $('.dashboard_fix').animate({'margin-left': '220px'}, 300);
+                    $('.dashboard_nav, .dashboard_nav_normalize').animate({ left: '0px' }, 300);
+                    $('.dashboard_fix').animate({ 'margin-left': '220px' }, 300);
                 }
             });
         });
@@ -1470,7 +1402,7 @@ $(function () {
         ButtonClip.removeClass('icon-new-tab').addClass('icon-checkmark active');
     });
 
- 
+
     $('.wc_clip').click(function () {
         $('#' + $(this).attr('rel')).select();
         document.execCommand('copy');

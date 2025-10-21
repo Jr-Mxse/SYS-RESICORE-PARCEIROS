@@ -7,16 +7,17 @@
     width: 100%;
     margin-left: 0 !important;
 }
-
+.box10,
 .box20,
 .box25,
 .box33,
 .box30,
-.box4,
+.box40,
 .box50,
 .box60,
 .box70,
 .box80,
+.box90,
 .box100 {
     width: 100%;
 }
@@ -25,6 +26,10 @@
     float: left;
     width: 100%;
     padding: 10px;
+}
+
+.dashboard_fix {
+    min-width: 320px;
 }
 
 .dashboard_search article p,

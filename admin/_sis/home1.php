@@ -9,21 +9,10 @@
     </div>
 </header>
 
-<div class="dashboard_home_video">
-    <div class="video_container">
-        <div class="video_header">
-            <h2>Bem-vindo ao Residere</h2>
-            <p>Conheça nossa plataforma de gestão imobiliária</p>
-        </div>
-        
-        <div class="video_wrapper">
-            <iframe 
-                id="panda-c1efedbb-4798-4b15-a630-7076dcff826d" 
-                src="https://player-vz-a527f663-fed.tv.pandavideo.com.br/embed/?v=c1efedbb-4798-4b15-a630-7076dcff826d" 
-                allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" 
-                allowfullscreen
-                fetchpriority="high">
-            </iframe>
-        </div>
+<div class="dashboard_content">
+    <div class="box box60" style="text-align: center">
+        <iframe id="panda-c1efedbb-4798-4b15-a630-7076dcff826d" src="https://player-vz-a527f663-fed.tv.pandavideo.com.br/embed/?v=c1efedbb-4798-4b15-a630-7076dcff826d" style="border:none; width: 844px; height: 475px" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" allowfullscreen=true fetchpriority="high"></iframe>
+    </div>
+    <div class="box box40">
     </div>
 </div>

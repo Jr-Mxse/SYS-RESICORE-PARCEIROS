@@ -1,180 +1,46 @@
-<?php
-if ($Admin['user_name'] == $Admin['user_lastname']):
-    $Admin['user_lastname'] = "";
-endif;
-?>
-
-<nav class="dashboard_nav" id="dashboardSidebar">
-    <!-- Menu de Ícones -->
-    <ul class="dashboard_nav_menu">
-
-        <!-- Logo/Header -->
-        <div class="dashboard_nav_header">
-            <div class="dashboard_nav_logo">
-                <img class="dashboard_nav_admin_thumb rounded" src="_img/grupo.svg" alt="Avatar">
-            </div>
+<li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?>">
+    <a class="icon-home" title="Dashboard" href="dashboard.php?wc=home">Dashboard</a>
+</li>
+<li class="dashboard_nav_menu_li">
+    <a title="Especialista" href="dashboard.php?wc=especialista/create" data-tooltip="Especialista">
+        <i class="icon-user"></i>
+        <span class="menu-text">Especialista</span>
+    </a>
+</li>
+<li class="dashboard_nav_menu_li has-submenu">
+    <a title="Leads" href="dashboard.php?wc=leads/home" data-tooltip="Leads">
+        <i class="icon-users"></i>
+        <span class="menu-text">Leads</span>
+        <div class="submenu-arrow">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M18.5303 9.46967C18.8232 9.76256 18.8232 10.2374 18.5303 10.5303L12.5303 16.5303C12.2374 16.8232 11.7626 16.8232 11.4697 16.5303L5.46967 10.5303C5.17678 10.2374 5.17678 9.76256 5.46967 9.46967C5.76256 9.17678 6.23744 9.17678 6.53033 9.46967L12 14.9393L17.4697 9.46967C17.7626 9.17678 18.2374 9.17678 18.5303 9.46967Z" fill="#030D45" />
+            </svg>
         </div>
-
-        <!-- Dashboard/Início -->
-        <li class="dashboard_nav_menu_li <?= $getViewInput == 'home' ? 'dashboard_nav_menu_active' : ''; ?> dashboard_tooltip_container" data-tooltip="Início">
-            <a href="dashboard.php?wc=home">
-                <i class="ki-duotone ki-element-11 fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </a>
-        </li>
-
-        <!-- Especialista -->
-        <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'especialista/') ? 'dashboard_nav_menu_active' : ''; ?> dashboard_tooltip_container" data-tooltip="Especialista">
-            <a href="dashboard.php?wc=especialista/create">
-                <i class="ki-duotone ki-user fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </a>
-        </li>
-
-        <!-- Leads -->
-        <li class="dashboard_nav_menu_li dashboard_tooltip_container" data-menu="leads" data-tooltip="Leads">
-            <a href="#">
-                <i class="ki-duotone ki-users fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </a>
-        </li>
-
-        <!-- ResiPlace -->
-        <li class="dashboard_nav_menu_li dashboard_tooltip_container" data-tooltip="ResiPlace">
-            <a href="https://resiplace.com.br" target="_blank">
-                <i class="ki-duotone ki-star fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </a>
-        </li>
-
+    </a>
+    <ul class="dashboard_nav_menu_sub">
+        <li><a title="Ver Leads" href="dashboard.php?wc=leads/home">&raquo; Ver Leads</a></li>
+        <li><a title="Novo Lead" href="dashboard.php?wc=leads/create">&raquo; Novo Lead</a></li>
     </ul>
+</li>
+<li class="dashboard_nav_menu_li">
+    <a target="_New" title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
+        <i class="icon-star-full"></i>
+        <span class="menu-text">ResiPlace</span>
+    </a>
+</li>
+<?php /*
+<li class="dashboard_nav_menu_li">
+    <a target="_New" title="ResiH" href="https://ead.resiplace.com.br" data-tooltip="Academia">
+        <i class="icon-books"></i>
+        <span class="menu-text">Treinamentos</span>
+    </a>
+</li> */?>
 
-    <!-- User info no rodapé -->
-    <div class="dashboard_nav_footer">
-        <ul class="dashboard_nav_menu">
-
-            <!-- Ver Site -->
-            <li class="dashboard_nav_menu_li dashboard_tooltip_container" data-tooltip="Ver Site">
-                <a href="<?= BASE; ?>" target="_blank">
-                    <i class="ki-duotone ki-mouse-circle fs-2x">
-                        <span class="path1"></span><span class="path2"></span>
-                    </i>
-                </a>
-            </li>
-
-        </ul>
-
-        <div class="dashboard_user_info">
-
-            <img class="dashboard_user_avatar dashboard_tooltip_container" data-tooltip="Abrir menu do usuário" src="../tim.php?src=<?= $Admin['user_thumb']; ?>&w=40&h=40" alt="Avatar">
-
-            <button class="dashboard_expand_btn dashboard_tooltip_container" id="dashboardPanelToggle" data-tooltip="Expandir painel">
-                <i class="ki-duotone ki-arrow-left fs-2 rotate-180">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </button>
-
-            <div class="dashboard_user_menu" id="userMenu">
-                <div class="dashboard_user_header">
-                    <img src="../tim.php?src=<?= $Admin['user_thumb']; ?>&w=400&h=400" alt="Avatar">
-                    <div>
-                        <strong><?= $Admin['user_name']; ?></strong>
-                        <span class="dashboard_user_menu_email"><?= $Admin['user_email']; ?></span>
-                    </div>
-                </div>
-                <ul>
-                    <li><a href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>">Meu Perfil</a></li>
-                </ul>
-                <hr>
-                <ul>
-                    <li><a href="dashboard.php?logoff=true">Sair</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<div class="dashboard_overlay" id="dashboardOverlay"></div>
-
-<!-- PAINEL LATERAL EXPANSÍVEL -->
-<div class="dashboard_sidebar_panel" id="dashboardSidebarPanel">
-    <div class="dashboard_panel_content">
-
-        <!-- ************ SESSÃO INÍCIO *********** -->
-        <div class="dashboard_panel_section dashboard_section_active" data-section="home">
-            <div class="dashboard_expandable_item">
-                <i class="ki-duotone ki-element-11 fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                <span>Dashboard</span>
-                <i class="ki-duotone ki-right fs-2x indicator">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </div>
-
-            <ul class="dashboard_submenu">
-                <li>
-                    <a href="dashboard.php?wc=home">
-                        <span class="dashboard_submenu_indicator"></span> Visão Geral
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- ************ SESSÃO INÍCIO *********** -->
-
-        <!-- ************ SESSÃO ESPECIALISTA *********** -->
-        <div class="dashboard_panel_section" data-section="especialista">
-            <div class="dashboard_expandable_item">
-                <i class="ki-duotone ki-user fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                <span>Especialista</span>
-                <i class="ki-duotone ki-right fs-2x indicator">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </div>
-
-            <ul class="dashboard_submenu">
-                <li>
-                    <a href="dashboard.php?wc=especialista/create">
-                        <span class="dashboard_submenu_indicator"></span> Gerenciar Especialista
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- ************ SESSÃO ESPECIALISTA *********** -->
-
-        <!-- ************ SESSÃO LEADS *********** -->
-        <div class="dashboard_panel_section" data-section="leads">
-            <div class="dashboard_expandable_item">
-                <i class="ki-duotone ki-users fs-2x">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-                <span>Leads</span>
-                <i class="ki-duotone ki-right fs-2x indicator">
-                    <span class="path1"></span><span class="path2"></span>
-                </i>
-            </div>
-
-            <ul class="dashboard_submenu">
-                <li>
-                    <a href="dashboard.php?wc=leads/home">
-                        <span class="dashboard_submenu_indicator"></span> Ver Leads
-                    </a>
-                </li>
-                <li>
-                    <a href="dashboard.php?wc=leads/create">
-                        <span class="dashboard_submenu_indicator"></span> Novo Lead
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- ************ SESSÃO LEADS *********** -->
-
-    </div>
-</div>
-
+<script>
+    document.querySelectorAll(".dashboard_nav_menu_toggle").forEach(toggle => {
+        toggle.addEventListener("click", function() {
+            let parent = this.parentElement;
+            parent.classList.toggle("open");
+        });
+    });
+</script>

@@ -1,0 +1,54 @@
+
+// Input customizado para envio de imagens
+
+.input-file
+    position: relative
+    margin-top: 10px
+    
+    input 
+        display: none
+        
+    label
+        text-align: center
+        padding: 30px 10px 20px 10px
+        border-radius: 5px
+        display: block
+        margin: 5px 0
+        border: 2px dashed #e6e6e6
+        cursor: pointer
+
+        &::before
+            top: 7px 
+            left: calc(50% - 10px)
+            position: absolute
+            font-size: 15px
+            margin: 0
+            opacity: .5
+            
+        &:hover
+            -webkit-box-shadow: 0 0 5px 1px #e8e8e8
+            -moz-box-shadow: 0 0 5px 1px #e8e8e8
+            box-shadow: 0 0 5px 1px #e8e8e8
+
+    
+/* mini */
+.input-file.mini,
+.input-file.mini label
+    margin: 0
+
+    label
+        padding: 0 12px
+        height: 38px
+        line-height: 35px
+        text-align: left
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        color: #333
+        font-size: .875em
+
+        &::before 
+            position: relative
+            top: inherit 
+            left: inherit
+            margin-right: 10px

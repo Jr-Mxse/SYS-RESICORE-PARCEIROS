@@ -27,7 +27,7 @@ endif;
 
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1>Leads</h1>
+        <h1 class="icon-users">Leads</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
@@ -44,7 +44,7 @@ endif;
 </header>
 
 <div class="dashboard_content">
-    <div class="box box100">
+    <div class="box box70">
         <?php
         require("inc.profile.php");
         ?>
