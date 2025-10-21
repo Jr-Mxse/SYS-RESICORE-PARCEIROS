@@ -279,14 +279,9 @@ function envioZapResidere($destino)
         CURLOPT_TIMEOUT => 30,
     ]);
 
-    $response = curl_exec($ch);
-    if ($response === false) {
-        $msg = curl_error($ch);
-    } else {
-        $msg = $response;
-    }
+    $response = (array) json_decode(curl_exec($ch));
     curl_close($ch);
-    return $msg;
+    return $response;
 }
 
 function envioZapParceiro($destino)
@@ -311,14 +306,9 @@ function envioZapParceiro($destino)
         CURLOPT_TIMEOUT => 30,
     ]);
 
-    $response = curl_exec($ch);
-    if ($response === false) {
-        $msg = curl_error($ch);
-    } else {
-        $msg = $response;
-    }
+    $response = (array) json_decode(curl_exec($ch));
     curl_close($ch);
-    return $msg;
+    return $response;
 }
 
 function selAcabamento($type)
