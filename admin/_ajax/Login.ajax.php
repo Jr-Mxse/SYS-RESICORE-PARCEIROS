@@ -61,33 +61,8 @@ Ficamos à disposição para o que precisar.\n
 Um grande abraço,\n
 Equipe Grupo Residere";
 
-                    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
-                    $headers = [
-                        "Content-Type: application/json",
-                        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
-                    ];
-                    $payload = [
-                        "number" => "{$destino["numero"]}@s.whatsapp.net",
-                        "text"   => $destino["mensagem"]
-                    ];
+                    $envio = envioZapParceiro($destino);
 
-                    $ch = curl_init();
-                    curl_setopt_array($ch, [
-                        CURLOPT_URL => $url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_POST => true,
-                        CURLOPT_HTTPHEADER => $headers,
-                        CURLOPT_POSTFIELDS => json_encode($payload),
-                        CURLOPT_TIMEOUT => 30,
-                    ]);
-
-                    $response = curl_exec($ch);
-                    if ($response === false) {
-                        $msg = curl_error($ch);
-                    } else {
-                        $msg = $response;
-                    }
-                    curl_close($ch);
                     $jSON['trigger'] = AjaxErro("<b>Olá {$nome},</b> conta ativada com sucesso.");
 
                     if (isset($PostData['redirect']) && !empty($PostData['redirect'])):
@@ -156,33 +131,7 @@ Ficamos à disposição para o que precisar.\n
 Um grande abraço,\n
 Equipe Grupo Residere";
 
-                    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
-                    $headers = [
-                        "Content-Type: application/json",
-                        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
-                    ];
-                    $payload = [
-                        "number" => "{$destino["numero"]}@s.whatsapp.net",
-                        "text"   => $destino["mensagem"]
-                    ];
-
-                    $ch = curl_init();
-                    curl_setopt_array($ch, [
-                        CURLOPT_URL => $url,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_POST => true,
-                        CURLOPT_HTTPHEADER => $headers,
-                        CURLOPT_POSTFIELDS => json_encode($payload),
-                        CURLOPT_TIMEOUT => 30,
-                    ]);
-
-                    $response = curl_exec($ch);
-                    if ($response === false) {
-                        $msg = curl_error($ch);
-                    } else {
-                        $msg = $response;
-                    }
-                    curl_close($ch);
+                    $envio = envioZapParceiro($destino);
 
                     $jSON['trigger'] = AjaxErro("<b>Olá {$nome},</b> cadastro realizado com sucesso. Em breve entraremos em contato.");
                     $jSON['redirect'] = 'https://painel.residere.com.br';
@@ -319,33 +268,7 @@ Ficamos à disposição para o que precisar.\n
 Um grande abraço,\n
 Equipe Grupo Residere";
 
-                $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
-                $headers = [
-                    "Content-Type: application/json",
-                    "apikey: 429683C4C977415CAAFCCE10F7D57E11"
-                ];
-                $payload = [
-                    "number" => "{$destino["numero"]}@s.whatsapp.net",
-                    "text"   => $destino["mensagem"]
-                ];
-
-                $ch = curl_init();
-                curl_setopt_array($ch, [
-                    CURLOPT_URL => $url,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_POST => true,
-                    CURLOPT_HTTPHEADER => $headers,
-                    CURLOPT_POSTFIELDS => json_encode($payload),
-                    CURLOPT_TIMEOUT => 30,
-                ]);
-
-                $response = curl_exec($ch);
-                if ($response === false) {
-                    $msg = curl_error($ch);
-                } else {
-                    $msg = $response;
-                }
-                curl_close($ch);
+                $envio = envioZapParceiro($destino);
 
                 if ($PostData['user_email']):
                     require '../_tpl/Mail.email.php';

@@ -257,10 +257,41 @@ function safeDiv($num, $den)
     return $num / $den;
 }
 
-
-function envioZap($destino)
+function envioZapResidere($destino)
 {
     $url = "https://evolution.zapidere.com.br/message/sendText/RESIDERE";
+    $headers = [
+        "Content-Type: application/json",
+        "apikey: 429683C4C977415CAAFCCE10F7D57E11"
+    ];
+    $payload = [
+        "number" => "{$destino["numero"]}@s.whatsapp.net",
+        "text"   => $destino["mensagem"]
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_TIMEOUT => 30,
+    ]);
+
+    $response = curl_exec($ch);
+    if ($response === false) {
+        $msg = curl_error($ch);
+    } else {
+        $msg = $response;
+    }
+    curl_close($ch);
+    return $msg;
+}
+
+function envioZapParceiro($destino)
+{
+    $url = "https://evolution.zapidere.com.br/message/sendText/Parceiros";
     $headers = [
         "Content-Type: application/json",
         "apikey: 429683C4C977415CAAFCCE10F7D57E11"
