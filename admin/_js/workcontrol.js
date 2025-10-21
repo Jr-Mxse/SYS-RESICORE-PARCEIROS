@@ -1,196 +1,186 @@
 $(function () {
 
 
-    const nav = $('#dashboardNav');
-    const body = $('body');
-    const scrollContainer = $('.dashboard_nav_menu_scroll');
-    let currentTooltip = null;
-    let isExpanded = false;
-    const MENU_STORAGE_KEY = 'dashboardMenuState';
+ const nav = $('#dashboardNav');
+const body = $('body');
+const scrollContainer = $('.dashboard_nav_menu_scroll');
+let currentTooltip = null;
+let isExpanded = false;
 
-    function createTooltip(text) {
-        const tooltip = $('<div>')
-            .addClass('custom-tooltip')
-            .text(text)
-            .css({
-                position: 'fixed',
-                background: '#34495e',
-                color: '#ecf0f1',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                whiteSpace: 'nowrap',
-                zIndex: '1001',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                border: '1px solid #1abc9c',
-                pointerEvents: 'none',
-                opacity: '0',
-                transition: 'opacity 0.3s ease'
-            });
-        $('body').append(tooltip);
-        return tooltip;
-    }
+function createTooltip(text) {
+    const tooltip = $('<div>')
+        .addClass('custom-tooltip')
+        .text(text)
+        .css({
+            position: 'fixed',
+            background: '#34495e',
+            color: '#ecf0f1',
+            padding: '8px 12px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            whiteSpace: 'nowrap',
+            zIndex: '1001',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            border: '1px solid #1abc9c',
+            pointerEvents: 'none',
+            opacity: '0',
+            transition: 'opacity 0.3s ease'
+        });
+    $('body').append(tooltip);
+    return tooltip;
+}
 
-    function positionTooltip(element, tooltip) {
-        const rect = element[0].getBoundingClientRect();
-        const tooltipHeight = tooltip.outerHeight();
+function positionTooltip(element, tooltip) {
+    const rect = element[0].getBoundingClientRect();
+    const tooltipHeight = tooltip.outerHeight();
 
-        tooltip.css({
-            left: '75px',
-            top: (rect.top + (rect.height / 2) - (tooltipHeight / 2)) + 'px',
-            opacity: '1'
+    tooltip.css({
+        left: '75px',
+        top: (rect.top + (rect.height / 2) - (tooltipHeight / 2)) + 'px',
+        opacity: '1'
+    });
+}
+
+function handleTooltips() {
+    $('.dashboard_nav_menu_li > a[data-tooltip]').off('mouseenter.tooltip mouseleave.tooltip');
+
+    if (!isExpanded && window.innerWidth > 768) {
+        $('.dashboard_nav_menu_li > a[data-tooltip]').on({
+            'mouseenter.tooltip': function () {
+                const tooltipText = $(this).attr('data-tooltip');
+                if (tooltipText && !currentTooltip) {
+                    currentTooltip = createTooltip(tooltipText);
+                    positionTooltip($(this), currentTooltip);
+                }
+            },
+            'mouseleave.tooltip': function () {
+                if (currentTooltip) {
+                    currentTooltip.fadeOut(200, function () {
+                        $(this).remove();
+                    });
+                    currentTooltip = null;
+                }
+            }
         });
     }
+}
 
-    function handleTooltips() {
-        $('.dashboard_nav_menu_li > a[data-tooltip]').off('mouseenter.tooltip mouseleave.tooltip');
+$('#menuToggle').click(function () {
+    toggleMenu();
+});
 
-        if (!isExpanded && window.innerWidth > 768) {
-            $('.dashboard_nav_menu_li > a[data-tooltip]').on({
-                'mouseenter.tooltip': function () {
-                    const tooltipText = $(this).attr('data-tooltip');
-                    if (tooltipText && !currentTooltip) {
-                        currentTooltip = createTooltip(tooltipText);
-                        positionTooltip($(this), currentTooltip);
-                    }
-                },
-                'mouseleave.tooltip': function () {
-                    if (currentTooltip) {
-                        currentTooltip.fadeOut(200, function () {
-                            $(this).remove();
-                        });
-                        currentTooltip = null;
-                    }
-                }
-            });
-        }
-    }
-
-    $('#menuToggle').click(function () {
-        toggleMenu();
-    });
-
-    $('.mobile_menu, .mobile_menu_mobile').click(function () {
-        if (window.innerWidth <= 768) {
-            if (nav.hasClass('expanded')) {
-                nav.removeClass('expanded').css('left', '-280px');
-                $('.dashboard_fix').animate({ 'margin-left': '0px' }, 300);
-            } else {
-                nav.addClass('expanded').css('left', '0px');
-                $('.dashboard_fix').animate({ 'margin-left': '0px' }, 300);
-            }
-        } else {
-            toggleMenu();
-        }
-    });
-
-    function toggleMenu() {
+$('.mobile_menu, .mobile_menu_mobile').click(function () {
+    if (window.innerWidth <= 768) {
         isExpanded = !isExpanded;
-
-        if (currentTooltip) {
-            currentTooltip.remove();
-            currentTooltip = null;
-        }
-
+        
         if (isExpanded) {
-            nav.addClass('expanded');
-            body.addClass('menu-expanded').css('margin-left', '280px');
-            $('.dashboard_fix').animate({ 'margin-left': '0' }, 300);
-            localStorage.setItem(MENU_STORAGE_KEY, 'expanded');
+            nav.addClass('expanded').css('left', '0px');
         } else {
-            nav.removeClass('expanded');
-            body.removeClass('menu-expanded').css('margin-left', '70px');
-            $('.dashboard_fix').animate({ 'margin-left': '0' }, 300);
-            $('.dashboard_nav_menu_li.has-submenu.open').removeClass('open');
-            localStorage.setItem(MENU_STORAGE_KEY, 'collapsed');
+            nav.removeClass('expanded').css('left', '-280px');
         }
+        $('.dashboard_fix').css('margin-left', '0px');
+    } else {
+        toggleMenu();
+    }
+});
 
-        setTimeout(() => {
-            if (currentTooltip) {
-                currentTooltip.remove();
-                currentTooltip = null;
-            }
-            handleTooltips();
-        }, 350);
+function toggleMenu() {
+    // Desktop: menu sempre aberto
+    if (window.innerWidth > 768) {
+        isExpanded = true;
+        nav.addClass('expanded');
+        body.addClass('menu-expanded').css('margin-left', '280px');
+        $('.dashboard_fix').css('margin-left', '0');
+        return;
     }
 
-    $('.dashboard_nav_menu_li.has-submenu > a').click(function (e) {
-        e.preventDefault();
+    // Mobile: toggle normal
+    isExpanded = !isExpanded;
 
-        const parentLi = $(this).parent();
-        const isOpen = parentLi.hasClass('open');
+    if (currentTooltip) {
+        currentTooltip.remove();
+        currentTooltip = null;
+    }
 
-        if (!isExpanded && window.innerWidth > 768) {
-            toggleMenu();
+    if (isExpanded) {
+        nav.addClass('expanded').css('left', '0');
+    } else {
+        nav.removeClass('expanded').css('left', '-280px');
+    }
+}
 
-            setTimeout(function () {
-                $('.dashboard_nav_menu_li.has-submenu.open').not(parentLi).removeClass('open');
-                parentLi.addClass('open');
-            }, 350);
-        } else {
+$('.dashboard_nav_menu_li.has-submenu > a').click(function (e) {
+    e.preventDefault();
+
+    const parentLi = $(this).parent();
+    const isOpen = parentLi.hasClass('open');
+
+    if (!isExpanded && window.innerWidth > 768) {
+        toggleMenu();
+
+        setTimeout(function () {
             $('.dashboard_nav_menu_li.has-submenu.open').not(parentLi).removeClass('open');
-            parentLi.toggleClass('open', !isOpen);
+            parentLi.addClass('open');
+        }, 350);
+    } else {
+        $('.dashboard_nav_menu_li.has-submenu.open').not(parentLi).removeClass('open');
+        parentLi.toggleClass('open', !isOpen);
+    }
+});
+
+$('.dashboard_nav_menu_li.disabled a').click(function (e) {
+    e.preventDefault();
+});
+
+$(window).resize(function () {
+    if (currentTooltip) {
+        currentTooltip.remove();
+        currentTooltip = null;
+    }
+
+    if (window.innerWidth <= 768) {
+        // Mobile: respeita o estado atual
+        nav.css('left', isExpanded ? '0px' : '-280px');
+        $('.dashboard_fix').css('margin-left', '0px');
+        body.css('margin-left', '0px').removeClass('menu-expanded');
+    } else {
+        // Desktop: sempre expandido
+        isExpanded = true;
+        nav.addClass('expanded').css('left', '0');
+        $('.dashboard_fix').css('margin-left', '0');
+        body.addClass('menu-expanded').css('margin-left', '280px');
+    }
+
+    setTimeout(handleTooltips, 100);
+});
+
+$('.dashboard_nav_menu_scroll').on('scroll', function () {
+    if (currentTooltip) {
+        const hovered = $('.dashboard_nav_menu_li > a[data-tooltip]:hover');
+        if (hovered.length) {
+            positionTooltip(hovered, currentTooltip);
         }
-    });
+    }
+});
 
-    $('.dashboard_nav_menu_li.disabled a').click(function (e) {
-        e.preventDefault();
-    });
+$(function () {
+    // Inicialização
+    if (window.innerWidth > 768) {
+        // Desktop: sempre aberto
+        isExpanded = true;
+        nav.addClass('expanded');
+        body.addClass('menu-expanded').css('margin-left', '280px');
+        $('.dashboard_fix').css('margin-left', '0');
+    } else {
+        // Mobile: fechado por padrão
+        isExpanded = false;
+        nav.removeClass('expanded').css('left', '-280px');
+        body.removeClass('menu-expanded').css('margin-left', '0');
+        $('.dashboard_fix').css('margin-left', '0');
+    }
 
-    $(window).resize(function () {
-        if (currentTooltip) {
-            currentTooltip.remove();
-            currentTooltip = null;
-        }
-
-        if (window.innerWidth <= 768) {
-            nav.css('left', nav.hasClass('expanded') ? '0px' : '-280px');
-            $('.dashboard_fix').css('margin-left', '0px');
-            body.css('margin-left', '0px').removeClass('menu-expanded');
-        } else {
-            nav.css('left', '0px');
-
-            if (isExpanded) {
-                $('.dashboard_fix').css('margin-left', '280px');
-                body.css('margin-left', '280px').addClass('menu-expanded');
-            } else {
-                $('.dashboard_fix').css('margin-left', '0');
-                body.css('margin-left', '70px').removeClass('menu-expanded');
-            }
-        }
-
-        setTimeout(handleTooltips, 100);
-    });
-
-    $('.dashboard_nav_menu_scroll').on('scroll', function () {
-        if (currentTooltip) {
-            const hovered = $('.dashboard_nav_menu_li > a[data-tooltip]:hover');
-            if (hovered.length) {
-                positionTooltip(hovered, currentTooltip);
-            }
-        }
-    });
-
-    $(function () {
-        const savedState = localStorage.getItem(MENU_STORAGE_KEY);
-
-        if (window.innerWidth > 768) {
-            if (savedState === 'expanded') {
-                isExpanded = true;
-                nav.addClass('expanded');
-                body.addClass('menu-expanded').css('margin-left', '280px');
-                $('.dashboard_fix').css('margin-left', '0');
-            } else {
-                isExpanded = false;
-                nav.removeClass('expanded');
-                body.removeClass('menu-expanded').css('margin-left', '70px');
-                $('.dashboard_fix').css('margin-left', '0');
-            }
-        }
-
-        handleTooltips();
-    });
-
+    handleTooltips();
+});
     //WC LOGIN FIX
     setInterval(function () {
         $.post('_ajax/Dashboard.ajax.php', { callback: 'Dashboard', callback_action: 'wc_login_fix' }, function (data) {
