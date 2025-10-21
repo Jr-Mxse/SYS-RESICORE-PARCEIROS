@@ -86,7 +86,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">Telefone</span>
-                                <input name="user_cell" value="<?= $Token[2] ?>" placeholder="Seu telefone" required />
+                                <input class="formPhone" name="user_cell" value="<?= $Token[2] ?>" placeholder="Seu telefone" required />
                             </label>
                         </div>
                     </div>
@@ -148,6 +148,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
 
     <script src="../_cdn/jquery.js"></script>
     <script src="../_cdn/jquery.form.js"></script>
+    <script src="_js/jquery.mask.js"></script>
     <script src="_js/login.js"></script>
 </body>
 
