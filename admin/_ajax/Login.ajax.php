@@ -55,8 +55,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     //$destino["numero"] = "5521979158558";
                     //$destino["numero"] = "5518996653770";
                     $destino["mensagem"] = "Parabéns {$nome}!\n 
-Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualquer momento:\n
-👉 {$pass}\n
+Agradecemos pela sua confiança e seu cadastro já está ativo.
 Ficamos à disposição para o que precisar.\n
 Um grande abraço,\n
 Equipe Grupo Residere";
@@ -125,8 +124,7 @@ Equipe Grupo Residere";
                     //$destino["numero"] = "5521979158558";
                     //$destino["numero"] = "5518996653770";
                     $destino["mensagem"] = "Parabéns {$nome}!\n 
-Agradecemos pela sua confiança e seu cadastro já está ativo. Segue sua senha que pode ser alterada a qualquer momento:\n
-👉 {$pass}\n
+Agradecemos pela sua confiança e seu cadastro já está ativo.
 Ficamos à disposição para o que precisar.\n
 Um grande abraço,\n
 Equipe Grupo Residere";
