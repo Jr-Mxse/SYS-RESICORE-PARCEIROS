@@ -13,6 +13,9 @@
 </header>
 <div class="dashboard_content">
     <?php
+    $vday = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime(date("Y-m-d H:i:s"))));
+    $Delete->ExeDelete(DB_LEADS, "WHERE (leads_name IS NULL OR leads_name='') AND leads_registration<='{$vday}'", "");
+
     $apiTable = "table01";
     Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']", "[30,60,120,240]", ["print", "excel"], "");
     ?>
@@ -50,12 +53,12 @@
 
                     $leads_terreno = (20 * $leads_proposta / 100);
 
-                    $leads_proposta2 = (0.48 * ($leads_proposta - $leads_terreno) / 100) ;
+                    $leads_proposta2 = (0.48 * ($leads_proposta - $leads_terreno) / 100);
                     $leads_proposta3 = (1.5 * ($leads_proposta - $leads_terreno) / 100);
                     $leads_proposta4 = (6 * ($leads_proposta - $leads_terreno) / 100);
-                    ?>
+            ?>
                     <tr role="row">
-                        <td style="text-align: left" data-sort="<?= strtotime($leads_registration) ?>"><?= date("d/m/Y", strtotime($leads_registration)) ?></td>
+                        <td style="text-align: left" data-sort="<?= strtotime($leads_registration) ?>"><?= date("d/m/Y H:i", strtotime($leads_registration)) ?></td>
                         <td style="text-align: left"><?= $leads_name ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta, '2', ',', '.') ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_terreno, '2', ',', '.') ?></td>

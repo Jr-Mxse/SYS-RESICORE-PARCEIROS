@@ -40,81 +40,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData['leads_datebirth'] = (!empty($PostData['leads_datebirth']) ? Check::Nascimento($PostData['leads_datebirth']) : null);
             endif;
 
-            if (isset($PostData['conjuge_datebirth'])) :
-                $PostData['conjuge_datebirth'] = (!empty($PostData['conjuge_datebirth']) ? Check::Nascimento($PostData['conjuge_datebirth']) : null);
-            endif;
-
-            if (isset($_FILES['leads_thumb'])) :
-                if (!empty($_FILES['leads_thumb'])) :
-                    $UserThumb = $_FILES['leads_thumb'];
-                    $Read->FullRead("SELECT leads_thumb FROM " . DB_LEADS . " WHERE leads_id = :id", "id={$RegId}");
-                    if ($Read->getResult()) :
-                        if (file_exists("../../uploads/{$Read->getResult()[0]['leads_thumb']}") && !is_dir("../../uploads/{$Read->getResult()[0]['leads_thumb']}")) :
-                            unlink("../../uploads/{$Read->getResult()[0]['leads_thumb']}");
-                        endif;
-                    endif;
-
-                    $Upload->Image($UserThumb, $RegId . "-" . Check::Name($PostData['leads_name'] . $PostData['leads_lastname']) . '-' . time(), 600);
-                    if ($Upload->getResult()) :
-                        $PostData['leads_thumb'] = $Upload->getResult();
-                    else :
-                        $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO AO ENVIAR FOTO:</b><br>Selecione uma imagem JPG ou PNG para enviar como foto!", E_USER_WARNING);
-                        echo json_encode($jSON);
-                        return;
-                    endif;
-                endif;
-            endif;
-
             if (isset($PostData['leads_status'])) :
                 $PostData['leads_status'] = (!empty($PostData['leads_status']) ? '1' : '0');
-            endif;
-
-            if (isset($PostData['leads_renda'])) :
-                if (!empty($PostData['leads_renda'])) :
-                    if (strpos($PostData['leads_renda'], ",") && strpos($PostData['leads_renda'], ".")) :
-                        $PostData['leads_renda'] = str_replace(",", ".", str_replace(".", "", $PostData['leads_renda']));
-                    elseif (strpos($PostData['leads_renda'], ",") && !strpos($PostData['leads_renda'], ".")) :
-                        $PostData['leads_renda'] = str_replace(",", ".", $PostData['leads_renda']);
-                    endif;
-                else :
-                    $PostData['leads_renda'] = null;
-                endif;
-            endif;
-
-            if (isset($PostData['leads_patrimonio'])) :
-                if (!empty($PostData['leads_patrimonio'])) :
-                    if (strpos($PostData['leads_patrimonio'], ",") && strpos($PostData['leads_patrimonio'], ".")) :
-                        $PostData['leads_patrimonio'] = str_replace(",", ".", str_replace(".", "", $PostData['leads_patrimonio']));
-                    elseif (strpos($PostData['leads_patrimonio'], ",") && !strpos($PostData['leads_patrimonio'], ".")) :
-                        $PostData['leads_patrimonio'] = str_replace(",", ".", $PostData['leads_patrimonio']);
-                    endif;
-                else :
-                    $PostData['leads_patrimonio'] = null;
-                endif;
-            endif;
-
-            if (isset($PostData['conjuge_renda'])) :
-                if (!empty($PostData['conjuge_renda'])) :
-                    if (strpos($PostData['conjuge_renda'], ",") && strpos($PostData['conjuge_renda'], ".")) :
-                        $PostData['conjuge_renda'] = str_replace(",", ".", str_replace(".", "", $PostData['conjuge_renda']));
-                    elseif (strpos($PostData['conjuge_renda'], ",") && !strpos($PostData['conjuge_renda'], ".")) :
-                        $PostData['conjuge_renda'] = str_replace(",", ".", $PostData['conjuge_renda']);
-                    endif;
-                else :
-                    $PostData['conjuge_renda'] = null;
-                endif;
-            endif;
-
-            if (isset($PostData['conjuge_patrimonio'])) :
-                if (!empty($PostData['conjuge_patrimonio'])) :
-                    if (strpos($PostData['conjuge_patrimonio'], ",") && strpos($PostData['conjuge_patrimonio'], ".")) :
-                        $PostData['conjuge_patrimonio'] = str_replace(",", ".", str_replace(".", "", $PostData['conjuge_patrimonio']));
-                    elseif (strpos($PostData['conjuge_patrimonio'], ",") && !strpos($PostData['conjuge_patrimonio'], ".")) :
-                        $PostData['conjuge_patrimonio'] = str_replace(",", ".", $PostData['conjuge_patrimonio']);
-                    endif;
-                else :
-                    $PostData['conjuge_patrimonio'] = null;
-                endif;
             endif;
 
             if (isset($PostData['leads_cell'])):
@@ -125,62 +52,35 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData['leads_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['leads_telephone']);
             endif;
 
-            if (isset($_FILES['conjuge_thumb'])) :
-                if (!empty($_FILES['conjuge_thumb'])) :
-                    $conjugeThumb = $_FILES['conjuge_thumb'];
-                    $Read->FullRead("SELECT conjuge_thumb FROM " . DB_LEADS . " WHERE leads_id = :id", "id={$RegId}");
-                    if ($Read->getResult()) :
-                        if (file_exists("../../uploads/{$Read->getResult()[0]['conjuge_thumb']}") && !is_dir("../../uploads/{$Read->getResult()[0]['conjuge_thumb']}")) :
-                            unlink("../../uploads/{$Read->getResult()[0]['conjuge_thumb']}");
-                        endif;
-                    endif;
-
-                    $Upload->Image($conjugeThumb, $RegId . "-" . Check::Name($PostData['conjuge_name'] . $PostData['conjuge_lastname']) . '-' . time(), 600);
-                    if ($Upload->getResult()) :
-                        $PostData['conjuge_thumb'] = $Upload->getResult();
-                    else :
-                        $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO AO ENVIAR FOTO:</b><br>Selecione uma imagem JPG ou PNG para enviar como foto!", E_USER_WARNING);
-                        echo json_encode($jSON);
-                        return;
-                    endif;
-                endif;
-            endif;
-
-            if (isset($PostData['conjuge_cell'])):
-                $PostData['conjuge_cell'] = str_replace(["(", ")", "-", " "], "", $PostData['conjuge_cell']);
-            endif;
-
-            if (isset($PostData['conjuge_telephone'])):
-                $PostData['conjuge_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['conjuge_telephone']);
-            endif;
-
             $Update->ExeUpdate(DB_LEADS, $PostData, "WHERE leads_id = :id", "id={$RegId}");
             $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
 
-            //Webhook PipeDrive
-            $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastralead';
-            $url .= "?lead={$RegId}";
+            if ($PostData['leads_name']):
+                //Webhook PipeDrive
+                $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastralead';
+                $url .= "?lead={$RegId}";
 
-            try {
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => $url,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                ));
+                try {
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => $url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                    ));
 
-                $response = (array) json_decode(curl_exec($curl), true);
-                curl_close($curl);
-            } catch (Exception $e) {
-                $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
-                echo json_encode($jSON);
-                return;
-            }
+                    $response = (array) json_decode(curl_exec($curl), true);
+                    curl_close($curl);
+                } catch (Exception $e) {
+                    $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
+                    echo json_encode($jSON);
+                    return;
+                }
+            endif;
             break;
 
         case 'delete':
