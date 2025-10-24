@@ -37,7 +37,7 @@ endif;
             </div>
 
             <div class="panel" style="border-radius: 0 0 5px 5px;">
-                <form class="auto_save" class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
+                <form  class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="callback" value="Users" />
                     <input type="hidden" name="callback_action" value="manager" />
                     <input type="hidden" name="user_id" value="<?= $UserId; ?>" />

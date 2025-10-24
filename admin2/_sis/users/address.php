@@ -67,7 +67,7 @@ endif;
 <div class="dashboard_content">
     <div class="box box100">
         <div class="panel" style="border-radius: 0 0 5px 5px;">
-            <form class="auto_save" name="user_add_address" action="" method="post" enctype="multipart/form-data">
+            <form  name="user_add_address" action="" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="callback" value="Users"/>
                 <input type="hidden" name="callback_action" value="addr_add"/>
                 <input type="hidden" name="addr_id" value="<?= $AddrId; ?>"/>
