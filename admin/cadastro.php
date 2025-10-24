@@ -65,7 +65,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                             <select name="especialista_id" required>
                                 <option selected disabled value="">Selecione o especialista:</option>
                                 <?php
-                                $Read->ExeRead("users", "WHERE user_comercial=1", "");
+                                $Read->ExeRead("users", "WHERE user_relacionamento=1", "");
                                 foreach ($Read->getResult() as $Reg) :
                                     echo "<option value='{$Reg["user_id"]}'>{$Reg["user_name"]} {$Reg["user_lastname"]}</option>";
                                 endforeach;
