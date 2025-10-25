@@ -37,22 +37,15 @@ endif;
             </div>
 
             <div class="panel" style="border-radius: 0 0 5px 5px;">
-                <form  class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
+                <form class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="callback" value="Users" />
                     <input type="hidden" name="callback_action" value="manager" />
                     <input type="hidden" name="user_id" value="<?= $UserId; ?>" />
 
-                    <div class="label_50">
-                        <label class="label">
-                            <span class="legend">Primeiro nome:</span>
-                            <input value="<?= $user_name; ?>" type="text" name="user_name" placeholder="Primeiro Nome:" required />
-                        </label>
-
-                        <label class="label">
-                            <span class="legend">Sobrenome:</span>
-                            <input value="<?= $user_lastname; ?>" type="text" name="user_lastname" placeholder="Sobrenome:" required />
-                        </label>
-                    </div>
+                    <label class="label">
+                        <span class="legend">Nome Completo:</span>
+                        <input value="<?= $user_name; ?>" type="text" name="user_name" placeholder="Primeiro Nome:" required />
+                    </label>
 
                     <label class="label">
                         <span class="legend">Foto (<?= AVATAR_W; ?>x<?= AVATAR_H; ?>px, JPG ou PNG):</span>
@@ -77,24 +70,24 @@ endif;
                     </div>
 
                     <div class="label_33">
-                    <label class="label">
-                        <span class="legend">E-mail:</span>
-                        <input value="<?= $user_email; ?>" type="email" name="user_email" required />
-                    </label>
+                        <label class="label">
+                            <span class="legend">E-mail:</span>
+                            <input value="<?= $user_email; ?>" type="email" name="user_email" required />
+                        </label>
 
-                    <label class="label">
-                        <span class="legend">Senha:</span>
-                        <input value="" type="password" name="user_password" placeholder="Senha:" />
-                    </label>
+                        <label class="label">
+                            <span class="legend">Senha:</span>
+                            <input value="" type="password" name="user_password" placeholder="Senha:" />
+                        </label>
 
-                    <label class="label">
-                        <span class="legend">Gênero do Usuário:</span>
-                        <select name="user_genre" required>
-                            <option selected disabled value="">Selecione o Gênero do Usuário:</option>
-                            <option value="1" <?= ($user_genre == 1 ? 'selected="selected"' : ''); ?>>Masculino</option>
-                            <option value="2" <?= ($user_genre == 2 ? 'selected="selected"' : ''); ?>>Feminino</option>
-                        </select>
-                    </label>
+                        <label class="label">
+                            <span class="legend">Gênero do Usuário:</span>
+                            <select name="user_genre" required>
+                                <option selected disabled value="">Selecione o Gênero do Usuário:</option>
+                                <option value="1" <?= ($user_genre == 1 ? 'selected="selected"' : ''); ?>>Masculino</option>
+                                <option value="2" <?= ($user_genre == 2 ? 'selected="selected"' : ''); ?>>Feminino</option>
+                            </select>
+                        </label>
                     </div>
 
                     <div class="clear"></div>
@@ -117,8 +110,8 @@ endif;
                 <?php
                 //DELETE TRASH ADDR
                 if (DB_AUTO_TRASH):
-                    //$Delete = new Delete;
-                    //$Delete->ExeDelete(DB_USERS_ADDR, "WHERE user_id = :id AND addr_street IS NULL AND addr_zipcode IS NULL", "id={$user_id}");
+                //$Delete = new Delete;
+                //$Delete->ExeDelete(DB_USERS_ADDR, "WHERE user_id = :id AND addr_street IS NULL AND addr_zipcode IS NULL", "id={$user_id}");
                 endif;
 
                 $Read->ExeRead(DB_USERS_ADDR, "WHERE user_id = :user ORDER BY addr_key DESC, addr_name ASC", "user={$user_id}");

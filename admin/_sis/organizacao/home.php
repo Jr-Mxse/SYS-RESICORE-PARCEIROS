@@ -1,6 +1,6 @@
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-office">Minhas Empresas ou Equipes</h1>
+        <h1 class="icon-office">Minhas Empresas</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>

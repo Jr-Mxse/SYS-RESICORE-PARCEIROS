@@ -33,16 +33,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     switch ($Case):
         case 'manager':
             $RegId = $PostData['user_id'];
-            $PostData['user_level'] = 2;
+            $PostData['user_level'] = 20;
             unset($PostData['user_id'], $PostData['user_thumb'], $PostData['conjuge_thumb']);
-
-            if (isset($PostData['user_datebirth'])) :
-                $PostData['user_datebirth'] = (!empty($PostData['user_datebirth']) ? Check::Nascimento($PostData['user_datebirth']) : null);
-            endif;
-
-            if (isset($PostData['user_status'])) :
-                $PostData['user_status'] = (!empty($PostData['user_status']) ? '1' : '0');
-            endif;
 
             if (isset($PostData['user_cell'])):
                 $PostData['user_cell'] = str_replace(["(", ")", "-", " "], "", $PostData['user_cell']);
@@ -52,12 +44,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData['user_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['user_telephone']);
             endif;
 
-            $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$RegId}");
-            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
-
             if ($PostData['user_name']):
                 //Webhook PipeDrive
-                $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastralead';
+                $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastra-empresaequipe';
                 $url .= "?lead={$RegId}";
 
                 try {
@@ -81,6 +70,9 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     return;
                 }
             endif;
+            
+            $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$RegId}");
+            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
             break;
 
         case 'delete':
