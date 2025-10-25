@@ -9,6 +9,7 @@ $Update = new Update;
 $Delete = new Delete;
 
 $Token = explode("-|-", base64_decode(filter_input(INPUT_GET, 'tk', FILTER_DEFAULT)));
+$Convite = base64_decode(filter_input(INPUT_GET, 'org', FILTER_DEFAULT));
 
 unset($_SESSION['userLoginParceiros']);
 
@@ -18,7 +19,7 @@ if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiro
 endif;
 
 if (!isset($Token[0])):
-header('Location: https://painel.residere.com.br');
+    header('Location: https://painel.residere.com.br');
     exit;
 endif;
 
@@ -53,7 +54,9 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                     <input type="hidden" name="callback" value="Login">
                     <input type="hidden" name="callback_action" value="admin_ativar">
                     <input type="hidden" name="especialista_id" value="<?= isset($Token[3]) ? $Token[3] : 44 ?>">
-
+                    <?php if ($Convite): ?>
+                        <input type="text" name="user_convite" value="<?= $Convite ?>">
+                    <?php endif; ?>
                     <div class="callback_return m_botton">
                         <?php
                         if (!empty($_SESSION['trigger_login'])):
@@ -101,7 +104,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         <div class="form_group">
                             <label class="form_label">
                                 <span class="label_text">Senha</span>
-                                <input name="user_password" value="" required placeholder="Sua Senha"/>
+                                <input name="user_password" value="" required placeholder="Sua Senha" />
                             </label>
                         </div>
                     </div>
@@ -111,10 +114,6 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                         <button class="btn_login" type="submit">Ativar Minha Conta</button>
                     </div>
                 </form>
-
-                <div class="login_links">
-                    <a href="cadastro.php" class="link_secondary">Novo Cadastro</a>
-                </div>
                 <img style="max-width: 350px;" class="login_logo" src="_img/marcas.png" alt="ResiPlace" />
             </div>
         </div>

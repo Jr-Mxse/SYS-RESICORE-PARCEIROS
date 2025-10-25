@@ -36,6 +36,23 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $pass = $PostData["user_password"];
                 $PostData["user_password"] = hash('sha512', $pass);
                 $PostData["user_status"] = 1;
+                $PostData["user_level"] = 10;
+
+                if (isset($PostData["user_convite"])):
+                    $Read->ExeRead(DB_PARCEIROS_CONVITE, "WHERE conv_id={$PostData["user_convite"]}", "");
+                    if ($Read->getResult()):
+                        $Convite = $Read->getResult()[0];
+                        $PostData["user_associado"] = $Read->getResult()[0]["user_associado"];
+
+                        $Read->ExeRead(DB_USERS, "WHERE user_id={$Read->getResult()[0]["user_associado"]}", "");
+                        if ($Read->getResult()):
+                            $PostData["especialista_id"] = $Read->getResult()[0]["especialista_id"];
+                            $Associado = $Read->getResult()[0];
+                        endif;
+                    endif;
+                    $user_convite = 1;
+                    unset($PostData["user_convite"]);
+                endif;
 
                 if (!isset($PostData["especialista_id"]) || !$PostData["especialista_id"]):
                     $PostData["especialista_id"] = 44;
@@ -52,15 +69,17 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                     $nome = explode(" ",  $PostData["user_name"])[0];
                     $destino["numero"] = "55" . $PostData["user_cell"];
-                    //$destino["numero"] = "5521979158558";
-                    //$destino["numero"] = "5518996653770";
-                    $destino["mensagem"] = "Parabéns {$nome}!\n 
-                    Agradecemos pela sua confiança e seu cadastro já está ativo.
-                    Ficamos à disposição para o que precisar.\n
-                    Um grande abraço,\n
-                    Equipe Grupo Residere";
+                    $destino["mensagem"] = "Parabéns {$nome}!\nAgradecemos pela sua confiança e seu cadastro já está ativo.\nFicamos à disposição para o que precisar.\nUm grande abraço,\nEquipe Grupo Residere";
 
                     $envio = envioZapParceiro($destino);
+
+                    if (isset($user_convite)):
+                        $Associado["user_name"] = explode(" ",  $Associado["user_name"])[0];
+                        $Associado["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Associado["user_cell"]);
+                        $destino["numero"] = "55" . $Associado["user_cell"];
+                        $destino["mensagem"] = "Olá {$Associado["user_name"]}.\n{$nome} aceitou o convite e foi adicionado à sua equipe no Painel de Parceiros.\nPermanecemos à disposição.\nAtenciosamente,\nEquipe Grupo Residere";
+                        $envio = envioZapParceiro($destino);
+                    endif;
 
                     $jSON['trigger'] = AjaxErro("<b>Olá {$nome},</b> conta ativada com sucesso.");
 
@@ -72,7 +91,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                     //Webhook PipeDrive
                     $url = 'https://n8n-webhook.zapidere.com.br/webhook/cadastroparceiro';
-                    $url .= "?parceiro={$user_id}&zap=0";
+                    $url .= "?parceiro={$user_id}&zap=1";
 
                     try {
                         $curl = curl_init();
@@ -98,7 +117,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             else:
                 $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail ou Celular já cadastrados!', E_USER_WARNING);
             endif;
-        break;
+            break;
 
         case 'admin_cadastro':
             $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
@@ -121,13 +140,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                     $nome = explode(" ",  $PostData["user_name"])[0];
                     $destino["numero"] = "55" . $PostData["user_cell"];
-                    //$destino["numero"] = "5521979158558";
-                    //$destino["numero"] = "5518996653770";
-                    $destino["mensagem"] = "Parabéns {$nome}!\n 
-                    Agradecemos pela sua confiança e seu cadastro já está ativo.
-                    Ficamos à disposição para o que precisar.\n
-                    Um grande abraço,\n
-                    Equipe Grupo Residere";
+                    $destino["mensagem"] = "Parabéns {$nome}!\nAgradecemos pela sua confiança e seu cadastro já está ativo.Ficamos à disposição para o que precisar.\nUm grande abraço,\nEquipe Grupo Residere";
 
                     $envio = envioZapParceiro($destino);
 
@@ -163,7 +176,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             else:
                 $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail ou Celular já cadastrados!', E_USER_WARNING);
             endif;
-        break;
+            break;
 
         case 'admin_login':
             if (in_array('', $PostData)):
@@ -216,8 +229,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
             break;
 
-           case 'admin_recover':
-
+        case 'admin_recover':
             if (isset($PostData['user_email']) && Check::Email($PostData['user_email']) && filter_var($PostData['user_email'], FILTER_VALIDATE_EMAIL)):
                 $Read->FullRead("SELECT user_id, user_name, user_email, user_password, user_cell  FROM " . DB_USERS . "  WHERE user_email = :email", "email={$PostData['user_email']}");
 
@@ -247,9 +259,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 endif;
 
                 $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
-                $Read->FullRead("SELECT user_id, user_name, user_email, user_password, user_cell 
-                                 FROM " . DB_USERS . " 
-                                 WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
+                $Read->FullRead("SELECT user_id, user_name, user_email, user_password, user_cell FROM " . DB_USERS . " WHERE user_cell = :cell", "cell={$PostData['user_cell']}");
 
                 if (!$Read->getResult()):
                     $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
@@ -286,7 +296,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             $jSON['redirect'] = './';
             echo json_encode($jSON);
             return;
-        break;
+            break;
 
         case 'admin_newpass':
             if (empty($_SESSION['RecoverPass'])):
@@ -317,7 +327,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
                 endif;
             endif;
-        break;
+            break;
     endswitch;
 
     //RETORNA O CALLBACK
