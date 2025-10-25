@@ -567,56 +567,202 @@
         display: block;
     }
 
-    .mobile_menu_mobile_box {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: #008068;
-      width: max-content;
-      padding: 10px;
-      border-radius: 5px;
-      color: #fff;
-  }
+    .mobile_menu_mobile {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
 
 
-.mobile_menu_mobile.animate {
-  display: inline-block;
-  cursor: pointer;
-  animation: pulseButton 2.5s infinite ease-in-out;
-  transition: transform 0.2s ease;
-}
+        .btn_pulse {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
 
-.mobile_menu_mobile.animate:hover {
-  transform: scale(1.05);
-}
+        .btn_pulse span {
+            position: absolute;
+            display: block;
+        }
 
-/* 🔹 Animação Pulse */
-@keyframes pulseButton {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-  }
-}
+        .btn_pulse span:nth-child(1) {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d9ff);
+            animation: animate1 2s linear infinite;
+        }
 
-/* Aparência opcional do botão */
-.mobile_menu_mobile_box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+        @keyframes animate1 {
+            0% {
+                left: -100%;
+            }
+            50%, 100% {
+                left: 100%;
+            }
+        }
+
+        .btn_pulse span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #00d9ff);
+            animation: animate2 2s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes animate2 {
+            0% {
+                top: -100%;
+            }
+            50%, 100% {
+                top: 100%;
+            }
+        }
+
+        /* Linha inferior - da direita para esquerda */
+        .btn_pulse span:nth-child(3) {
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #00d9ff);
+            animation: animate3 2s linear infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes animate3 {
+            0% {
+                right: -100%;
+            }
+            50%, 100% {
+                right: 100%;
+            }
+        }
+
+        /* Linha esquerda - de baixo para cima */
+        .btn_pulse span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(360deg, transparent, #00d9ff);
+            animation: animate4 2s linear infinite;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes animate4 {
+            0% {
+                bottom: -100%;
+            }
+            50%, 100% {
+                bottom: 100%;
+            }
+        }
+
+
+        /* 🔹 Base do botão animado */
+        .mobile_menu_mobile.btn_pulse {
+            position: relative;
+            display: inline-block;
+            padding: 06px 9px;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 15px;
+            color: #008068;
+            background: #1e222b;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile_menu_mobile.btn_pulse:hover {
+          transform: scale(1.05);
+        }
+
+        /* 🔹 Bordas animadas (4 spans) */
+        .mobile_menu_mobile.btn_pulse span {
+          position: absolute;
+          display: block;
+        }
+
+        .mobile_menu_mobile.btn_pulse span:nth-child(1) {
+          top: 0;
+          right: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(to right, transparent, #3bff3b);
+          animation: animate1 2s linear infinite;
+        }
+
+        .mobile_menu_mobile.btn_pulse span:nth-child(2) {
+          top: 0;
+          right: 0;
+          width: 2px;
+          height: 100%;
+          background: linear-gradient(to bottom, transparent, #3bff3b);
+          animation: animate2 2s linear infinite;
+          animation-delay: 0.5s;
+        }
+
+        .mobile_menu_mobile.btn_pulse span:nth-child(3) {
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(to left, transparent, #3bff3b);
+          animation: animate3 2s linear infinite;
+        }
+
+        .mobile_menu_mobile.btn_pulse span:nth-child(4) {
+          top: 0;
+          left: 0;
+          width: 2px;
+          height: 100%;
+          background: linear-gradient(to top, transparent, #3bff3b);
+          animation: animate4 2s linear infinite;
+          animation-delay: 0.5s;
+        }
+
+        /* 🔹 Keyframes */
+        @keyframes animate1 {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        @keyframes animate2 {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+
+        @keyframes animate3 {
+          0% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
+        }
+
+        @keyframes animate4 {
+          0% { transform: translateY(100%); }
+          100% { transform: translateY(-100%); }
+        }
+
+        /* 🔹 Conteúdo interno */
+        .mobile_menu_mobile_box {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #fff;
+          font-weight: 700;
+        }
+
 
     .mobile_menu_mobile_box_fechar {
         display: flex;
@@ -646,6 +792,7 @@
     }
     
     .logout-btn {
+        display: none !important;
         padding: 8px;
         border-radius: 50%;
         min-width: 40px;
