@@ -572,3 +572,32 @@ form .section{
     font-style: initial;
     text-transform: none;
 }
+
+/* 🔹 Classe genérica de animação pulse */
+.btn_pulse {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  animation: btnPulse 2.5s infinite ease-in-out;
+  transition: transform 0.2s ease;
+}
+
+.btn_pulse:hover {
+  transform: scale(1.05);
+}
+
+/* 🔹 Efeito pulse */
+@keyframes btnPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
