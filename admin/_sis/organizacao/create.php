@@ -56,7 +56,7 @@ endif;
             <h2>Menu de Opções</h2>
         </div>
         <div class="panel" style="border-radius: 0 0 5px 5px">
-            <span class='btn btn_blue btn_small j_ajaxModal' callback='Membro' callback_action='convite' callback_id='1'><b>Convidar Integrante</b></span>
+            <a class="btn btn_green icon-plus a btn_xlarge btn_pulse j_ajaxModal" callback='Membro' callback_action='convite' callback_id='<?=$RegId?>'><b>Convidar Integrante</b></a>
             <div class="clear"></div>
         </div>
     </div>

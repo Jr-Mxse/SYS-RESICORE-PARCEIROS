@@ -33,57 +33,45 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
     switch ($Case):
 
         case 'convite':
+            if (isset($PostData['id'])) :
                 $Content = ''
                     . '<form name="task" action="" method="post" enctype="multipart/form-data" id="mdl-' . time() . '">'
-                    . '<input type="hidden" name="callback" value="GerProjects"/>'
-                    . '<input type="hidden" name="callback_action" value="taskNewUpdate"/>'
-                    . "<input type='hidden' id='sel_cliente' name='sel_cliente' value='0'>"
+                    . '<input type="hidden" name="callback" value="Membro"/>'
+                    . '<input type="hidden" name="callback_action" value="convidar"/>'
+                    . "<input type='hidden' id='user_id' name='user_id' value='{$PostData['id']}'>"
                     . '<div class="box100">'
-                    . '<div id="div_user" class="label_50">'
-                    . '<label  class="label labelx_80">'
-                    . '<span class="legend">Selecione o Cliente</span>'
-                    . '<select name="user_id" class="select2">'
-                    . "<option value=''></option>"
-                    . "</select></label>"
-                    . "<label class='label labelx_20'><span class='legend'>&nbsp;</span>"
-                    . "<span id='bt_cli_add' class='icon-plus btn btn_green icon-notext' onclick='selCliente(1)'></span>"
-                    . "</label></div>"
-                    . '<div id="div_new" class="label_50" style="display: none">'
-                    . '<label class="label labelx_80">'
-                    . '<span class="legend">Nome do Cliente</span>'
-                    . "<input type='text' name='new_name' value=''></label>"
-                    . "<label class='label labelx_20'><span class='legend'>&nbsp;</span>"
-                    . "<span id='bt_cli_list' class='icon-list btn btn_yellow icon-notext' onclick='selCliente(0)'></span>"
-                    . "</label></div>"
-                    . '<div id="div_new2" class="label_50" style="display: none">'
+                    . '<label class="label">'
+                    . '<span class="legend"><b>Nome do Integrante / Membro * </b></span>'
+                    . "<input type='text' name='user_name' value='' required></label>"
+                    . "</label>"
                     . '<label class="label">'
                     . '<span class="legend">E-mail</span>'
-                    . "<input type='email' name='new_email' value=''></label>"
+                    . "<input type='email' name='user_email' value=''></label>"
+                    . "</label>"
+                    . "<div class='label_50'>"
                     . '<label class="label">'
-                    . '<span class="legend">Telefone</span>'
-                    . "<input type='email' name='new_tel' value=''></label>"
+                    . '<span class="legend"><b>Whatsapp *</b></span>'
+                    . "<input type='text' class='formPhone' name='user_cell' required/></label>"
+                    . "</label>"
                     . "</div>"
-                    . '<label class="label">'
-                    . '<span class="legend">Selecione o Template</span>'
-                    . '<select name="temp_id" class="select2">'
-                    . '<option value="">Nenhum Template</option>'
-                    . '</select></label>'
-                    . '</div>'
                     . "<img class='form_load none' load='true' style='margin-left:10px;' alt='Enviando Requisição!' title='Enviando Requisição!' src='./_img/load.gif'/>"
                     . '</form>'
                     . "<div class='clear'></div>";
 
                 $jSON['modal'] = [
-                    'icon' => 'move-down',
+                    'icon' => 'user-plus',
                     'size' => '',
-                    'title' => 'Novo CARD',
+                    'title' => 'Novo Integrante da minha Equipe / Empresa',
                     'content' => $Content,
-                    'footer' => "<div class='fl_right'><a class='btn btn_green btn-rounded j_sendFormModal'>CADASTRAR</a></div>",
-                    'callback' => ['plugginTiny', 'plugginAutosize', 'plugginDatepicker', 'plugginSelect2']
+                    'footer' => "<div class='fl_right'><a class='btn btn_green btn-rounded j_sendFormModal'>CONVIDAR AGORA</a></div>",
+                    'callback' => ['plugginMaskDefault', 'plugginTiny', 'plugginAutosize', 'plugginDatepicker', 'plugginSelect2']
                 ];
+            endif;
             break;
 
         case 'convidar':
+var_dump($PostData);
+            /*
             $RegId = $PostData['user_id'];
             $PostData['user_level'] = 20;
             unset($PostData['user_id'], $PostData['user_thumb'], $PostData['conjuge_thumb']);
@@ -95,12 +83,12 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             if (isset($PostData['user_telephone'])):
                 $PostData['user_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['user_telephone']);
             endif;
-            
+
             $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$RegId}");
-            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");
+            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");*/
             break;
 
-            /*
+    /*
         case 'manager':
             $RegId = $PostData['user_id'];
             $PostData['user_level'] = 20;
