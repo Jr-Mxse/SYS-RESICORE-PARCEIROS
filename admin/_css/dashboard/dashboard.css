@@ -518,6 +518,10 @@
     font-size: 16px;
 }
 
+.mobile_menu_mobile_box_fechar {
+    display: none;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .dashboard_sidebar {
