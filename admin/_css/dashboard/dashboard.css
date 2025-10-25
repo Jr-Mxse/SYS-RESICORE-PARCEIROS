@@ -292,6 +292,8 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    margin: 10px;
+    border-radius: 5px;
 }
 
 .dashboard_nav_menu_li.has-submenu.open .dashboard_nav_menu_sub {
