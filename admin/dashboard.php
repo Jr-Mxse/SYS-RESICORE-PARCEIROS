@@ -230,7 +230,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                         </div>
                     </span>
                 <?php else: ?>
-                    <span class="mobile_menu_mobile">
+                    <span class="mobile_menu_mobile btn_pulse">
                         <div class="mobile_menu_mobile_box">
                             <div>Abrir Menu</div>
                         </div>
