@@ -22,7 +22,7 @@
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Minha Equipe" href="dashboard.php?wc=organizacao/equipe" data-tooltip="Minha Equipe">
         <i class="icon-users"></i>
-        <span class="menu-text">Minha Equipe</span>
+        <span class="menu-text">Integrantes da Equipe</span>
     </a>
 </li>
 
