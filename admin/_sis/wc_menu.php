@@ -10,6 +10,7 @@
         <span class="menu-text">Meus Clientes / LEADs</span>
     </a>
 </li>
+<?php /*. 
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
         <i class="icon-office"></i>
@@ -22,6 +23,7 @@
         <span class="menu-text">Minha Equipe</span>
     </a>
 </li>
+*/?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'especialista/create') ? 'active' : ''; ?>">
     <a title="Especialista Associado" href="dashboard.php?wc=especialista/create" data-tooltip="Especialista">
         <span style="display: flex;gap: 10px;">
