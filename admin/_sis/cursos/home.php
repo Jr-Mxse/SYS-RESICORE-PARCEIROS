@@ -23,7 +23,7 @@
    			"user={$Admin['user_id']}");
 
    		if (!$Read->getResult()):
-   			echo "<div class='trigger trigger_info trigger-none icon-info al_center'>Você ainda não tem cursos {$user_name}!</div>";
+   			echo "<div class='trigger trigger_info trigger-none icon-info al_center'>Você ainda não tem cursos {$Admin['user_name']}!</div>";
    		else:
    			foreach ($Read->getResult() as $CS):
    				extract($CS);
@@ -103,7 +103,7 @@
    			endforeach;
    		endif;
 
-   		$Read->ExeRead(DB_EAD_ORDERS, "WHERE user_id = :user AND order_status = 'started' ORDER BY order_confirmation_purchase_date DESC, order_purchase_date DESC", "user={$user_id}");
+   		$Read->ExeRead(DB_EAD_ORDERS, "WHERE user_id = :user AND order_status = 'started' ORDER BY order_confirmation_purchase_date DESC, order_purchase_date DESC", "user={$Admin['user_id']}");
    		if ($Read->getResult()):
    			?>
    			<section>
