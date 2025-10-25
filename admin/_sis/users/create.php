@@ -93,7 +93,7 @@ endif;
                     <div class="clear"></div>
 
                     <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif" />
-                    <button name="public" value="1" class="btn btn_green fl_right icon-share" style="margin-left: 5px;">Atualizar</button>
+                    <button name="public" value="1" class="btn btn_green fl_right icon-share btn_xlarge btn_pulse" style="margin-left: 5px;">Atualizar</button>
                     <div class="clear"></div>
                 </form>
             </div>
