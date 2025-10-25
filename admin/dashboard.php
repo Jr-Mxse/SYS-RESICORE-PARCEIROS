@@ -325,6 +325,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                     <!-- Botão de Sair -->
                     <div class="dashboard_sidebar_logout">
                         <a class="logout-btn" title="Desconectar da ResiPlace!" href="dashboard.php?wc=home&logoff=true">
+                            <span>Sair</span>
                             <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>entrance_line</title>
                                 <g troke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -342,8 +343,6 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                             </svg>
                         </a>
                     </div>
-
-
                 </div>
             </div>
 
