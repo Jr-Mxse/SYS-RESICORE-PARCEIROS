@@ -165,8 +165,8 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                 </svg>
             </span>
             */ ?>
-            <div style="width: 100%; text-align: center; padding: 20px 0 10px 0;">
-                <img style="max-width: 80%;" class="login_logo" src="_img/logo.png" alt="Parceiros Residere" />
+            <div style="width: 40%;text-align: center;padding: 20px 0 10px 0;margin: 0 auto;">
+                <img style="max-width: 80%;" class="login_logo" src="_img/logo.svg" alt="Parceiros Residere" />
                 <br><br>
             </div>
             <ul class="dashboard_nav_menu">

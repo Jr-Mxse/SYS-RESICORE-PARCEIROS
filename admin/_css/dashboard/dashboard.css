@@ -535,6 +535,26 @@
         justify-content: center;
     }
 
+    .mobile_menu_sair {
+        position: fixed;
+        bottom: 45px;
+        background: darkred;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mobile_menu_mobile_box_sair {
+        display: flex;
+        align-items: center;
+    }
+
+    .mobile_menu_sair a {
+        width: 280px;
+        text-decoration: none;
+        color: #fff;
+    }
+
     .mobile_menu_mobile {
         display: block;
     }

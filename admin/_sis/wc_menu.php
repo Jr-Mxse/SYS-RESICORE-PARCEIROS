@@ -35,6 +35,7 @@
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
+
 <span class="mobile_menu_mobile_fechar">
     <div class="mobile_menu_mobile_box_fechar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-testid="IconThumbsUp" class="sc-dYOqWG fxtfcv">
