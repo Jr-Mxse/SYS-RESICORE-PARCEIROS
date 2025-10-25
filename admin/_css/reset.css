@@ -560,6 +560,25 @@ form .section{
     font-size: 0.8em;
 }
 
+.progress{
+    display: block;
+    width: 100%;
+    background: #333;
+}
+
+.progress_bar{
+    display: inline-block;
+    background: #00B494;
+    color: #fff;
+    padding: 5px;
+    font-size: 0.7em;
+    text-align: center;
+    max-width: 100%;
+    font-weight: 600;
+    text-shadow: 1px 1px 0 #333;
+    text-transform: uppercase;
+}
+
 /*CODE*/
 .code {
     background-color: #f9f2f4;
