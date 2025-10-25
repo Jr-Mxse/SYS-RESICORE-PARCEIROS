@@ -69,7 +69,7 @@ $('#menuToggle').click(function () {
     toggleMenu();
 });
 
-$('.mobile_menu, .mobile_menu_mobile, .mobile_menu_mobile_fechar').click(function () {
+$('.mobile_menu, .mobile_menu_mobile_box, .mobile_menu_mobile_fechar').click(function () {
     if (window.innerWidth <= 768) {
         isExpanded = !isExpanded;
         
