@@ -14,7 +14,7 @@
 <div class="dashboard_content">
     <?php
     $vday = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime(date("Y-m-d H:i:s"))));
-    $Delete->ExeDelete(DB_USERS, "WHERE (user_name IS NULL OR user_name='') AND user_registration<='{$vday}'", "");
+    $Delete->ExeDelete(DB_USERS, "WHERE (user_name IS NULL OR user_name='') AND user_id_principal={$Admin["user_id"]}", "");
 
     $apiTable = "table01";
     Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']");
