@@ -1,4 +1,4 @@
-<header class="dashboard_header">
+<!-- <header class="dashboard_header">
     <div class="dashboard_header_title">
         <h1 class="icon-home">Dashboard</h1>
         <p class="dashboard_header_breadcrumbs"> 
@@ -7,7 +7,7 @@
             <a title="Parceiros Residere" href="dashboard.php?wc=home">Dashboard</a>
         </p>
     </div>
-</header>
+</header> -->
 
 <div style="position: relative; width: 100%; height: 100vh;">
   <iframe 
