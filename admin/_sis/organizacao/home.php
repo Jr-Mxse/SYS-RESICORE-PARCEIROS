@@ -25,6 +25,7 @@
                 <th style="text-align: left;">Cadastro</th>
                 <th style="text-align: left;">Nome da Empresa</th>
                 <th style="text-align: left;">Quantidade de Membros</th>
+                <th style="text-align: left;">Quantidade de Leads</th>
                 <th style="text-align: left;"></th>
             </tr>
         </thead>
@@ -40,9 +41,10 @@
                         <td style="text-align: left" data-sort="<?= strtotime($user_registration) ?>"><?= date("d/m/Y H:i", strtotime($user_registration)) ?></td>
                         <td style="text-align: left"><?= $user_name ?></td>
                         <td style="text-align: left"></td>
+                        <td style="text-align: left"></td>
                         <td>
                             <div class='fl_right'>
-                                <a title="Editar" href="dashboard.php?wc=organizacao/create&id=<?= $user_id ?>" class="post_single_center icon-notext icon-pencil btn  btn_green"></a>
+                                <a title="Editar" href="dashboard.php?wc=organizacao/create&id=<?= $user_id ?>" class="post_single_center icon-notext icon-eye btn  btn_green"></a>
                             </div>
                         </td>
                     </tr>

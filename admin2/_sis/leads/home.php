@@ -64,7 +64,7 @@
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta4, '2', ',', '.') ?></td>
                         <td>
                             <div class='fl_right'>
-                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-notext icon-pencil btn  btn_green"></a>
+                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-notext icon-eye btn  btn_green"></a>
                                 <span rel='dashboard_header_search' callback="Leads" callback_action='delete' class='j_delete_action_confirm icon-cancel-circle btn btn_red  icon-notext' id='<?= $leads_id; ?>'></span>
                             </div>
                         </td>
