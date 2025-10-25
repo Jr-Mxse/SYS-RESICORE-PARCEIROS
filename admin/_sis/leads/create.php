@@ -38,8 +38,8 @@ endif;
     </div>
 
     <div class="dashboard_header_search" style="font-size: 0.875em; margin-top: 16px;" id="<?= $RegId; ?>">
-        <span rel='dashboard_header_search' class='j_delete_action icon-warning btn btn_red' id='<?= $RegId; ?>'>Deletar</span>
-        <span rel='dashboard_header_search' callback="Leads" callback_action='delete' class='j_delete_action_confirm icon-warning btn btn_yellow' style='display: none' id='<?= $RegId; ?>'>EXCLUIR AGORA!</span>
+        <span rel='dashboard_header_search' class='j_delete_action icon-warning btn btn_red btn_xlarge' id='<?= $RegId; ?>'>Deletar</span>
+        <span rel='dashboard_header_search' callback="Leads" callback_action='delete' class='j_delete_action_confirm icon-warning btn btn_yellow btn_xlarge' style='display: none' id='<?= $RegId; ?>'>EXCLUIR AGORA!</span>
     </div>
 </header>
 
