@@ -1,14 +1,14 @@
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-users">Leads</h1>
+        <h1 class="icon-user-plus">Clientes / Leads</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
-            Listagem
+            Listagem de Clientes / LEADs
         </p>
     </div>
     <div class="dashboard_header_search">
-        <a href="dashboard.php?wc=leads/create" class="btn btn_green" title="Novo Registro"><i class="icon-plus icon-notext"></i>Adicionar Lead</a>
+        <a href="dashboard.php?wc=leads/create" class="btn btn_green" title="Novo Registro"><i class="icon-plus"></i>Adicionar Lead</a>
     </div>
 </header>
 <div class="dashboard_content">
@@ -17,7 +17,7 @@
     $Delete->ExeDelete(DB_LEADS, "WHERE (leads_name IS NULL OR leads_name='') AND leads_registration<='{$vday}'", "");
 
     $apiTable = "table01";
-    Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']", "[30,60,120,240]", ["print", "excel"], "");
+    Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']");
     ?>
     <table id="<?= $apiTable ?>" class="display" cellspacing="0" width="100%">
         <thead>

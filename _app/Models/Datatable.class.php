@@ -30,8 +30,8 @@ function Datatable($tabela, $api, $order = null, $lista = null, $botoes = null, 
                         $('#<?= $tabela ?>').dataTable({
                                 <?php if (!empty($pesquisar)) { ?> "searching": false,
                                 <?php } ?>
-                                <?php if (!empty($paginar)) { ?> "paging": false,
-                                <?php } ?> "pagingType": "full_numbers",
+                                 "paging": false,
+                                 "pagingType": "full_numbers",
                                 <?php if (!empty($api)) { ?> "processing": true,
                                         "serverSide": true,
                                         "ajax": "<?= $api ?>",

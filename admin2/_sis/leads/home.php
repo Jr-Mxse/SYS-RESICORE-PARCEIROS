@@ -14,7 +14,7 @@
 <div class="dashboard_content">
     <?php
     $apiTable = "table01";
-    Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']", "[30,60,120,240]", ["print", "excel"], "");
+    Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']", "", "");
     ?>
     <table id="<?= $apiTable ?>" class="display" cellspacing="0" width="100%">
         <thead>
