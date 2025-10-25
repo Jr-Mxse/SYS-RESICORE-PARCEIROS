@@ -1,5 +1,6 @@
 <?php
-class Check {
+class Check
+{
 
     private static $Data;
     private static $Format;
@@ -9,7 +10,8 @@ class Check {
      * @param STRING $Email = Uma conta de e-mail
      * @return BOOL = True para um email válido, ou false
      */
-    public static function Email($Email) {
+    public static function Email($Email)
+    {
         self::$Data = (string) $Email;
         self::$Format = '/[a-z0-9_\.\-]+@[a-z0-9_\.\-]*[a-z0-9_\.\-]+\.[a-z]{2,4}$/';
 
@@ -25,7 +27,8 @@ class Check {
      * @param STRING $Name = Uma string qualquer
      * @return STRING = $Data = Uma URL amigável válida
      */
-    public static function Name($Name) {
+    public static function Name($Name)
+    {
         self::$Format = array();
         self::$Format['a'] = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª';
         self::$Format['b'] = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
@@ -43,7 +46,8 @@ class Check {
      * @param STRING $CPF = CPF com ou sem pontuação
      * @return BOLEAM = True se for um CPF válido
      */
-    public static function CPF($Cpf) {
+    public static function CPF($Cpf)
+    {
         self::$Data = preg_replace('/[^0-9]/', '', $Cpf);
 
         if (strlen(self::$Data) != 11):
@@ -64,8 +68,8 @@ class Check {
             $digitoB += self::$Data[$i] * $x;
         }
 
-        $somaA = (($digitoA % 11) < 2 ) ? 0 : 11 - ($digitoA % 11);
-        $somaB = (($digitoB % 11) < 2 ) ? 0 : 11 - ($digitoB % 11);
+        $somaA = (($digitoA % 11) < 2) ? 0 : 11 - ($digitoA % 11);
+        $somaB = (($digitoB % 11) < 2) ? 0 : 11 - ($digitoB % 11);
 
         if ($somaA != self::$Data[9] || $somaB != self::$Data[10]) {
             return false;
@@ -79,7 +83,8 @@ class Check {
      * @param STRING $CNPJ = CNPJ com ou sem pontuação
      * @return BOLEAM = True se for um CNJP válido
      */
-    public static function CNPJ($Cnpj) {
+    public static function CNPJ($Cnpj)
+    {
         self::$Data = (string) $Cnpj;
         self::$Data = preg_replace('/[^0-9]/', '', self::$Data);
 
@@ -120,7 +125,8 @@ class Check {
      * @param STRING $Name = Data em (d/m/Y)
      * @return STRING = $Data = Data no formato YYYY-MM-DD!
      */
-    public static function Nascimento($Data) {
+    public static function Nascimento($Data)
+    {
         self::$Format = explode(' ', $Data);
         self::$Data = explode('/', self::$Format[0]);
 
@@ -137,7 +143,8 @@ class Check {
      * @param STRING $Name = Data em (d/m/Y) ou (d/m/Y H:i:s)
      * @return STRING = $Data = Data no formato timestamp!
      */
-    public static function Data($Data) {
+    public static function Data($Data)
+    {
         self::$Format = explode(' ', $Data);
         self::$Data = explode('/', self::$Format[0]);
 
@@ -158,7 +165,8 @@ class Check {
      * @param STRING $String = Uma string qualquer
      * @param INT $name Description INT = $Limite = String limitada pelo $Limite
      */
-    public static function Words($String, $Limite, $Pointer = null) {
+    public static function Words($String, $Limite, $Pointer = null)
+    {
         self::$Data = strip_tags(trim($String));
         self::$Format = (int) $Limite;
 
@@ -166,8 +174,8 @@ class Check {
         $NumWords = count($ArrWords);
         $NewWords = implode(' ', array_slice($ArrWords, 0, self::$Format));
 
-        $Pointer = (empty($Pointer) ? '...' : ' ' . $Pointer );
-        $Result = ( self::$Format < $NumWords ? $NewWords . $Pointer : self::$Data );
+        $Pointer = (empty($Pointer) ? '...' : ' ' . $Pointer);
+        $Result = (self::$Format < $NumWords ? $NewWords . $Pointer : self::$Data);
         return $Result;
     }
 
@@ -176,7 +184,8 @@ class Check {
      * @param STRING $String = Uma string qualquer
      * @param INT $name Description INT = $Limite = String limitada pelo $Limite
      */
-    public static function Chars($String, $Limite) {
+    public static function Chars($String, $Limite)
+    {
         self::$Data = strip_tags($String);
         self::$Format = $Limite;
         if (strlen(self::$Data) <= self::$Format) {
@@ -194,7 +203,8 @@ class Check {
      * @param BOOL $numeros Usar numeros (1234567890)
      * @param BOOL $simbolos Usar simbolos (!@#$%*-')
      */
-    public static function NewPass($tamanho = 8, $maiusculas = true, $numeros = true, $simbolos = false) {
+    public static function NewPass($tamanho = 8, $maiusculas = true, $numeros = true, $simbolos = false)
+    {
         $lmin = 'abcdefghijklmnopqrstuvwxyz';
         $lmai = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $num = '1234567890';
@@ -226,15 +236,21 @@ class Check {
      */
     public static function Phone($Data)
     {
-        $ddd = "(" . $Data[0] . $Data[1] . ") ";
-        $tel = $Data[2] . $Data[3] . $Data[4] . $Data[5] . "-" . $Data[6] . $Data[7] . $Data[8] . $Data[9] . (isset($Data[10]) ? $Data[10] : null);
 
+        if ($Data[0] != 9):
+            $ddd = "(" . $Data[0] . $Data[1] . ") ";
+            $tel = $Data[2] . $Data[3] . $Data[4] . $Data[5] . "-" . $Data[6] . $Data[7] . $Data[8] . $Data[9] . (isset($Data[10]) ? $Data[10] : null);
+        else:
+            $ddd = "";
+            $tel = "";
+        endif;
         self::$Data = $ddd . $tel;
         return self::$Data;
     }
 
 
-    public static function getUrlContent($url) {
+    public static function getUrlContent($url)
+    {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
@@ -246,5 +262,4 @@ class Check {
         curl_close($curl);
         return ($httpcode >= 200 && $httpcode < 300) ? $data : false;
     }
-
 }

@@ -41,6 +41,7 @@
                 <th style="text-align: left;"></th>
             </tr>
         </thead>
+
         <body>
             <?php
             $Read->ExeRead(DB_USERS, "WHERE user_id_principal={$Admin["user_id"]}", "");
@@ -51,6 +52,16 @@
                     if ($Read->getResult()):
                         foreach ($Read->getResult() as $Reg2) :
                             extract($Reg2);
+
+                            if ($user_cell):
+                                $user_cell = str_replace(["(", ")", " ", "-"], "", $user_cell);
+                                $user_cell = Check::Phone($user_cell);
+                            elseif ($leads_telephone):
+                                $user_cell = str_replace(["(", ")", " ", "-"], "", $leads_telephone);
+                                $user_cell = Check::Phone($user_cell);
+                            else:
+                                $user_cell = "";
+                            endif;
             ?>
                             <tr role="row">
                                 <td style="text-align: left" data-sort="<?= strtotime($user_registration) ?>"><?= date("d/m/Y H:i", strtotime($user_registration)) ?></td>
