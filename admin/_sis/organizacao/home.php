@@ -8,7 +8,7 @@
         </p>
     </div>
     <div class="dashboard_header_search">
-        <a href="dashboard.php?wc=organizacao/create" class="btn btn_green icon-plus a" title="Nova Empresa"> Nova Empresa ou Equipe</a>
+        <a href="dashboard.php?wc=organizacao/create" class="btn btn_green icon-plus a  btn_xlarge" title="Nova Empresa"> Nova Empresa ou Equipe</a>
     </div>
 </header>
 <div class="dashboard_content">
