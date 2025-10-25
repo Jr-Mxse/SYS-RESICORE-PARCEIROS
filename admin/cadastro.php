@@ -61,9 +61,9 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
 
                     <div class="form_group">
                         <label class="form_label">
-                            <span class="label_text">Atendimento realizado por qual especialista?</span>
+                            <span class="label_text">Atendimento realizado por qual gestor?</span>
                             <select name="especialista_id" required>
-                                <option selected disabled value="">Selecione o especialista:</option>
+                                <option selected disabled value="">Selecione o Gestor de Parceiros:</option>
                                 <?php
                                 $Read->ExeRead("users", "WHERE user_relacionamento=1", "");
                                 foreach ($Read->getResult() as $Reg) :
