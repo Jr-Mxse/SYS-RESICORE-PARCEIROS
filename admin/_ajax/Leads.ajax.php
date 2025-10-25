@@ -81,6 +81,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     return;
                 }
             endif;
+            $jSON['redirect'] = "dashboard.php?wc=leads/home";
             break;
 
         case 'delete':
