@@ -1015,3 +1015,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td.dtr-control:before,
     content: '+';
     background-color: #31b131;
 }
+
+table.dataTable.no-footer {
+    border-bottom: 0 !important;
+}
