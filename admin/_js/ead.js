@@ -210,6 +210,11 @@ $(function () {
 
         var TaskTarget = $('.jwc_ead_task');
         $.post('_ajax/Ead.ajax.php', {callback: 'wc_ead_student_task_manager_uncheck'}, function (data) {
+            
+            if (data.trigger) {
+                Trigger(data.trigger);
+            }
+
             if (data.check) {
                 TaskTarget.fadeTo(400, 0.5, function () {
                     TaskTarget.html(data.check).fadeTo(400, 1);

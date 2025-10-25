@@ -53,7 +53,6 @@ if ($POST && $POST['callback']):
 
             if ($studend_class_id && $start_time && $user_id):
                 $Read->FullRead("SELECT class_time, class_video FROM " . DB_EAD_CLASSES . " WHERE class_id = (SELECT class_id FROM " . DB_EAD_STUDENT_CLASSES . " WHERE user_id = :user AND student_class_id = :class AND student_class_free IS NULL)", "user={$user_id}&class={$studend_class_id}");
-
                 if ($Read->getResult()):
 
                     //SAVE CLASS TIME
@@ -121,7 +120,7 @@ if ($POST && $POST['callback']):
                 $jSON['stop'] = true;
                 break;
             endif;
-            break;
+        break;
 
         // STUDENT ACTIONS :: TASK CHECK
         case 'wc_ead_student_task_manager_check':
@@ -146,7 +145,7 @@ if ($POST && $POST['callback']):
             $userName = $_SESSION['userLogin']['user_name'];
 
             $jSON['check'] = "<span class='a active icon-checkmark jwc_ead_task_uncheck'>" . date('d/m/Y H\hi') . "</span>";
-            $jSON['trigger'] = AjaxErro("Tarefa concluída {$userName}! Parabéns, você concluiu a tarefa <b>{$classTitle}</b>!", E_USER_NOTICE);
+            $jSON['trigger'] = AjaxErro("Tarefa concluída {$userName}! Parabéns, você concluiu a tarefa <b>{$classTitle}</b>!");
             echo json_encode($jSON); return;
         break;
 

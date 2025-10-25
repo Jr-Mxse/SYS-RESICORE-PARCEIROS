@@ -49,7 +49,6 @@ if (!$Read->getResult()):
 else:
     extract($Read->getResult()[0]);
     $_SESSION['wc_student_enrollment_id'] = ($Admin['user_level'] < 6 ? $enrollment_id : null);
-
     // ENROLLMENT EXPIRED
     if (!empty($enrollment_bonus)):
         $Read->LinkResult(DB_EAD_ENROLLMENTS, "enrollment_id", $enrollment_bonus, 'enrollment_end');
@@ -116,7 +115,7 @@ else:
 endif;
 
 $DateThis = date('Y-m-d H:i:s');
-$Read->ExeRead(DB_EAD_STUDENT_CLASSES, "WHERE user_id = :user AND course_id = :course AND class_id = :class", "user={$Admin['user_id']}&course={$course_id}&class={$class_id}");
+$Read->ExeRead(DB_EAD_STUDENT_CLASSES, "WHERE user_id = :user AND course_id = :course AND class_id = :class", "user={$user_id}&course={$course_id}&class={$class_id}");
 if ($Read->getResult()):
     extract($Read->getResult()[0]);
     if (empty($_SESSION['wc_student_class']) || $_SESSION['wc_student_class'] != $student_class_id):
