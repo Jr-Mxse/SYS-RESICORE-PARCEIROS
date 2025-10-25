@@ -11,8 +11,7 @@
         <span class="menu-text">Meus Clientes / Leads</span>
     </a>
 </li>
-
-<?php if (in_array($Admin["user_id"], [1])): ?>
+<?php if (in_array($Admin["user_id"], [1, 230])): ?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
         <i class="icon-office"></i>
@@ -38,8 +37,7 @@
         </span>
     </a>
 </li>
-
-<?php if (in_array($Admin["user_id"], [1])): ?>
+<?php if (in_array($Admin["user_id"], [1, 230])): ?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'cursos/home') ? 'active' : ''; ?>">
     <a title="ResiH" href="dashboard.php?wc=cursos/home" data-tooltip="Academia">
         <i class="icon-books"></i>

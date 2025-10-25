@@ -61,7 +61,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['modal'] = [
                     'icon' => 'user-plus',
                     'size' => '',
-                    'title' => 'Novo Integrante da minha Equipe / Empresa',
+                    'title' => 'Novo Integrante Equipe / Empresa',
                     'content' => $Content,
                     'footer' => "<div class='fl_right'><a class='btn btn_green btn-rounded j_sendFormModal'>CONVIDAR AGORA</a></div>",
                     'callback' => ['plugginMaskDefault', 'plugginTiny', 'plugginAutosize', 'plugginDatepicker', 'plugginSelect2']
@@ -70,22 +70,35 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             break;
 
         case 'convidar':
-var_dump($PostData);
-            /*
-            $RegId = $PostData['user_id'];
-            $PostData['user_level'] = 20;
-            unset($PostData['user_id'], $PostData['user_thumb'], $PostData['conjuge_thumb']);
 
-            if (isset($PostData['user_cell'])):
-                $PostData['user_cell'] = str_replace(["(", ")", "-", " "], "", $PostData['user_cell']);
+            $sqlWhere = "";
+
+            $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
+
+            if (isset($PostData['user_email'])):
+                $sqlWhere = " OR user_email='{$PostData['user_email']}'";
             endif;
 
-            if (isset($PostData['user_telephone'])):
-                $PostData['user_telephone'] = str_replace(["(", ")", "-", " "], "", $PostData['user_telephone']);
-            endif;
+            $Read->ExeRead(DB_USERS, "WHERE user_cell={$PostData['user_cell']} {$sqlWhere}", "");
+            if ($Read->getResult()) :
+                if ($Read->getResult()[0]["user_associado"] == $PostData['user_id']):
+                    $jSON['trigger'] = AjaxErro("<b>INTEGRANTE JÁ CADASTRADO:</b><br>Este Integrante já faz parte da sua equipe.", E_USER_WARNING);
+                else:
+                    $jSON['trigger'] = AjaxErro("<b>NÃO FOI POSSSÍVEL CONVIDAR:</b><br>Este E-mail ou Whatsapp já participa de uma Empresa ou Equipe", E_USER_WARNING);
+                endif;
+            else :
+                $RegCreate = [
+                    'user_associado' => $PostData['user_id'],
+                    "user_email" => $PostData['user_email'],
+                    "user_cell" => $PostData['user_cell'],
+                    "user_name" => $PostData['user_name'],
+                ];
+                $Create->ExeCreate(DB_PARCEIROS_CONVITE, $RegCreate);
+                //$user_id = $Create->getResult();
 
-            $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$RegId}");
-            $jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");*/
+            //$jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");*/
+
+            endif;
             break;
 
     /*

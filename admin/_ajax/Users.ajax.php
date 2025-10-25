@@ -170,7 +170,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             endif;
             break;
 
-endswitch;
+    endswitch;
 
     //RETORNA O CALLBACK
     if ($jSON):
