@@ -65,9 +65,9 @@ endif;
     </div>
 
     <div class="box box30" style="padding-left: 4%; padding-right: 4%">
-       <?php
-        $Image = ajusteFotoPerfil($user_thumb);
-        ?>
+        <div class="panel">
+       <?php $Image = ajusteFotoPerfil($user_thumb); ?>
         <img class="user_thumb" style="width: 100%;" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="" title="" />
+        </div>
     </div>
 </div>
