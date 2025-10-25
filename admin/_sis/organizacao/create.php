@@ -38,10 +38,11 @@ endif;
         </p>
     </div>
 
+    <?php /*
     <div class="dashboard_header_search" style="font-size: 0.875em; margin-top: 16px;" id="<?= $RegId; ?>">
         <span rel='dashboard_header_search' class='j_delete_action icon-warning btn btn_red' id='<?= $RegId; ?>'>Deletar</span>
         <span rel='dashboard_header_search' callback="Organizacao" callback_action='delete' class='j_delete_action_confirm icon-warning btn btn_yellow' style='display: none' id='<?= $RegId; ?>'>EXCLUIR AGORA!</span>
-    </div>
+    </div>*/?>
 </header>
 
 <div class="dashboard_content">
@@ -49,6 +50,15 @@ endif;
         <?php
         require("inc.profile.php");
         ?>
+    </div>
+    <div class="box box30">
+        <div class="panel_header default">
+            <h2>Menu de Opções</h2>
+        </div>
+        <div class="panel" style="border-radius: 0 0 5px 5px">
+            <span class='btn btn_blue btn_small j_ajaxModal' callback='Membro' callback_action='convite' callback_id='1'><b>Convidar Integrante</b></span>
+            <div class="clear"></div>
+        </div>
     </div>
 </div>
 
