@@ -528,6 +528,8 @@
     display: none;
 }
 
+
+
 /* Responsividade */
 @media (max-width: 768px) {
     .dashboard_sidebar {
@@ -575,6 +577,46 @@
       border-radius: 5px;
       color: #fff;
   }
+
+
+.mobile_menu_mobile.animate {
+  display: inline-block;
+  cursor: pointer;
+  animation: pulseButton 2.5s infinite ease-in-out;
+  transition: transform 0.2s ease;
+}
+
+.mobile_menu_mobile.animate:hover {
+  transform: scale(1.05);
+}
+
+/* 🔹 Animação Pulse */
+@keyframes pulseButton {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* Aparência opcional do botão */
+.mobile_menu_mobile_box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
     .mobile_menu_mobile_box_fechar {
         display: flex;
