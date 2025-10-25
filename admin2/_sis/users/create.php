@@ -158,7 +158,7 @@ endif;
                             <p>CEP: {$Addr['addr_zipcode']}</p>
 
                             <div class='single_user_addr_actions'>
-                                <a title='Editar endereço' href='dashboard.php?wc=users/address&id={$Addr['addr_id']}' class='post_single_center icon-notext icon-pencil btn btn_blue'></a>
+                                <a title='Editar endereço' href='dashboard.php?wc=users/address&id={$Addr['addr_id']}' class='post_single_center icon-notext icon-eye btn btn_blue'></a>
                                 <span rel='single_user_addr' class='j_delete_action icon-notext icon-cancel-circle btn btn_red' id='{$Addr['addr_id']}'></span>
                                 <span rel='single_user_addr' callback='Users' callback_action='addr_delete' class='j_delete_action_confirm icon-warning btn btn_yellow' style='display: none' id='{$Addr['addr_id']}'>Deletar Endereço?</span>
                             </div>

@@ -749,10 +749,10 @@ endif;
                             </div>
                             <div class="glyph fs1">
                                 <div class="clearfix bshadow0 pbs">
-                                    <span class="icon-pencil">
+                                    <span class="icon-eye">
 
                                     </span>
-                                    <span class="mls"> icon-pencil</span>
+                                    <span class="mls"> icon-eye</span>
                                 </div>
                                 <fieldset class="fs0 size1of1 clearfix hidden-false">
                                     <input type="text" readonly value="e905" class="unit size1of2" />
@@ -765,10 +765,10 @@ endif;
                             </div>
                             <div class="glyph fs1">
                                 <div class="clearfix bshadow0 pbs">
-                                    <span class="icon-pencil2">
+                                    <span class="icon-eye2">
 
                                     </span>
-                                    <span class="mls"> icon-pencil2</span>
+                                    <span class="mls"> icon-eye2</span>
                                 </div>
                                 <fieldset class="fs0 size1of1 clearfix hidden-false">
                                     <input type="text" readonly value="e906" class="unit size1of2" />

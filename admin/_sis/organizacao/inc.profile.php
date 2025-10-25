@@ -9,7 +9,7 @@
             <input type="hidden" name="user_id" value="<?= $RegId; ?>" />
 
             <label class="label">
-                <span class="legend" id="txt_name">Nome Empresarial (Nome Fantasia):</span>
+                <span class="legend" id="txt_name"><b>Nome Empresarial (Nome Fantasia): *</b></span>
                 <input value="<?= $user_name; ?>" type="text" name="user_name" required />
             </label>
 
