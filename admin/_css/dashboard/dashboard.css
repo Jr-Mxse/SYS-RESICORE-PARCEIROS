@@ -534,7 +534,32 @@
     .mobile_menu_mobile {
         display: block;
     }
-    
+
+    .mobile_menu_mobile_box {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #008068;
+      width: max-content;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+  }
+
+    .mobile_menu_mobile_box_fechar {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: #008068;
+        width: max-content;
+        padding: 10px;
+        color: #fff;
+        position: fixed;
+        bottom: 0;
+        width: 56%;
+        justify-content: center;
+    }
+        
     .dashboard_sidebar_welcome {
         display: none;
     }
