@@ -8,7 +8,7 @@
         </p>
     </div>
     <div class="dashboard_header_search">
-        <a href="dashboard.php?wc=leads/create" class="btn btn_green btn_xlarge" title="Novo Registro"><i class="icon-plus icon-notext"></i> Adicionar Lead</a>
+        <a href="dashboard.php?wc=leads/create" class="btn btn_green btn_xlarge btn_pulse" title="Novo Registro"><i class="icon-plus icon-notext"></i> Adicionar Lead</a>
     </div>
 </header>
 <div class="dashboard_content">
