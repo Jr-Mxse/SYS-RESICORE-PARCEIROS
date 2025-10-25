@@ -257,5 +257,5 @@ if (!$WorkControlDefineConf) :
     define('EAD_STUDENT_MULTIPLE_LOGIN', 1); //Permitir login multiplo?
     define('EAD_STUDENT_MULTIPLE_LOGIN_BLOCK', 0); //Minutos de bloqueio quando login multiplo!
     define('EAD_STUDENT_CLASS_PERCENT', 100); //Assitir EAD_CLASS_PERCENT% para concluir!
-    define('EAD_STUDENT_CLASS_AUTO_CHECK', 0); //Marcar tarefas como concluídas automaticamente?
+    define('EAD_STUDENT_CLASS_AUTO_CHECK', 1); //Marcar tarefas como concluídas automaticamente?
 endif;

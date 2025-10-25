@@ -4,12 +4,14 @@
         <span class="menu-text">Página Inicial</span>
     </a>
 </li>
+
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'leads/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=leads/home" data-tooltip="Leads">
         <i class="icon-user-plus"></i>
         <span class="menu-text">Meus Clientes / Leads</span>
     </a>
 </li>
+
 <?php if (in_array($Admin["user_id"], [1])): ?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
@@ -17,12 +19,14 @@
         <span class="menu-text">Minhas Empresas</span>
     </a>
 </li>
+
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
-    <a title="Minha Equipe" href="dashboard.php?wc=organizacao/equioe" data-tooltip="Minha Equipe">
+    <a title="Minha Equipe" href="dashboard.php?wc=organizacao/equipe" data-tooltip="Minha Equipe">
         <i class="icon-users"></i>
         <span class="menu-text">Minha Equipe</span>
     </a>
 </li>
+
 <?php endif;?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'especialista/create') ? 'active' : ''; ?>">
     <a title="Especialista Associado" href="dashboard.php?wc=especialista/create" data-tooltip="Especialista">
@@ -34,14 +38,16 @@
         </span>
     </a>
 </li>
+
 <?php if (in_array($Admin["user_id"], [1])): ?>
-<li class="dashboard_nav_menu_li">
-    <a target="_New" title="ResiH" href="https://ead.resiplace.com.br" data-tooltip="Academia">
+<li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'cursos/home') ? 'active' : ''; ?>">
+    <a title="ResiH" href="dashboard.php?wc=cursos/home" data-tooltip="Academia">
         <i class="icon-books"></i>
         <span class="menu-text">Aprender e Crescer</span>
     </a>
 </li>
 <?php endif; ?>
+
 <li class="dashboard_nav_menu_li">
     <a target="_New" title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
         <i class="icon-star-full"></i>
