@@ -586,7 +586,8 @@
         color: #fff;
         position: fixed;
         bottom: 0;
-        width: 280px;
+        max-width: 280px;
+        width: 100%;
         justify-content: center;
     }
         

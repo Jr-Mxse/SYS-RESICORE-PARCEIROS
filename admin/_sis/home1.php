@@ -8,7 +8,16 @@
         </p>
     </div>
 </header> -->
-
+<style>
+    @media (max-width: 800px) {
+        .home_header {
+            height: 80px;
+        }
+    }
+</style>
+<header class="home_header">
+    
+</header>
 <div style="position: relative; width: 100%; height: 100vh;">
   <iframe 
       src="https://parceiro-residere-interno-pag-painel.lovable.app/" 
