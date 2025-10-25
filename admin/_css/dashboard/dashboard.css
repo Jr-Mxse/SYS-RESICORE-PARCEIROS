@@ -608,6 +608,12 @@
         width: 280px;
         right: -10px;
     }
+
+    .dashboard_nav_menu_li > a {
+        background: #252932;
+        margin: 10px;
+        border-radius: 5px;
+    }
 }
 
 @media (max-width: 480px) {
