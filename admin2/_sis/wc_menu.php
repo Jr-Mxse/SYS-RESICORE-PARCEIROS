@@ -148,7 +148,7 @@ endif;
         </div>
         <!-- ************ SESSÃO ESPECIALISTA *********** -->
 
-        <!-- ************ SESSÃO LEADS *********** -->
+        <!-- ************ SESSÃO LeadS *********** -->
         <div class="dashboard_panel_section" data-section="leads">
             <div class="dashboard_expandable_item">
                 <i class="ki-duotone ki-users fs-2x">
@@ -173,7 +173,7 @@ endif;
                 </li>
             </ul>
         </div>
-        <!-- ************ SESSÃO LEADS *********** -->
+        <!-- ************ SESSÃO LeadS *********** -->
 
     </div>
 </div>

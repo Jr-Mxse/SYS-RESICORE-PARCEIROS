@@ -4,7 +4,7 @@
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
-            Listagem de Clientes / LEADs
+            Listagem de Clientes / Leads
         </p>
     </div>
     <div class="dashboard_header_search">

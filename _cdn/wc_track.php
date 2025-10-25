@@ -308,7 +308,7 @@ endif;
             });
         }
 
-        //EAD :: LEAD
+        //EAD :: Lead
         if (WC_LINK.match('campus/ativar') && WC_SEGMENT_EAD) {
             fbq('track', 'Lead', {
                 content_name: 'Cadastrou-se no EAD',

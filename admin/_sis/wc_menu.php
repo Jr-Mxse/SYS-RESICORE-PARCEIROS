@@ -7,7 +7,7 @@
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'leads/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=leads/home" data-tooltip="Leads">
         <i class="icon-user-plus"></i>
-        <span class="menu-text">Meus Clientes / LEADs</span>
+        <span class="menu-text">Meus Clientes / Leads</span>
     </a>
 </li>
 <?php if (in_array($Admin["user_id"], [1])): ?>
