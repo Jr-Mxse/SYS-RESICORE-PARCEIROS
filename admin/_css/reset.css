@@ -312,22 +312,22 @@ select {
 .label a:hover{color: #00B494;}
 
 
-.label_50{float: left; width: 100%;}
+.label_50  { float: left; width: 100%; }
 .label_50 .label{float: left; width: 49%; margin-left: 1%;}
 .label_50 .label:first-of-type{width: 50%; margin-left: 0;}
 .label_50 .label:last-of-type{margin-right: 0;}
 
-.label_33{float: left; width: 100%;}
+.label_33  { float: left; width: 100%; }
 .label_33 .label{float: left; width: 32.6666%; margin-left: 1%;}
 .label_33 .label:first-of-type{margin-left: 0;}
 .label_33 .label:last-of-type{margin-right: 0;}
 
-.label_25{float: left; width: 100%;}
+.label_25  { float: left; width: 100%;}
 .label_25 .label{float: left; width: 24%; margin-left: 1%;}
 .label_25 .label:first-of-type{width: 25%; margin-left: 0;}
 .label_25 .label:last-of-type{margin-right: 0;}
 
-.label_20{float: left; width: 100%;}
+.label_20  {float: left; width: 100%;}
 .label_20 .label{float: left; width: 19%; margin-left: 1%;}
 .label_20 .label:first-of-type{width: 20%; margin-left: 0;}
 .label_20 .label:last-of-type{margin-right: 0;}

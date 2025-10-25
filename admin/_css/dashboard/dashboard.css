@@ -70,6 +70,7 @@
     height: 40px;
     border-radius: 50%;
     margin-right: 12px;
+    border: 2px solid #fff;
 }
 
 .admin-name {
@@ -79,7 +80,7 @@
 }
 
 .admin-name a {
-    color: #333;
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
     font-size: 14px;
@@ -215,6 +216,9 @@
     border-left: 3px solid transparent;
     position: relative;
     justify-content: flex-start;
+    background: #252932;
+    margin: 10px;
+    border-radius: 5px;
 }
 
 .dashboard_nav_menu_li > a i {
@@ -400,9 +404,9 @@
     top: 0;
     float: left;
     width: 100%;
-    background: #fff;
+    background: #0e1118;
     padding: 0 25px;
-    border-bottom: 1px solid #EBEBEB;
+    border-bottom: 1px solid #000000;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -493,7 +497,8 @@
 }
 
 .dashboard_sidebar_logout .logout-btn {
-    color: white;
+    color: #222;
+    background: #eee;
     border: none;
     padding: 8px 16px;
     border-radius: 6px;
@@ -724,4 +729,76 @@
 
 .dashboard_nav_menu_li2.open .submenu-arrow {
     transform: rotate(0) !important;
+}
+
+.whatsapp_agendamento_btn {
+  display: inline-block;
+  width: 100%;
+  max-width: 500px;
+  text-decoration: none;
+  background: linear-gradient(90deg, #00b454 0%, #25d366 100%);
+  border-radius: 12px;
+  padding: 18px 25px;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: pulse 2.2s infinite ease-in-out;
+}
+
+.whatsapp_agendamento_btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Animação Pulse */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
+  }
+  70% {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* ===== Estrutura interna ===== */
+.whatsapp_agendamento_content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.whatsapp_agendamento_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsapp_agendamento_text {
+  flex-grow: 1;
+  text-align: left;
+  padding-left: 15px;
+}
+
+.whatsapp_agendamento_text small {
+  display: block;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.whatsapp_agendamento_text strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.whatsapp_agendamento_touch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
