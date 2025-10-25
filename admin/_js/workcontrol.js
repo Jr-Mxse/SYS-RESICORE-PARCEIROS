@@ -579,6 +579,7 @@ $(function () {
                     //EXIBE CALLBACKS
                     if (data.trigger) {
                         Trigger(data.trigger);
+                        $('.j_sendFormModal').fadeIn('fast');
                     }
 
                     //REDIRECIONA

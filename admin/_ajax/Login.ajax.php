@@ -98,7 +98,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             else:
                 $jSON['trigger'] = AjaxErro('<b>ERRO:</b> E-mail ou Celular já cadastrados!', E_USER_WARNING);
             endif;
-            break;
+        break;
 
         case 'admin_cadastro':
             $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
@@ -288,47 +288,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             return;
         break;
 
-            // if (isset($Reg)):
-                 
-            //     $pass = rand(1000, 9999999);
-            //     $PostData2["user_password"] = hash('sha512', $pass);
-            //     $Reg["user_cell"] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Reg["user_cell"]);
-            //     $Update->ExeUpdate(DB_USERS, $PostData2, "WHERE user_id = :user", "user={$Reg['user_id']}");
-
-            //     $nome = explode(" ", $Reg["user_name"])[0];
-
-            //     $destino["numero"] = "55" . $Reg["user_cell"];
-            //     //$destino["numero"] = "5521979158558";
-            //     //$destino["numero"] = "5518996653770";
-            //     $destino["mensagem"] = "Olá novamente {$nome}!\n 
-            //     Sua senha em nosso painel de parceiros foi alterada e seu cadastro já está ativo. Segue a nova senha que pode ser alterada a qualquer momento:\n
-            //     👉 {$pass}\n
-            //     Ficamos à disposição para o que precisar.\n
-            //     Um grande abraço,\n
-            //     Equipe Grupo Residere";
-
-            //     $envio = envioZapParceiro($destino);
-
-            //     if ($PostData['user_email']):
-            //         require '../_tpl/Mail.email.php';
-            //         $BodyMail = "
-            //         <p style='font-size: 1.5em;'>Olá novamente {$nome}</p>
-            //         <p>Sua senha em nosso painel de parceiros foi alterada e seu cadastro já está ativo. Segue a nova senha que pode ser alterada a qualquer momento:</p>
-            //         <p>👉 {$pass}</p>
-            //         <p>Ficamos à disposição para o que precisar. Um grande abraço, Equipe Grupo Residere</p>
-            //         ";
-            //         $Mensagem = str_replace('#mail_body#', $BodyMail, $MailContent);
-
-            //         $Email->EnviarMontando($nome . ', sua Senha nova do Painel de Parceiros Residere', $Mensagem, ADMIN_NAME, MAIL_USER, $Reg["user_name"], $Reg['user_email']);
-            //     endif;
-
-            //     $jSON['trigger'] = AjaxErro('<b>SUCESSO:</b> Nova senha enviada para seu Whatsapp e E-mail!');
-            //     $jSON['redirect'] = './';
-
-            // else:
-            //     $jSON['trigger'] = AjaxErro('<b>OPPSSS:</b> E-mail ou Celular não cadastrado ou não tem permissão para o painel!', E_USER_WARNING);
-            // endif;
-
         case 'admin_newpass':
             if (empty($_SESSION['RecoverPass'])):
             else:
@@ -358,7 +317,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     endif;
                 endif;
             endif;
-            break;
+        break;
     endswitch;
 
     //RETORNA O CALLBACK
