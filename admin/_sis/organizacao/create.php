@@ -28,11 +28,11 @@ endif;
 
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-office">Minhas Empresas</h1>
+        <h1 class="icon-office">Minhas Equipes</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
-            <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=organizacao/home">Empresas ou Equipes</a>
+            <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=organizacao/home">Equipes</a>
             <span class="crumb">/</span>
             <?= $user_name ? $user_name : "Nova Empresa ou Equipe" ?>
         </p>

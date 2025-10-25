@@ -1,10 +1,10 @@
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-office">Minhas Empresas</h1>
+        <h1 class="icon-office">Minhas Equipes</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
-            Listagem de Empresas ou Equipe
+            Listagem de Equipes
         </p>
     </div>
     <div class="dashboard_header_search">
@@ -24,8 +24,9 @@
             <tr role="row" style="background: #CCC">
                 <th style="text-align: left;">Cadastro</th>
                 <th style="text-align: left;">Nome da Empresa</th>
-                <th style="text-align: left;">Quantidade de Membros</th>
-                <th style="text-align: left;">Quantidade de Leads</th>
+                <th style="text-align: left;">CNPJ</th>
+                <th style="text-align: left;">Endereço</th>
+                <th style="text-align: left;">Quant. Integrantes</th>
                 <th style="text-align: left;"></th>
             </tr>
         </thead>
@@ -36,12 +37,18 @@
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $Reg) :
                     extract($Reg);
+
+                    $qEquipe = 0;
+                    $Read->ExeRead(DB_USERS, "WHERE user_associado={$Reg["user_id"]}", "");
+                    $qEquipe = $Read->getRowCount();
+
             ?>
                     <tr role="row">
                         <td style="text-align: left" data-sort="<?= strtotime($user_registration) ?>"><?= date("d/m/Y H:i", strtotime($user_registration)) ?></td>
                         <td style="text-align: left"><?= $user_name ?></td>
-                        <td style="text-align: left"></td>
-                        <td style="text-align: left"></td>
+                        <td style="text-align: left"><?= $user_document ?></td>
+                        <td style="text-align: left"><?= $addr_street ?></td>
+                        <td style="text-align: left"><?= $qEquipe ?></td>
                         <td>
                             <div class='fl_right'>
                                 <a title="Editar" href="dashboard.php?wc=organizacao/create&id=<?= $user_id ?>" class="post_single_center icon-notext icon-eye btn  btn_green"></a>

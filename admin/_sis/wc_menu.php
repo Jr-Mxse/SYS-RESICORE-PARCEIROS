@@ -15,7 +15,7 @@
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
         <i class="icon-office"></i>
-        <span class="menu-text">Minhas Empresas</span>
+        <span class="menu-text">Minhas Equipes</span>
     </a>
 </li>
 
