@@ -215,6 +215,9 @@
     border-left: 3px solid transparent;
     position: relative;
     justify-content: flex-start;
+    background: #252932;
+    margin: 10px;
+    border-radius: 5px;
 }
 
 .dashboard_nav_menu_li > a i {
