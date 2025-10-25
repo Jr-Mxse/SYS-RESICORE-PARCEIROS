@@ -207,7 +207,7 @@
 .dashboard_nav_menu_li > a {
     display: flex;
     align-items: center;
-    padding: 15px 20px;
+    padding: 25px 20px;
     color: #bdc3c7;
     text-decoration: none;
     font-size: 14px;
@@ -222,7 +222,7 @@
 }
 
 .dashboard_nav_menu_li > a i {
-    width: 20px;
+    width: 12px;
     font-size: 16px;
     color: #1abc9c;
     flex-shrink: 0;
