@@ -993,3 +993,25 @@
   align-items: center;
   justify-content: center;
 }
+
+
+/************* dataTable btn +*/
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td.dtr-control:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th.dtr-control:before {
+    top: 10% !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin-top: -9px !important;
+    display: block;
+    position: absolute;
+    color: white;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: 0 0 0.2em #444;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1em;
+    content: '+';
+    background-color: #31b131;
+}
