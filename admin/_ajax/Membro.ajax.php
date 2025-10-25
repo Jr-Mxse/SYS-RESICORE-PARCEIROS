@@ -70,9 +70,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             break;
 
         case 'convidar':
-
             $sqlWhere = "";
-
             $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $PostData['user_cell']);
 
             if (isset($PostData['user_email'])):
@@ -92,12 +90,41 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     "user_email" => $PostData['user_email'],
                     "user_cell" => $PostData['user_cell'],
                     "user_name" => $PostData['user_name'],
+                    "user_convite" => $_SESSION['userLoginParceiros']['user_id'],
                 ];
                 $Create->ExeCreate(DB_PARCEIROS_CONVITE, $RegCreate);
-                //$user_id = $Create->getResult();
+                $convite = $Create->getResult();
 
-            //$jSON['trigger'] = AjaxErro("<b>REGISTRO ATUALIZADO COM SUCESSO!</b>");*/
+                $token = base64_encode($PostData['user_name'] . '-|-' . $PostData['user_email'] . '-|-' . $PostData['user_cell']);
+                $tokenOrg = base64_encode($convite);
+                $link = "https://painel.residere.com.br/admin/convite.php?tk={$token}&org={$tokenOrg}";
 
+                $nome = explode(" ", $PostData['user_name'])[0];
+                $destino["numero"] = "55" . $PostData['user_cell'];
+                $destino["mensagem"] = "Bom dia {$nome}! Tudo bem?\n 
+Nosso parceiro {$_SESSION['userLoginParceiros']['user_name']} cadastrou você para participar de sua equipe em nosso Painel de Parceiros.\n
+Para ativar o seu cadastro, basta clicar no link abaixo e completar o seu cadastro.\n
+Ao ativar, você terá acesso à todos os treinamentos e a Plataforma de Parceiros Residere.\n
+👉 {$link}\n
+Ficamos à disposição para o que precisar.\n
+Um grande abraço,\n
+Equipe Grupo Residere";
+
+                $envio = envioZapParceiro($destino);
+                if ($envio["status"] == "PENDING"):
+                    if ($_SESSION['userLoginParceiros']['user_cell']):
+                        $nome2 = explode(" ", $_SESSION['userLoginParceiros']['user_name'])[0];
+                        $destino2["numero"] = "55" . str_replace(["(", ")", " ", "-"], "", $_SESSION['userLoginParceiros']['user_cell']);
+                        $destino2["mensagem"] = "Olá {$nome2}, você convidou {$nome} ({$destino["numero"]}) para se cadastrar como membro de sua equipe no Painel de Parceiros da Residere.";
+                        $envio = envioZapParceiro($destino2);
+                    endif;
+                    $jSON['trigger'] = AjaxErro("<b>USUÁRIO CONVIDADO COM SUCESSO!</b>");
+                    $jSON['redirect'] = "dashboard.php?wc=parceiros/rodas";
+                else:
+                    $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO AO ENVIAR CONVITE:</b><br>Whatsapp Não entregue", E_USER_WARNING);
+                    echo json_encode($jSON);
+                    return;
+                endif;
             endif;
             break;
 

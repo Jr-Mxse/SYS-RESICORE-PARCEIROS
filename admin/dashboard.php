@@ -10,9 +10,6 @@ $Update = new Update;
 $Delete = new Delete;
 
 if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiros']['user_level']) && $_SESSION['userLoginParceiros']['user_level'] >= 6) :
-    $Read = new Read;
-    $Read->FullRead("SELECT user_level FROM " . DB_USERS . " WHERE user_id = :user", "user={$_SESSION['userLoginParceiros']['user_id']}");
-
     $Admin = $_SESSION['userLoginParceiros'];
     $Admin['user_thumb'] = (!empty($Admin['user_thumb']) && file_exists("../uploads/{$Admin['user_thumb']}") && !is_dir("../uploads/{$Admin['user_thumb']}") ? "uploads/" . $Admin['user_thumb'] : '../admin/_img/no_avatar.jpg');
     $DashboardLogin = true;
@@ -20,6 +17,7 @@ if (isset($_SESSION['userLoginParceiros']) && isset($_SESSION['userLoginParceiro
     $PostData['user_document'] = str_replace(["(", ")", " ", "-", ".", "/"], "", $Admin['user_document']);
     $PostData['user_cell'] = str_replace(["(", ")", " ", "-"], "", $Admin['user_cell']);
     $Admin['user_cell'] = $PostData['user_cell'];
+    $_SESSION['userLoginParceiros']['user_cell'] = $PostData['user_cell'];
     $Update->ExeUpdate(DB_USERS, $PostData, "WHERE user_id = :id", "id={$_SESSION['userLoginParceiros']['user_id']}");
 else :
     unset($_SESSION['userLoginParceiros']);
@@ -39,6 +37,7 @@ endif;
 
 $getViewInput = filter_input(INPUT_GET, 'wc', FILTER_DEFAULT);
 $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -221,7 +220,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
             ?>
             <div class="dashboard_sidebar">
 
-                <?php if($getViewInput == 'home'): ?>
+                <?php if ($getViewInput == 'home'): ?>
                     <span class="mobile_menu_mobile animate">
                         <div class="mobile_menu_mobile_box">
                             <div>Abrir Menu</div>
@@ -246,7 +245,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                         <span class="dashboard_sidebar_welcome">Bem-vindo(a) a ResiPlace, Hoje <?= date('d/m/Y'); ?></span>
                     </div> -->
 
-                 <!--    <div class="dashboard_sidebar_notification">
+                    <!--    <div class="dashboard_sidebar_notification">
                         <button class="notification-btn icon-bell" title="Notificações" id="open-modal">
                             <span class="notification-badge">0</span>
                         </button>
