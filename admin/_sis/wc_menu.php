@@ -10,7 +10,7 @@
         <span class="menu-text">Meus Clientes / LEADs</span>
     </a>
 </li>
-<?php /*. 
+<?php if (in_array($Admin["user_id"], [1])): ?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
         <i class="icon-office"></i>
@@ -23,7 +23,7 @@
         <span class="menu-text">Minha Equipe</span>
     </a>
 </li>
-*/?>
+<?php endif;?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'especialista/create') ? 'active' : ''; ?>">
     <a title="Especialista Associado" href="dashboard.php?wc=especialista/create" data-tooltip="Especialista">
         <span style="display: flex;gap: 10px;">
@@ -34,20 +34,20 @@
         </span>
     </a>
 </li>
-<?php /*. 
+<?php if (in_array($Admin["user_id"], [1])): ?>
 <li class="dashboard_nav_menu_li">
     <a target="_New" title="ResiH" href="https://ead.resiplace.com.br" data-tooltip="Academia">
         <i class="icon-books"></i>
         <span class="menu-text">Aprender e Crescer</span>
     </a>
-</li> */ ?>
+</li>
+<?php endif; ?>
 <li class="dashboard_nav_menu_li">
     <a target="_New" title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
         <i class="icon-star-full"></i>
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
-
 <span class="mobile_menu_mobile_fechar">
     <div class="mobile_menu_mobile_box_fechar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-testid="IconThumbsUp" class="sc-dYOqWG fxtfcv">
