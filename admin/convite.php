@@ -55,7 +55,7 @@ $redirect = filter_input(INPUT_GET, 'redirect', FILTER_DEFAULT);
                     <input type="hidden" name="callback_action" value="admin_ativar">
                     <input type="hidden" name="especialista_id" value="<?= isset($Token[3]) ? $Token[3] : 44 ?>">
                     <?php if ($Convite): ?>
-                        <input type="text" name="user_convite" value="<?= $Convite ?>">
+                        <input type="hidden" name="user_convite" value="<?= $Convite ?>">
                     <?php endif; ?>
                     <div class="callback_return m_botton">
                         <?php
