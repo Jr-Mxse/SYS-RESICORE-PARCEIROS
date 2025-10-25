@@ -1,5 +1,4 @@
-<?php if($Admin['user_id'] == 1): ?>
-    <header class="dashboard_header"></header>
+<header class="dashboard_header"></header>
 
 <div class="dashboard_content">
 
@@ -328,24 +327,3 @@
 </section>
 
 </div>
-<?php else: ?>
-<style>
-    @media (max-width: 800px) {
-        .home_header {
-            height: 80px;
-        }
-    }
-</style>
-<header class="home_header">
-    
-</header>
-<div style="position: relative; width: 100%; height: 100vh;">
-  <iframe 
-      src="https://parceiro-residere-interno-pag-painel.lovable.app/" 
-      style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;" 
-      allowfullscreen 
-      loading="lazy">
-  </iframe>
-</div>
-
-<?php endif; ?>
