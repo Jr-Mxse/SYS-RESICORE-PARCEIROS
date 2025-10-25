@@ -1,6 +1,6 @@
 <header class="dashboard_header">
     <div class="dashboard_header_title">
-        <h1 class="icon-users">Minha Equipe</h1>
+        <h1 class="icon-users">Minhas Equipes - Integrantes</h1>
         <p class="dashboard_header_breadcrumbs">
             <a title="<?= SITE_NAME2; ?>" href="dashboard.php?wc=home">Dashboard</a>
             <span class="crumb">/</span>
@@ -15,7 +15,7 @@
         elseif ($Read->getRowCount() == 1):
             echo "<a class='btn btn_green icon-plus a btn_xlarge btn_pulse j_ajaxModal' callback='Membro' callback_action='convite' callback_id='{$Read->getResult()[0]["user_id"]}'><b>Convidar Integrante</b></a>";
         else:
-            echo "<a class='btn btn_green icon-plus a btn_xlarge btn_pulse' href='dashboard.php?wc=organizacao/home'>><b>Escolher Empresa</b></a>";
+            echo "<a class='btn btn_green icon-plus a btn_xlarge btn_pulse' href='dashboard.php?wc=organizacao/home'>><b>Escolher Empresa primeiro</b></a>";
         endif;
         ?>
     </div>
@@ -41,7 +41,6 @@
                 <th style="text-align: left;"></th>
             </tr>
         </thead>
-
         <body>
             <?php
             $Read->ExeRead(DB_USERS, "WHERE user_id_principal={$Admin["user_id"]}", "");
