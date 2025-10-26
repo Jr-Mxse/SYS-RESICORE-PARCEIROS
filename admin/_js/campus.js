@@ -78,7 +78,7 @@ $(function () {
     //CERTIFICATION GET
     $('.jwc_ead_certification').click(function () {
         $('.jwc_ead_load').fadeIn().css('display', 'flex');
-        $.post("_ajax/Ead.ajax.php", {callback: 'wc_ead_studend_certification', enrollment_id: $(this).attr('id')}, function (data) {
+        $.post("_ajax/Campus.ajax.php", {callback: 'wc_ead_studend_certification', enrollment_id: $(this).attr('id')}, function (data) {
             $('.jwc_ead_load').fadeOut(function () {
                 if (data.alert) {
                     wc_ead_alert(data.alert[0], data.alert[1], data.alert[2]);
@@ -155,7 +155,7 @@ $(function () {
     if ($('.jwc_ead_task').length) {
         var TaskTarget = $('.jwc_ead_task');
         var TaskRepeat = setInterval(function () {
-            $.post('_ajax/Ead.ajax.php', {callback: 'wc_ead_student_task_manager'}, function (data) {
+            $.post('_ajax/Campus.ajax.php', {callback: 'wc_ead_student_task_manager'}, function (data) {
                 
                 if (data.aprove) {
                     TaskTarget.fadeTo(400, 0.5, function () {
@@ -182,7 +182,7 @@ $(function () {
         e.stopPropagation();
 
         var TaskTarget = $('.jwc_ead_task');
-        $.post('_ajax/Ead.ajax.php', {callback: 'wc_ead_student_task_manager_check'}, function (data) {
+        $.post('_ajax/Campus.ajax.php', {callback: 'wc_ead_student_task_manager_check'}, function (data) {
              if (data.trigger) {
                 Trigger(data.trigger);
             }
@@ -209,7 +209,7 @@ $(function () {
         e.stopPropagation();
 
         var TaskTarget = $('.jwc_ead_task');
-        $.post('_ajax/Ead.ajax.php', {callback: 'wc_ead_student_task_manager_uncheck'}, function (data) {
+        $.post('_ajax/Campus.ajax.php', {callback: 'wc_ead_student_task_manager_uncheck'}, function (data) {
             
             if (data.trigger) {
                 Trigger(data.trigger);
@@ -251,7 +251,7 @@ $(function () {
     //STUDENT FIX LOGIN ON PLAY
     if ($('.jwc_ead_restrict').length) {
         setInterval(function () {
-            $.post('_ajax/Ead.ajax.php', {callback: 'wc_ead_login_fix'}, function (data) {
+            $.post('_ajax/Campus.ajax.php', {callback: 'wc_ead_login_fix'}, function (data) {
                 if (data.redirect) {
                     window.location.href = data.redirect;
                 }

@@ -69,7 +69,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
     <script src="_js/maskinput.js"></script>
     <script src="_js/jquery.mask.js"></script>
     <script src="_js/workplugins.js?v=<?= assetVersion(); ?>"></script>
-    <script src="_js/ead.js?v=<?= assetVersion(); ?>"></script>
+    <script src="_js/campus.js?v=<?= assetVersion(); ?>"></script>
 
     <script src="../_cdn/highcharts.js"></script>
     <script src="../_cdn/datepicker/datepicker.min.js"></script>
