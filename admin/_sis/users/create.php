@@ -32,7 +32,7 @@ endif;
     <div class="box box70">
         <div class="panel" style="border-radius: 0 0 5px 5px;">
             <div class="box_conf_menu verfical">
-                <a class='conf_menu wc_tab wc_active' href='#profile'>Perfil</a>
+                <a class='conf_menu wc_tab wc_active btn_pulse' href='#profile'>Perfil</a>
                 <a class='conf_menu wc_tab' href='#address'>Endereços</a>
             </div>
         </div>

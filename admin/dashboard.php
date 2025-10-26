@@ -294,7 +294,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
                     </div>
 
                     <div class="dashboard_nav_admin" onclick="toggleDropdown()">
-                        <img class="dashboard_nav_admin_thumb rounded" src="<?= $Admin['user_thumb']; ?>" alt="Avatar">
+                        <img class="dashboard_nav_admin_thumb rounded" src="../<?= $Admin['user_thumb']; ?>" alt="Avatar">
                         <p class="admin-name">
                             <a href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>" title="Meu Perfil"><?= $Admin['user_name']; ?></a>
                         </p>

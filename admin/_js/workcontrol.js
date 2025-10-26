@@ -221,7 +221,9 @@ $(function () {
             var WcTab = $(this).attr('href');
 
             $('.wc_tab').removeClass('wc_active');
+            $('.wc_tab').removeClass('btn_pulse');
             $(this).addClass('wc_active');
+            $(this).addClass('btn_pulse');
 
             $('.wc_tab_target.wc_active').fadeOut(200, function () {
                 $(WcTab).fadeIn(300).addClass('wc_active');
