@@ -148,9 +148,11 @@ endif;
     </div>
 
     <div class="box box30">
-        <?php
+       <div class="panel">
+            <?php
         $Image = (file_exists("../uploads/{$user_thumb}") && !is_dir("../uploads/{$user_thumb}") ? "uploads/{$user_thumb}" : 'admin/_img/no_avatar.jpg');
         ?>
         <img class="user_thumb" style="width: 100%;" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="" title="" />
+       </div>
     </div>
 </div>
