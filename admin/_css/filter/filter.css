@@ -1,0 +1,221 @@
+.filter-container {
+    background: #0e1118;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+}
+
+.filter-container:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+.filter-title i {
+    font-size: 20px;
+    color: #6c5ce7;
+}
+
+.filter-title h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-clear-filters {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid #00b494;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-clear-filters:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #00b494;
+    transform: translateY(-1px);
+}
+
+.filter-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.filter-checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-checkbox:hover {
+    transform: translateY(-2px);
+}
+
+.filter-checkbox.active {
+    background: rgba(108, 92, 231, 0.15);
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.filter-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkbox-custom {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: transparent;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.filter-checkbox input:checked ~ .checkbox-custom {
+    background: #1abc9c;
+    border-color: #00b494;
+}
+
+.filter-checkbox input:checked ~ .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+}
+
+.checkbox-label i {
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.filter-title i {
+    color: #1abc9c;
+}
+
+.filter-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.status-perdido {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+.status-aberto {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+}
+
+.status-ganho {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-apply {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #00b494 0%, #008068 100%);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-apply:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #00b494 0%, #008068 100%);
+}
+
+.btn-apply:active {
+    transform: translateY(0);
+}
+
+.form_load {
+    width: 24px;
+    height: 24px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .filter-container {
+        padding: 16px;
+    }
+    
+    .filter-options {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .filter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
