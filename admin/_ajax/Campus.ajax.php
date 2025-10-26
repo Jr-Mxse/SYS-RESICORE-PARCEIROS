@@ -43,13 +43,18 @@ if ($POST && $POST['callback']):
      * ALERT: $jSON['alert'] = ["Color", "Title", "Content"];
      */
     switch ($Callback):
+
+        case 'wc_ead_login_fix':
+            $jSON['login'] = true;
+            break;
         
-        //STUDENT ACTIONS :: TASK MANAGER
         case 'wc_ead_student_task_manager':
             $studend_class_id = (!empty($_SESSION['wc_student_class']) ? $_SESSION['wc_student_class'] : null);
             $start_time = (!empty($_SESSION['wc_student_task']) ? $_SESSION['wc_student_task'] : null);
-            $user_id = (!empty($_SESSION['userLogin']['user_id']) ? $_SESSION['userLogin']['user_id'] : null);
+            $user_id = (!empty($_SESSION['userLoginParceiros']['user_id']) ? $_SESSION['userLoginParceiros']['user_id'] : null);
             $end_time = 0;
+
+            //var_dump($studend_class_id, $start_time, $user_id, $end_time);
 
             if ($studend_class_id && $start_time && $user_id):
                 $Read->FullRead("SELECT class_time, class_video FROM " . DB_EAD_CLASSES . " WHERE class_id = (SELECT class_id FROM " . DB_EAD_STUDENT_CLASSES . " WHERE user_id = :user AND student_class_id = :class AND student_class_free IS NULL)", "user={$user_id}&class={$studend_class_id}");
@@ -122,10 +127,9 @@ if ($POST && $POST['callback']):
             endif;
         break;
 
-        // STUDENT ACTIONS :: TASK CHECK
         case 'wc_ead_student_task_manager_check':
             $studend_class_id = $_SESSION['wc_student_class'] ?? null;
-            $user_id = $_SESSION['userLogin']['user_id'] ?? null;
+            $user_id = $_SESSION['userLoginParceiros']['user_id'] ?? null;
 
             if (!$user_id || !$studend_class_id):
                 $jSON['trigger'] = AjaxErro("Erro ao concluir tarefa: <p>Desculpe, não foi possível identificar seu login ou a tarefa acessada. As aulas devem ser feitas uma de cada vez.</p>", E_USER_WARNING);
@@ -134,7 +138,7 @@ if ($POST && $POST['callback']):
 
             $Read->FullRead("SELECT class_title FROM " . DB_EAD_CLASSES . " WHERE class_id = (SELECT class_id FROM " . DB_EAD_STUDENT_CLASSES . " WHERE student_class_id = :class)", "class={$studend_class_id}");
             if (!$Read->getResult()):
-                $jSON['trigger'] = AjaxErro("Tarefa não identificada {$_SESSION['userLogin']['user_name']}, atualize a página para que a tarefa seja identificada!", E_USER_WARNING);
+                $jSON['trigger'] = AjaxErro("Tarefa não identificada {$_SESSION['userLoginParceiros']['user_name']}, atualize a página para que a tarefa seja identificada!", E_USER_WARNING);
                 echo json_encode($jSON); return;
             endif;
 
@@ -142,18 +146,16 @@ if ($POST && $POST['callback']):
             $Update->ExeUpdate(DB_EAD_STUDENT_CLASSES, $UpdateStudenClass, "WHERE student_class_id = :class", "class={$studend_class_id}");
 
             $classTitle = $Read->getResult()[0]['class_title'];
-            $userName = $_SESSION['userLogin']['user_name'];
+            $userName = $_SESSION['userLoginParceiros']['user_name'];
 
             $jSON['check'] = "<span class='a active icon-checkmark jwc_ead_task_uncheck'>" . date('d/m/Y H\hi') . "</span>";
             $jSON['trigger'] = AjaxErro("Tarefa concluída {$userName}! Parabéns, você concluiu a tarefa <b>{$classTitle}</b>!");
             echo json_encode($jSON); return;
         break;
 
-
-      // STUDENT ACTIONS :: TASK UNCHECK
         case 'wc_ead_student_task_manager_uncheck':
             $studend_class_id = $_SESSION['wc_student_class'] ?? null;
-            $user_id = $_SESSION['userLogin']['user_id'] ?? null;
+            $user_id = $_SESSION['userLoginParceiros']['user_id'] ?? null;
 
             if (!$user_id || !$studend_class_id):
                 $jSON['trigger'] = AjaxErro("Erro ao concluir tarefa: <p>Desculpe, não foi possível identificar seu login ou a tarefa acessada. As aulas devem ser feitas uma de cada vez.</p>", E_USER_WARNING);
@@ -162,7 +164,7 @@ if ($POST && $POST['callback']):
 
             $Read->FullRead("SELECT class_title FROM " . DB_EAD_CLASSES . " WHERE class_id = (SELECT class_id FROM " . DB_EAD_STUDENT_CLASSES . " WHERE student_class_id = :class)", "class={$studend_class_id}");
             if (!$Read->getResult()):
-                $jSON['trigger'] = AjaxErro("Tarefa não identificada {$_SESSION['userLogin']['user_name']}, atualize a página para que a tarefa seja identificada!", E_USER_WARNING);
+                $jSON['trigger'] = AjaxErro("Tarefa não identificada {$_SESSION['userLoginParceiros']['user_name']}, atualize a página para que a tarefa seja identificada!", E_USER_WARNING);
                 echo json_encode($jSON); return;
             endif;
 
@@ -170,33 +172,31 @@ if ($POST && $POST['callback']):
             $Update->ExeUpdate(DB_EAD_STUDENT_CLASSES, $UpdateStudenClass, "WHERE student_class_id = :class", "class={$studend_class_id}");
 
             $classTitle = $Read->getResult()[0]['class_title'];
-            $userName = $_SESSION['userLogin']['user_name'];
+            $userName = $_SESSION['userLoginParceiros']['user_name'];
 
             $jSON['check'] = "<span class='a check icon-checkmark2 jwc_ead_task_check'>Concluir Tarefa</span>";
             $jSON['trigger'] = AjaxErro("Volte aqui depois {$userName}, {$classTitle}!", E_USER_NOTICE);
             echo json_encode($jSON); return;
         break;
 
-
-        //STUDENT :: CERTIFICATION
         case 'wc_ead_studend_certification':
             sleep(1);
 
-            if (empty($_SESSION['userLogin']) || empty($_SESSION['userLogin']['user_id'])):
+            if (empty($_SESSION['userLoginParceiros']) || empty($_SESSION['userLoginParceiros']['user_id'])):
                 $jSON['trigger'] = AjaxErro("Oppsss, perdemos algo: <p>Sua conta não está mais conectada, recarregando!</p>", E_USER_WARNING);
                 $jSON['reload'] = true;
                 echo json_encode($jSON); return;
             endif;
 
-            $Read->FullRead("SELECT certificate_id FROM " . DB_EAD_STUDENT_CERTIFICATES . " WHERE enrollment_id = :enrol AND user_id = :user", "enrol={$POST['enrollment_id']}&user={$_SESSION['userLogin']['user_id']}");
+            $Read->FullRead("SELECT certificate_id FROM " . DB_EAD_STUDENT_CERTIFICATES . " WHERE enrollment_id = :enrol AND user_id = :user", "enrol={$POST['enrollment_id']}&user={$_SESSION['userLoginParceiros']['user_id']}");
             if ($Read->getResult()):
-                $jSON['trigger'] = AjaxErro("Oppsss, perdemos algo: <p>Seu certificado para este curso já foi emitido {$_SESSION['userLogin']['user_name']}!</p>", E_USER_NOTICE);
+                $jSON['trigger'] = AjaxErro("Oppsss, perdemos algo: <p>Seu certificado para este curso já foi emitido {$_SESSION['userLoginParceiros']['user_name']}!</p>", E_USER_NOTICE);
                 echo json_encode($jSON); return;
             endif;
 
-            $Read->ExeRead(DB_EAD_ENROLLMENTS, "WHERE enrollment_id = :enrol AND user_id = :user", "enrol={$POST['enrollment_id']}&user={$_SESSION['userLogin']['user_id']}");
+            $Read->ExeRead(DB_EAD_ENROLLMENTS, "WHERE enrollment_id = :enrol AND user_id = :user", "enrol={$POST['enrollment_id']}&user={$_SESSION['userLoginParceiros']['user_id']}");
             if (!$Read->getResult()):
-                $jSON['trigger'] = AjaxErro("Erro ao Emitir Certificado: <p>Desculpe {$_SESSION['userLogin']['user_name']}, mas não foi possível ler a matrícula deste curso. Atualize a página e tente novamente, ou entre em contato via " . SITE_ADDR_EMAIL . ".</p>", E_USER_WARNING);
+                $jSON['trigger'] = AjaxErro("Erro ao Emitir Certificado: <p>Desculpe {$_SESSION['userLoginParceiros']['user_name']}, mas não foi possível ler a matrícula deste curso. Atualize a página e tente novamente, ou entre em contato via " . SITE_ADDR_EMAIL . ".</p>", E_USER_WARNING);
                 echo json_encode($jSON); return;
             endif;
 
@@ -213,8 +213,8 @@ if ($POST && $POST['callback']):
             $Read->LinkResult(DB_EAD_COURSES, "course_id", $course_id, "course_title, course_certification_request");
             extract($Read->getResult()[0]);
 
-            if ($_SESSION['userLogin']['user_level'] < 6 && $CourseCompletedPercent < $course_certification_request):
-                $jSON['trigger'] = AjaxErro("Oppsss {$_SESSION['userLogin']['user_name']}: <p>Para solicitar seu certificado, complete pelo menos <b>{$course_certification_request}%</b> do curso!</p>", E_USER_NOTICE);
+            if ($_SESSION['userLoginParceiros']['user_level'] < 6 && $CourseCompletedPercent < $course_certification_request):
+                $jSON['trigger'] = AjaxErro("Oppsss {$_SESSION['userLoginParceiros']['user_name']}: <p>Para solicitar seu certificado, complete pelo menos <b>{$course_certification_request}%</b> do curso!</p>", E_USER_NOTICE);
                 echo json_encode($jSON); return;
             endif;
 
@@ -231,7 +231,7 @@ if ($POST && $POST['callback']):
             $jSON['certification'] = [
                 "Image" => "<div class='wc_ead_win_image'><span class='wc_ead_win_image_icon icon-trophy icon-notext'></span></div>",
                 "Icon" => "heart",
-                "Title" => "Parabéns {$_SESSION['userLogin']['user_name']} :)",
+                "Title" => "Parabéns {$_SESSION['userLoginParceiros']['user_name']} :)",
                 "Content" => "Mais uma conquista em sua carreira. Seu certificado para o curso <b>{$course_title}</b> foi emitido com sucesso!",
                 "Link" => BASE . "/campus/imprimir/{$CreateCertification['certificate_key']}",
                 "LinkIcon" => "printer",
