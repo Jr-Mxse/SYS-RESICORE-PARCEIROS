@@ -1818,18 +1818,61 @@ div.mce-fullscreen {
     gap: 20px;
 }
 
+/* ===== Botões normais (não ativos) ===== */
 .box_conf_menu.verfical .conf_menu {
-    padding: 20px 40px !important;
-    background: #eee;
-    border-radius: 50px !important;
+    padding: 15px 32px !important;
+    background: #f2f5f7; /* cinza claro, botão neutro */
+    border-radius: 10px;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    box-shadow:
+        0 3px 5px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: all 0.25s ease;
 }
 
+/* ===== Hover nos inativos ===== */
+.box_conf_menu.verfical .conf_menu:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 10px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* ===== Clique nos inativos ===== */
+.box_conf_menu.verfical .conf_menu:active {
+    transform: translateY(2px);
+    box-shadow:
+        inset 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Botão ativo (verde escuro com sombra verde profunda) ===== */
 .box_conf_menu.verfical a.wc_active {
-    background: #00b494;
+    background: linear-gradient(to bottom, #00a884, #008068);
     color: #fff;
     font-weight: 600 !important;
     font-size: 16px;
+    border-radius: 10px;
+    box-shadow:
+        0 6px 0 #006b54,             /* sombra sólida embaixo */
+        0 10px 20px rgba(0, 128, 104, 0.4); /* sombra difusa verde */
+    transform: translateY(0);
+    transition: all 0.25s ease;
 }
+
+/* ===== Hover no ativo (brilho suave) ===== */
+.box_conf_menu.verfical a.wc_active:hover {
+    background: linear-gradient(to bottom, #00b494, #00765f);
+    box-shadow:
+        0 8px 0 #005b47,
+        0 14px 25px rgba(0, 128, 104, 0.5);
+}
+
 
 @media (max-width: 800px) {
     .box_conf_menu.verfical {
