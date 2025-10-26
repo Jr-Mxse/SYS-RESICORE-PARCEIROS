@@ -3,18 +3,17 @@ $Filtro = filter_input(INPUT_GET, 'fil', FILTER_DEFAULT) ? explode("-", filter_i
 $sqlWhere = "";
 
 if (!isset($Filtro[0])):
-    $Filtro[0] = 1;
+    $Filtro[0] = 0;
 endif;
 if (!isset($Filtro[1])):
-    $Filtro[1] = 1;
+    $Filtro[1] = 0;
 endif;
 if (!isset($Filtro[2])):
-    $Filtro[2] = 1;
-    $Filtro[20] = 1;
+    $Filtro[2] = 0;
 endif;
 
 if ($Filtro[0]):
-    $sqlWhere .= " leads_status='0'";
+    $sqlWhere .= "leads_status='0'";
 endif;
 
 if ($Filtro[1]):
@@ -25,6 +24,10 @@ endif;
 if ($Filtro[2]):
     $sqlWhere .= $sqlWhere ? " OR " : "";
     $sqlWhere .= "leads_status='2'";
+endif;
+
+if (empty($sqlWhere)):
+    $sqlWhere = "leads_status IN ('0','1','2')";
 endif;
 ?>
 <header class="dashboard_header">
@@ -41,38 +44,71 @@ endif;
     </div>
 </header>
 <div class="dashboard_content">
-    <div class="dashboard_header_search">
-        <div class="panel_header default">
-            <h2>Filtros para Seleção</h2>
+    <!-- Filtros Modernizados -->
+    <div class="filter-container">
+        <div class="filter-header">
+            <div class="filter-title">
+                <i class="icon-filter"></i>
+                <h3>Filtros</h3>
+            </div>
+            <button type="button" class="btn-clear-filters" onclick="limparFiltros()" style="display: <?= ($Filtro[0] || $Filtro[1] || $Filtro[2]) ? 'inline-flex' : 'none' ?>;">
+                <i class="icon-refresh"></i> Limpar
+            </button>
         </div>
-        <div class="panel" style="border-radius: 0 0 5px 5px">
-            <form class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="callback" value="Leads" />
-                <input type="hidden" name="callback_action" value="filtro" />
 
-                <div class="label_33" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
-                    <label class="label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-                        <input type="checkbox" name="perdido" style="margin:0;" value="1" <?= $Filtro[0] ? "checked" : "" ?>>
-                        <span class="legend" style="line-height:1.2;">Perdido</span>
-                    </label>
+        <form class="filter-form j_tab_home" name="user_manager" action="" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="callback" value="Leads" />
+            <input type="hidden" name="callback_action" value="filtro" />
 
-                    <label class="label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-                        <input type="checkbox" name="aberto" style="margin:0;" value="1" <?= $Filtro[1] ? "checked" : "" ?>>
-                        <span class="legend" style="line-height:1.2;">Aberto</span>
-                    </label>
+            <div class="filter-options">
+                <label class="filter-checkbox <?= $Filtro[0] ? 'active' : '' ?>">
+                    <input type="checkbox" name="perdido" value="1" <?= $Filtro[0] ? "checked" : "" ?>>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">
+                        <i class="icon-close-circle"></i>
+                        Perdido
+                    </span>
+                    <span class="filter-badge status-perdido"><?php
+                        $Read->ExeRead(DB_LEADS, "WHERE parceiros_id = :id AND leads_status='0'", "id={$Admin['user_id']}");
+                        echo $Read->getRowCount();
+                    ?></span>
+                </label>
 
-                    <label class="label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-                        <input type="checkbox" name="ganho" style="margin:0;" value="1" <?= $Filtro[2] ? "checked" : "" ?>>
-                        <span class="legend" style="line-height:1.2;">Ganho</span>
-                    </label>
-                </div>
+                <label class="filter-checkbox <?= $Filtro[1] ? 'active' : '' ?>">
+                    <input type="checkbox" name="aberto" value="1" <?= $Filtro[1] ? "checked" : "" ?>>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">
+                        <i class="icon-time"></i>
+                        Aberto
+                    </span>
+                    <span class="filter-badge status-aberto"><?php
+                        $Read->ExeRead(DB_LEADS, "WHERE parceiros_id = :id AND leads_status='1'", "id={$Admin['user_id']}");
+                        echo $Read->getRowCount();
+                    ?></span>
+                </label>
 
-                <div class="clear"></div>
-                <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif" />
-                <button name="public" value="1" class="btn btn_green fl_right" style="margin-left: 5px;">Filtrar</button>
-                <div class="clear"></div>
-            </form>
-        </div>
+                <label class="filter-checkbox <?= $Filtro[2] ? 'active' : '' ?>">
+                    <input type="checkbox" name="ganho" value="1" <?= $Filtro[2] ? "checked" : "" ?>>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">
+                        <i class="icon-check-circle"></i>
+                        Ganho
+                    </span>
+                    <span class="filter-badge status-ganho"><?php
+                        $Read->ExeRead(DB_LEADS, "WHERE parceiros_id = :id AND leads_status='2'", "id={$Admin['user_id']}");
+                        echo $Read->getRowCount();
+                    ?></span>
+                </label>
+            </div>
+
+            <div class="filter-actions">
+                <img class="form_load none" alt="Carregando..." title="Carregando..." src="_img/load.gif" />
+                <button type="submit" name="public" value="1" class="btn btn-apply">
+                    <i class="icon-check"></i>
+                    Aplicar Filtros
+                </button>
+            </div>
+        </form>
     </div>
     <br><br>
 
@@ -124,16 +160,16 @@ endif;
 
                     switch ($leads_status):
                         case 0:
-                            $leads_status_txt = "<span style='color: red'><b>Perdido</b></span>";
-                            break;
+                        $leads_status_txt = "<span style='color: red'><b>Perdido</b></span>";
+                        break;
                         case 1:
-                            $leads_status_txt = "Aberto";
-                            break;
+                        $leads_status_txt = "Aberto";
+                        break;
                         case 2:
-                            $leads_status_txt = "<span style='color: green'><b>Ganho</b></span>";
-                            break;
+                        $leads_status_txt = "<span style='color: green'><b>Ganho</b></span>";
+                        break;
                     endswitch;
-            ?>
+                    ?>
                     <tr role="row">
                         <td style="text-align: left"><?= $leads_status_txt ?></td>
                         <td style="text-align: left"><?= $leads_name ?></td>
@@ -149,10 +185,35 @@ endif;
                             </div>
                         </td>
                     </tr>
-            <?php
+                    <?php
                 endforeach;
             endif;
             ?>
         </body>
     </table>
 </div>
+
+<script>
+    function limparFiltros() {
+        document.querySelectorAll('.filter-checkbox input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        document.querySelectorAll('.filter-checkbox').forEach(label => {
+            label.classList.remove('active');
+        });
+        window.location.href = window.location.pathname + '?wc=leads/home';
+    }
+
+    document.querySelectorAll('.filter-checkbox input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const label = this.closest('.filter-checkbox');
+            if (this.checked) {
+                label.classList.add('active');
+            } else {
+                label.classList.remove('active');
+            }
+            const anyChecked = document.querySelectorAll('.filter-checkbox input:checked').length > 0;
+            document.querySelector('.btn-clear-filters').style.display = anyChecked ? 'inline-flex' : 'none';
+        });
+    });
+</script>
