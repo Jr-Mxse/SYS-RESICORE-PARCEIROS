@@ -326,6 +326,10 @@
     font-size: 13px;
 }
 
+.wizard_file_item span {
+    color: #fff;
+}
+
 .wizard_file_remove {
     background: transparent;
     border: none;
