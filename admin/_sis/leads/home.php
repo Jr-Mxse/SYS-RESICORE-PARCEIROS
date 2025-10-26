@@ -1,3 +1,22 @@
+<?php
+$Filtro = filter_input(INPUT_GET, 'fil', FILTER_DEFAULT) ? explode("-", filter_input(INPUT_GET, 'fil', FILTER_DEFAULT)) : "";
+$sqlWhere = "1=1";
+
+if (!isset($Filtro[0])):
+    $Filtro[0] = 1;
+endif;
+if (!isset($Filtro[1])):
+    $Filtro[1] = 1;
+endif;
+if (!isset($Filtro[2])):
+    $Filtro[2] = 1;
+    $Filtro[20] = 1;
+endif;
+
+if ($Filtro[0]):
+    //$sqlWhere .= " AND ";
+endif;
+?>
 <header class="dashboard_header">
     <div class="dashboard_header_title">
         <h1 class="icon-user-plus">Clientes / Leads</h1>
@@ -8,10 +27,46 @@
         </p>
     </div>
     <div class="dashboard_header_search">
-        <a href="dashboard.php?wc=leads/create" class="btn btn_blue btn_xlarge btn_pulse" title="Novo Registro"><i class="icon-plus icon-notext"></i> Adicionar Clientes / Leads</a>
+        <a href="dashboard.php?wc=leads/create" class="btn btn_blue btn_xlarge btn_pulse" title="Novo Registro"><i class="icon-plus icon-notext"></i> Clientes / Leads</a>
     </div>
 </header>
 <div class="dashboard_content">
+    <div class="dashboard_header_search">
+        <div class="panel_header default">
+            <h2>Filtros para Seleção</h2>
+        </div>
+        <div class="panel" style="border-radius: 0 0 5px 5px">
+            <form class="j_tab_home tab_create" name="user_manager" action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="callback" value="Leads" />
+                <input type="hidden" name="callback_action" value="filtro" />
+
+                <div class="label_33" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+                    <label class="label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                        <input type="checkbox" name="perdido" style="margin:0;" value="1" <?= $Filtro[0] ? "checked" : "" ?>>
+                        <span class="legend" style="line-height:1.2;">Perdido</span>
+                    </label>
+
+                    <label class="label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                        <input type="checkbox" name="aberto" style="margin:0;" value="1" <?= $Filtro[1] ? "checked" : "" ?>>
+                        <span class="legend" style="line-height:1.2;">Aberto</span>
+                    </label>
+
+                    <label class="label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                        <input type="checkbox" name="ganho" style="margin:0;" value="1" <?= $Filtro[2] ? "checked" : "" ?>>
+                        <span class="legend" style="line-height:1.2;">Ganho</span>
+                    </label>
+                </div>
+
+                <div class="clear"></div>
+                <img class="form_load none fl_right" style="margin-left: 10px; margin-top: 2px;" alt="Enviando Requisição!" title="Enviando Requisição!" src="_img/load.gif" />
+                <button name="public" value="1" class="btn btn_green fl_right" style="margin-left: 5px;">Filtrar</button>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+    <br><br>
+
+
     <?php
     $vday = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime(date("Y-m-d H:i:s"))));
     $Delete->ExeDelete(DB_LEADS, "WHERE (leads_name IS NULL OR leads_name='') AND leads_registration<='{$vday}'", "");
@@ -35,7 +90,7 @@
 
         <body>
             <?php
-            $Read->ExeRead(DB_LEADS, "WHERE parceiros_id = :id", "id={$Admin['user_id']}");
+            $Read->ExeRead(DB_LEADS, "WHERE parceiros_id = :id AND ({$sqlWhere})", "id={$Admin['user_id']}");
             if ($Read->getResult()):
                 foreach ($Read->getResult() as $Reg) :
                     extract($Reg);

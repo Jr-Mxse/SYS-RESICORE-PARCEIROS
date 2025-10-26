@@ -31,6 +31,25 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     //SELECIONA AÇÃO
     switch ($Case):
+        case 'filtro':
+            if (!isset($PostData["perdido"])):
+                $lnk1 = "0";
+            else:
+                $lnk1 = "1";
+            endif;
+            if (!isset($PostData["aberto"])):
+                $lnk2 = "0";
+            else:
+                $lnk2 = "1";
+            endif;
+            if (!isset($PostData["ganho"])):
+                $lnk3 = "0";
+            else:
+                $lnk3 = "1";
+            endif;
+            $jSON['redirect'] = "dashboard.php?wc=leads/home&fil={$lnk1}-{$lnk2}-{$lnk3}";
+            break;
+
         case 'manager':
             $RegId = $PostData['leads_id'];
             $PostData['leads_level'] = 2;
@@ -91,10 +110,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO NÃO EXISTE:</b><br>Você tentou deletar um registro que não existe ou já foi removido!", E_USER_WARNING);
             else :
                 extract($Read->getResult()[0]);
+                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 0], "WHERE leads_id = :id", "id={$RegId}");
 
                 //Webhook PipeDrive
                 $url = 'https://n8n-webhook.zapidere.com.br/webhook/lead-perdido-painel';
                 $url .= "?lead={$RegId}";
+
+                //sleep(3);
 
                 try {
                     $curl = curl_init();
@@ -117,14 +139,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     return;
                 }
 
-                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 0], "WHERE leads_id = :id", "id={$RegId}");
                 //$Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO REMOVIDO COM SUCESSO!</b>");
                 $jSON['redirect'] = "dashboard.php?wc=leads/home";
             endif;
             break;
 
-            case 'reativar':
+        case 'reativar':
             $RegId = $PostData['id'];
             $Read->ExeRead(DB_LEADS, "WHERE leads_id = :user", "user={$RegId}");
             if (!$Read->getResult()) :
@@ -132,9 +153,13 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             else :
                 extract($Read->getResult()[0]);
 
+                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 1], "WHERE leads_id = :id", "id={$RegId}");
+
                 //Webhook PipeDrive
                 $url = 'https://n8n-webhook.zapidere.com.br/webhook/lead-perdido-painel';
                 $url .= "?lead={$RegId}";
+
+                //sleep(3);
 
                 try {
                     $curl = curl_init();
@@ -157,7 +182,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                     return;
                 }
 
-                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 1], "WHERE leads_id = :id", "id={$RegId}");
                 //$Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO REATIVADO COM SUCESSO!</b>");
                 $jSON['redirect'] = "dashboard.php?wc=leads/home";
