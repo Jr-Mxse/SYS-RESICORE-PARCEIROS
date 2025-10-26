@@ -88,6 +88,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
     <link href="_sis/transferencias/files/styles/main.min.css" rel="stylesheet" />
     <script src="_sis/transferencias/files/scripts/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+    <script src="_js/wizard.js"></script>
     <style>
         .select2-container--default .select2-selection--single {
             /* mesma altura do select nativo */
