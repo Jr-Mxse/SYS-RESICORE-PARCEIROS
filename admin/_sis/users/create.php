@@ -53,9 +53,15 @@ endif;
                         <input value="<?= $user_name; ?>" type="text" name="user_name" placeholder="Primeiro Nome:" required />
                     </label>
 
-                    <label class="label">
+                    <label class="label label_avatar_upload">
                         <span class="legend">Foto (<?= AVATAR_W; ?>x<?= AVATAR_H; ?>px, JPG ou PNG):</span>
-                        <input type="file" name="user_thumb" class="wc_loadimage" />
+                        <div class="avatar_upload_box">
+                            <div class="avatar_preview" id="avatarPreview">
+                                <i class="icon ion-ios-camera"></i>
+                                <span>Clique aqui para inserir uma imagem</span>
+                            </div>
+                            <input type="file" name="user_thumb" class="wc_loadimage" accept="image/png, image/jpeg">
+                        </div>
                     </label>
 
                     <div class="label_33">
