@@ -59,7 +59,7 @@ if (!$Read->getResult()):
         'order_warranty_date' => date('Y-m-d H:i:s'),
         'order_confirmation_purchase_date' => date('Y-m-d H:i:s'),
         'order_sck' => "admin_free",
-        'order_src' => $_SESSION['userLoginResih']['user_id'],
+        'order_src' => $Admin['user_id'],
         'order_cms_aff' => "0.00",
         'order_cms_marketplace' => "0.00",
         'order_cms_vendor' => "0.00",
