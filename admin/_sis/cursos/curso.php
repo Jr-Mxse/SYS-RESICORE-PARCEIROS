@@ -1,11 +1,4 @@
 <?php
-$Read->ExeRead(DB_EAD_ORDERS, "WHERE user_id = :user AND order_status = :status", "user={$Admin['user_id']}&status=chargeback");
-if ($Read->getResult()):
-    header("Location: dashboard.php?wc=cursos/home");
-    exit;
-endif;
-
-
 $CourseName = filter_input(INPUT_GET, 'slug', FILTER_SANITIZE_STRING);
 if (!$CourseName):
     $_SESSION['wc_ead_alert'] = ["yellow", "Oppps {$user_name}, erro ao acessar:", "Não foi possível identificar o curso acessado :/"];
@@ -28,7 +21,7 @@ else:
             exit;
         endif;
 
-        $Read->LinkResult(DB_USERS, "user_id", $course_author, "user_name, user_lastname");
+        $Read->LinkResult("users", "user_id", $course_author, "user_name, user_lastname");
         $CourseTutor = $Read->getResult()[0];
 
         $Read->LinkResult(DB_EAD_COURSES_SEGMENTS, "segment_id", $course_segment);
@@ -36,12 +29,13 @@ else:
             $CourseSegment = $Read->getResult()[0];
         endif;
 
-        $Read->FullRead("
+        $Read->FullRead(
+            "
             SELECT COUNT(class_id) AS ClassCount, SUM(class_time) AS ClassTime 
             FROM " . DB_EAD_CLASSES . " 
             WHERE module_id IN(
                 SELECT module_id FROM " . DB_EAD_MODULES . " WHERE course_id = :cs
-            )", 
+            )",
             "cs={$course_id}"
         );
 
@@ -53,46 +47,69 @@ endif;
 
 $Read->ExeRead(DB_EAD_ENROLLMENTS, "WHERE course_id = :course AND user_id = :user", "course={$course_id}&user={$Admin['user_id']}");
 if (!$Read->getResult()):
-    $_SESSION['wc_ead_alert'] = [
-        'yellow',
-        "Oppsss {$user_name}, acesso negado:",
-        "Você tentou acessar o curso {$course_title}, mas não é aluno dele!"
+    $CreateOrder = [
+        'user_id' => $Admin['user_id'],
+        'course_id' => $course_id,
+        'order_transaction' => time(),
+        'order_callback_type' => "1",
+        'order_price' => "0.00",
+        'order_currency' => "BRL",
+        'order_payment_type' => "admin_free",
+        'order_purchase_date' => date('Y-m-d H:i:s'),
+        'order_warranty_date' => date('Y-m-d H:i:s'),
+        'order_confirmation_purchase_date' => date('Y-m-d H:i:s'),
+        'order_sck' => "admin_free",
+        'order_src' => $_SESSION['userLoginResih']['user_id'],
+        'order_cms_aff' => "0.00",
+        'order_cms_marketplace' => "0.00",
+        'order_cms_vendor' => "0.00",
+        'order_status' => "admin_free",
+        'order_delivered' => 1
     ];
-    header("Location: dashboard.php?wc=cursos/home");
-    exit;
-else:
-    extract($Read->getResult()[0]);
+    $Create->ExeCreate(DB_EAD_ORDERS, $CreateOrder);
+    $Enrollment['user_id'] = $Admin['user_id'];
+    $Enrollment['course_id'] = $course_id;
+    $Enrollment['enrollment_order'] = $Create->getResult();
+    $Enrollment['enrollment_end'] = null;
+    $Enrollment['enrollment_start'] = date('Y-m-d H:i:s');
+    $Create->ExeCreate(DB_EAD_ENROLLMENTS, $Enrollment);
 
-    if (!empty($enrollment_bonus)):
-        $Read->LinkResult(DB_EAD_ENROLLMENTS, "enrollment_id", $enrollment_bonus, 'enrollment_end');
-        if (!empty($Read->getResult())
-            && !empty($Read->getResult()[0]['enrollment_end'])
-            && time() >= strtotime($Read->getResult()[0]['enrollment_end'])
-        ):
-            $_SESSION['wc_ead_alert'] = [
-                'red',
-                "Oppsss, bônus bloqueado:",
-                "Desculpe {$user_name}, mas para acessar um bônus, a assinatura ou curso que liberou o mesmo não pode estar expirada(o)."
-            ];
-            header("Location: dashboard.php?wc=cursos/home");
-            exit;
-        endif;
+    $Read->ExeRead(DB_EAD_ENROLLMENTS, "WHERE course_id = :course AND user_id = :user", "course={$course_id}&user={$Admin['user_id']}");
+endif;
 
-    elseif (!empty($enrollment_end) && time() >= strtotime($enrollment_end)):
+extract($Read->getResult()[0]);
+
+if (!empty($enrollment_bonus)):
+    $Read->LinkResult(DB_EAD_ENROLLMENTS, "enrollment_id", $enrollment_bonus, 'enrollment_end');
+    if (
+        !empty($Read->getResult())
+        && !empty($Read->getResult()[0]['enrollment_end'])
+        && time() >= strtotime($Read->getResult()[0]['enrollment_end'])
+    ):
         $_SESSION['wc_ead_alert'] = [
             'red',
-            "Oppsss, acesso expirado:",
-            "Desculpe {$user_name}, mas sua assinatura ao curso <b>{$course_title}</b> expirou em " . date("d/m/y \a\s H\hi", strtotime($enrollment_end)) . "."
+            "Oppsss, bônus bloqueado:",
+            "Desculpe {$user_name}, mas para acessar um bônus, a assinatura ou curso que liberou o mesmo não pode estar expirada(o)."
         ];
         header("Location: dashboard.php?wc=cursos/home");
         exit;
     endif;
 
-    $UpdateEnrollmentAcess = ['enrollment_access' => date("Y-m-d H:i:s")];
-    $Update->ExeUpdate(DB_EAD_ENROLLMENTS, $UpdateEnrollmentAcess, "WHERE enrollment_id = :enrol", "enrol={$enrollment_id}");
+elseif (!empty($enrollment_end) && time() >= strtotime($enrollment_end)):
+    $_SESSION['wc_ead_alert'] = [
+        'red',
+        "Oppsss, acesso expirado:",
+        "Desculpe {$user_name}, mas sua assinatura ao curso <b>{$course_title}</b> expirou em " . date("d/m/y \a\s H\hi", strtotime($enrollment_end)) . "."
+    ];
+    header("Location: dashboard.php?wc=cursos/home");
+    exit;
+endif;
+
+$UpdateEnrollmentAcess = ['enrollment_access' => date("Y-m-d H:i:s")];
+$Update->ExeUpdate(DB_EAD_ENROLLMENTS, $UpdateEnrollmentAcess, "WHERE enrollment_id = :enrol", "enrol={$enrollment_id}");
 
 
-    $Read->FullRead("
+$Read->FullRead("
         SELECT COUNT(student_class_id) AS ClassStudentCount
         FROM " . DB_EAD_STUDENT_CLASSES . "
         WHERE user_id = :user
@@ -100,11 +117,11 @@ else:
           AND student_class_check IS NOT NULL
     ", "user={$Admin['user_id']}&course={$course_id}");
 
-    $ClassStudenCount = $Read->getResult()[0]['ClassStudentCount'];
-endif;
+$ClassStudenCount = $Read->getResult()[0]['ClassStudentCount'];
 
 
-$course_cover = (file_exists("../uploads/{$course_cover}") && !is_dir("../uploads/{$course_cover}") ? "uploads/{$course_cover}" : 'admin/_img/no_image.jpg');
+
+$course_cover = ajusteFotoCurso($course_cover);
 
 //GET FEEBACK ALERTS
 if (!empty($_SESSION['wc_ead_alert'])):
@@ -131,7 +148,7 @@ $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
 <article class="wc_ead_course_course jwc_ead_restrict">
     <div class="wc_ead_content">
         <header class="wc_ead_course_course_header">
-            <img src="../tim.php?src=<?= $course_cover; ?>&w=<?= IMAGE_W / 3; ?>&h=<?= IMAGE_H / 3; ?>" alt="<?= $course_title; ?>" title="<?= $course_title; ?>"/>
+            <img src="<?= $course_cover; ?>" alt="<?= $course_title; ?>" title="<?= $course_title; ?>" />
             <h1 class="icon-lab">Curso <?= $course_title; ?></h1>
         </header>
 
@@ -216,27 +233,33 @@ $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
             if (empty($module_release_date)):
                 $ReleaseUnlock = strtotime($enrollment_start . "+{$module_release}days");
                 $ModuleUnlocked = (($ReleaseUnlock <= time() && $ClassesPendent == 0) ? true : false);
-                $ModuleRelease = ($ReleaseUnlock <= time()
+                $ModuleRelease = "";/*($ReleaseUnlock <= time()
                     ? '<span class="bar_green bar_icon radius icon-unlocked">' . date('d/m/Y \a\s H\hi', $ReleaseUnlock) . '</span>'
-                    : '<span class="bar_yellow bar_icon radius icon-lock">' . date('d/m/Y \a\s H\hi', $ReleaseUnlock) . '</span>');
+                    : '<span class="bar_yellow bar_icon radius icon-lock">' . date('d/m/Y \a\s H\hi', $ReleaseUnlock) . '</span>');*/
             else:
                 $ReleaseUnlock = $module_release_date;
                 $ModuleUnlocked = ((strtotime($ReleaseUnlock) <= time() && $ClassesPendent == 0) ? true : false);
-                $ModuleRelease = (strtotime($ReleaseUnlock) <= time()
+                $ModuleRelease = "";/*(strtotime($ReleaseUnlock) <= time()
                     ? '<span class="bar_green bar_icon radius icon-unlocked">' . date('d/m/Y \a\s H\hi', strtotime($ReleaseUnlock)) . '</span>'
-                    : '<span class="bar_yellow bar_icon radius icon-lock">' . date('d/m/Y \a\s H\hi', strtotime($ReleaseUnlock)) . '</span>');
+                    : '<span class="bar_yellow bar_icon radius icon-lock">' . date('d/m/Y \a\s H\hi', strtotime($ReleaseUnlock)) . '</span>');*/
             endif;
 
             $barRequired = "";
             if ($module_required == 1):
-                $Read->ExeRead(DB_EAD_STUDENT_CLASSES, "WHERE user_id = :user AND course_id = :course 
+                $Read->ExeRead(
+                    DB_EAD_STUDENT_CLASSES,
+                    "WHERE user_id = :user AND course_id = :course 
                     AND student_class_check IS NOT NULL 
                     AND class_id IN (SELECT class_id FROM " . DB_EAD_CLASSES . " WHERE module_id = :module)",
-                    "user={$user_id}&course={$course_id}&module={$module_id}");
+                    "user={$user_id}&course={$course_id}&module={$module_id}"
+                );
                 $ClassesChecked = $Read->getRowCount();
 
-                $Read->ExeRead(DB_EAD_CLASSES, "WHERE module_id = :module AND course_id = :course", 
-                    "module={$module_id}&course={$course_id}");
+                $Read->ExeRead(
+                    DB_EAD_CLASSES,
+                    "WHERE module_id = :module AND course_id = :course",
+                    "module={$module_id}&course={$course_id}"
+                );
                 $ClassesModule = $Read->getRowCount();
 
                 if ($ClassesChecked < $ClassesModule):
@@ -248,7 +271,7 @@ $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
                                     </span>";
                 endif;
             endif;
-            ?>
+    ?>
             <section class="wc_ead_course_module" id="<?= $module_name; ?>">
                 <header class="module_header">
                     <h1 class="icon-tree"><?= $module_title; ?>: <?= $ModuleRelease; ?> <?= $barRequired; ?></h1>
@@ -287,9 +310,8 @@ $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
                         $Read->FullRead("SELECT support_status FROM " . DB_EAD_SUPPORT . " WHERE user_id = :user AND class_id = :class", "user={$user_id}&class={$class_id}");
                         $TaskSupport = (!$Read->getResult()
                             ? 'Não Abriu'
-                            : ($Read->getResult()[0]['support_status'] == 1 ? 'Em Aberto' :
-                              ($Read->getResult()[0]['support_status'] == 2 ? '<b>Respondida</b>' : 'Concluída')));
-                        ?>
+                            : ($Read->getResult()[0]['support_status'] == 1 ? 'Em Aberto' : ($Read->getResult()[0]['support_status'] == 2 ? '<b>Respondida</b>' : 'Concluída')));
+                ?>
                         <article class="wc_ead_course_module_class <?= (!empty($ClassPending) && $ClassPending['class_id'] == $class_id ? 'active' : ''); ?>">
                             <h1 class="row">
                                 <span class="icon-play2">
@@ -298,37 +320,41 @@ $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
                                              title='Estudar {$class_title}'>{$class_title}</a>"
                                         : $class_title); ?>
                                 </span>
-                            </h1><p class="row">
+                            </h1>
+                            <p class="row">
                                 <span class="icon-hour-glass wc_tooltip"><?= $class_time; ?>min.
                                     <span class="wc_tooltip_balloon">É o tempo desta aula!</span>
                                 </span>
-                            </p><p class="row views">
+                            </p>
+                            <p class="row views">
                                 <span class="icon-stats-dots wc_tooltip"><?= $ClassViews; ?>
                                     <span class="wc_tooltip_balloon">Quantas vezes você viu!</span>
                                 </span>
-                            </p><p class="row">
+                            </p>
+                            <p class="row">
                                 <span class="icon-clock wc_tooltip"><?= $ClassPlay; ?>
                                     <span class="wc_tooltip_balloon">Último acesso!</span>
                                 </span>
-                            </p><p class="row">
+                            </p>
+                            <p class="row">
                                 <span class="icon-bubbles3 wc_tooltip"><?= $TaskSupport; ?>
                                     <span class="wc_tooltip_balloon">Minha dúvida!</span>
                                 </span>
-                            </p><p class="row">
+                            </p>
+                            <p class="row">
                                 <span class="wc_tooltip <?= $ClassCheck ? "icon-checkmark" : 'icon-checkmark2'; ?>">
                                     <?= $ClassCheck ? $ClassCheck : "00/00/00"; ?>
                                     <span class="wc_tooltip_balloon">Marcou como concluída!</span>
                                 </span>
                             </p>
                         </article>
-                        <?php
+                <?php
                     endforeach;
                 endif;
                 ?>
             </section>
-            <?php
+    <?php
         endforeach;
     endif;
     ?>
 </div>
-

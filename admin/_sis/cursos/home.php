@@ -56,11 +56,11 @@
    					<div class="progress"><span class="progress_bar" style="width: <?= $CourseCompletedPercent; ?>%"><?= $CourseCompletedPercent; ?>%</span></div>
    					<div class="wc_ead_home_courses_course_content box_content wc_normalize_height">
    						<h1 class="icon-lab"><a href="dashboard.php?wc=cursos/curso&slug=<?= $course_name; ?>" title="Acessar o Curso <?= $course_title; ?>"><?= $course_title; ?></a></h1>
-   						<?php if (isset($enrollment_start)): ?>
+   						<?php /* if (isset($enrollment_start)): ?>
    							<p class="icon-clock">Minha Matrícula: <?= date("d/m/y", strtotime($enrollment_start)); ?></p>
    						<?php endif; ?>
    						<p class="icon-history">Último acesso: <?= isset($enrollment_access) ? date("d/m H\hi", strtotime($enrollment_access)) : "NUNCA"; ?></p>
-   						<?php if (isset($enrollment_start)):
+   						<?php */ if (isset($enrollment_start)):
 								$Read->LinkResult(DB_EAD_ORDERS, "course_id", $course_id, 'order_signature_plan, order_signature_recurrency, order_signature_period');
 
 								if (!empty($Read->getResult()[0]['order_signature_plan'])):
