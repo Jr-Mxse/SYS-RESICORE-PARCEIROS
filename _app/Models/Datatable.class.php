@@ -44,6 +44,7 @@ function Datatable($tabela, $api, $order = null, $lista = null, $botoes = null, 
                                         "sInfoFiltered": "(Filtrados de _MAX_ registros)",
                                         "sInfoPostFix": "",
                                         "sInfoThousands": ".",
+                                        "searchPlaceholder": 'Pesquisar',
                                         "sLengthMenu": "_MENU_",
                                         "sLoadingRecords": "Carregando...",
                                         "sProcessing": "Processando...",
@@ -164,6 +165,7 @@ function Datatable($tabela, $api, $order = null, $lista = null, $botoes = null, 
                                 ?>
                         });
                 });
+
         </script>
 <?php
 }

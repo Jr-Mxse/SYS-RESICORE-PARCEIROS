@@ -144,7 +144,7 @@ table.dataTable.no-footer {
     font-family: 'icomoon';
     position: absolute;
     left: 20px;
-    top: 40%;
+    top: 60%;
     transform: translateY(-50%);
     font-size: 14px;
     color: #999;
@@ -152,3 +152,15 @@ table.dataTable.no-footer {
 }
 
 
+.dataTables_filter .datatable_label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dataTables_filter .datatable_label i {
+    font-size: 16px;
+    color: #00b494; /* cor da lupa */
+}
