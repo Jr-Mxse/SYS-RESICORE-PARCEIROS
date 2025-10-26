@@ -267,7 +267,7 @@
             </div>
         </form>
     </div>
-    
+    <script src="https://localhost/resiparceiros/_cdn/jquery.js"></script>
     <script src="wizard.js"></script>
 </body>
 </html>
