@@ -135,7 +135,7 @@ table.dataTable.no-footer {
 .dataTables_wrapper .dataTables_filter input {
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 6px 10px 6px 32px !important; 
+  padding: 6px 10px 6px 50px !important; 
 }
 
 /* ícone */
@@ -144,7 +144,7 @@ table.dataTable.no-footer {
     font-family: 'icomoon';
     position: absolute;
     left: 20px;
-    top: 60%;
+    top: 40%;
     transform: translateY(-50%);
     font-size: 14px;
     color: #999;
