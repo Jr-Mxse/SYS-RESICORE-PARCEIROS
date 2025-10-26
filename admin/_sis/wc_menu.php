@@ -46,6 +46,13 @@
 </li>
 <?php endif; ?>
 
+<li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/create') ? 'active' : ''; ?>">
+    <a title="Meu Perfil" href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>" data-tooltip="Meu Perfil">
+        <i class="icon-user"></i>
+        <span class="menu-text">Meu Perfil</span>
+    </a>
+</li>
+
 <li class="dashboard_nav_menu_li">
     <a target="_New" title="ResiH" href="https://resiplace.com.br" data-tooltip="ResiPlace">
         <i class="icon-star-full"></i>

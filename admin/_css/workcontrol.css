@@ -1812,6 +1812,24 @@ div.mce-fullscreen {
     content: "";
 }
 
+.box_conf_menu.verfical {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.box_conf_menu.verfical .conf_menu {
+    padding: 20px 40px !important;
+    background: #eee;
+    border-radius: 5px !important;
+}
+
+.box_conf_menu.verfical a.wc_active {
+    background: #00b494;
+    color: #fff;
+    font-weight: 600 !important;
+}
+
 
 /***********************************
 ############ CONFIGURAÇÕES TAB 2 #########

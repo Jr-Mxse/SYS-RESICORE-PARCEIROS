@@ -28,6 +28,12 @@
     margin-bottom: 8px;
 }
 
+.dashboard_card .dashboard_card_btn {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
 .dashboard_card_icon {
     width: 48px;
     height: 48px;
@@ -234,16 +240,39 @@
     color: #e2e8f0;
 }
 
+/* Amarelo/Warning - já existe */
 .goal_badge.warning {
     background: rgba(251, 191, 36, 0.12);
     border-color: rgba(251, 191, 36, 0.3);
     color: #fbbf24;
 }
 
+/* Roxo/Success - já existe */
 .goal_badge.success {
     background: rgba(139, 92, 246, 0.12);
     border-color: rgba(139, 92, 246, 0.3);
     color: #a78bfa;
+}
+
+/* Azul/Info */
+.goal_badge.info {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #3b82f6;
+}
+
+/* Verde/Success alternativo */
+.goal_badge.completed {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+}
+
+/* Vermelho/Danger */
+.goal_badge.danger {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
 }
 
 /* Status por etapa do funil Styles */

@@ -60,7 +60,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                         endif;
                     endif;
 
-                    $Upload->Image($UserThumb, $UserId . "-" . Check::Name($PostData['user_name'] . $PostData['user_lastname']) . '-' . time(), 600);
+                    $Upload->Image($UserThumb, $UserId . "-" . Check::Name($PostData['user_name']) . '-' . time(), 600);
                     if ($Upload->getResult()):
                         $PostData['user_thumb'] = $Upload->getResult();
                     else:

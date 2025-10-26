@@ -30,6 +30,12 @@ endif;
 
 <div class="dashboard_content dashboard_users">
     <div class="box box70">
+        <div class="panel" style="border-radius: 0 0 5px 5px;">
+            <div class="box_conf_menu verfical">
+                <a class='conf_menu wc_tab wc_active btn_pulse' href='#profile'>Perfil</a>
+                <a class='conf_menu wc_tab' href='#address'>Endereços</a>
+            </div>
+        </div>
         <article class="wc_tab_target wc_active" id="profile">
 
             <div class="panel_header default">
@@ -146,12 +152,5 @@ endif;
         $Image = (file_exists("../uploads/{$user_thumb}") && !is_dir("../uploads/{$user_thumb}") ? "uploads/{$user_thumb}" : 'admin/_img/no_avatar.jpg');
         ?>
         <img class="user_thumb" style="width: 100%;" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="" title="" />
-
-        <div class="panel" style="border-radius: 0 0 5px 5px;">
-            <div class="box_conf_menu">
-                <a class='conf_menu wc_tab wc_active' href='#profile'>Perfil</a>
-                <a class='conf_menu wc_tab' href='#address'>Endereços</a>
-            </div>
-        </div>
     </div>
 </div>
