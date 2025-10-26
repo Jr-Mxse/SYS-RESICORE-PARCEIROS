@@ -110,7 +110,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO NÃO EXISTE:</b><br>Você tentou deletar um registro que não existe ou já foi removido!", E_USER_WARNING);
             else :
                 extract($Read->getResult()[0]);
-                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 0], "WHERE leads_id = :id", "id={$RegId}");
+                $Update->ExeUpdate(DB_LEADS, ["leads_status" => '0'], "WHERE leads_id = :id", "id={$RegId}");
 
                 //Webhook PipeDrive
                 $url = 'https://n8n-webhook.zapidere.com.br/webhook/lead-perdido-painel';
