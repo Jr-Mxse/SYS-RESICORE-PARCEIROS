@@ -1815,13 +1815,13 @@ div.mce-fullscreen {
 .box_conf_menu.verfical {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 20px;
 }
 
 .box_conf_menu.verfical .conf_menu {
     padding: 20px 40px !important;
     background: #eee;
-    border-radius: 5px !important;
+    border-radius: 50px !important;
 }
 
 .box_conf_menu.verfical a.wc_active {
