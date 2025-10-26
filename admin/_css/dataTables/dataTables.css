@@ -135,7 +135,7 @@ table.dataTable.no-footer {
 .dataTables_wrapper .dataTables_filter input {
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 6px 10px 6px 32px !important; 
+  padding: 6px 10px 6px 50px !important; 
 }
 
 /* ícone */
@@ -152,3 +152,15 @@ table.dataTable.no-footer {
 }
 
 
+.dataTables_filter .datatable_label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.dataTables_filter .datatable_label i {
+    font-size: 16px;
+    color: #00b494; /* cor da lupa */
+}
