@@ -1,6 +1,6 @@
 <?php
 $Filtro = filter_input(INPUT_GET, 'fil', FILTER_DEFAULT) ? explode("-", filter_input(INPUT_GET, 'fil', FILTER_DEFAULT)) : "";
-$sqlWhere = "1=1";
+$sqlWhere = "";
 
 if (!isset($Filtro[0])):
     $Filtro[0] = 1;
@@ -14,7 +14,17 @@ if (!isset($Filtro[2])):
 endif;
 
 if ($Filtro[0]):
-    //$sqlWhere .= " AND ";
+    $sqlWhere .= " leads_status='0'";
+endif;
+
+if ($Filtro[1]):
+    $sqlWhere .= $sqlWhere ? " OR ": "";
+    $sqlWhere .= "leads_status='1'";
+endif;
+
+if ($Filtro[2]):
+    $sqlWhere .= $sqlWhere ? " OR ": "";
+    $sqlWhere .= "leads_status='2'";
 endif;
 ?>
 <header class="dashboard_header">
