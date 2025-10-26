@@ -1831,6 +1831,17 @@ div.mce-fullscreen {
     font-size: 16px;
 }
 
+@media (max-width: 800px) {
+    .box_conf_menu.verfical {
+        flex-direction: column;
+    }
+
+    .box_conf_menu.verfical a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 
 /***********************************
 ############ CONFIGURAÇÕES TAB 2 #########
