@@ -13,7 +13,7 @@ if ($RegId):
 else:
     $RegCreate = [
         'leads_registration' => date('Y-m-d H:i:s'),
-        'leads_status' => 0,
+        'leads_status' => 1,
         'parceiros_id' => $Admin['user_id']
     ];
     $Create->ExeCreate(DB_LEADS, $RegCreate);

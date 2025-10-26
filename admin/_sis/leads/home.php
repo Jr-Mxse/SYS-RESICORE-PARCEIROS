@@ -8,7 +8,7 @@
         </p>
     </div>
     <div class="dashboard_header_search">
-        <a href="dashboard.php?wc=leads/create" class="btn btn_green btn_xlarge btn_pulse" title="Novo Registro"><i class="icon-plus icon-notext"></i> Adicionar Clientes / Leads</a>
+        <a href="dashboard.php?wc=leads/create" class="btn btn_blue btn_xlarge btn_pulse" title="Novo Registro"><i class="icon-plus icon-notext"></i> Adicionar Clientes / Leads</a>
     </div>
 </header>
 <div class="dashboard_content">
@@ -22,7 +22,7 @@
     <table id="<?= $apiTable ?>" class="display" cellspacing="0" width="100%">
         <thead>
             <tr role="row" style="background: #CCC">
-                <th style="text-align: left;">Cadastro</th>
+                <th style="text-align: left;">Status</th>
                 <th style="text-align: left;">Nome</th>
                 <th style="text-align: left;">Previsão<br>Negócio</th>
                 <th style="text-align: left;">Previsão<br>Terreno</th>
@@ -56,9 +56,21 @@
                     $leads_proposta2 = (0.48 * ($leads_proposta - $leads_terreno) / 100);
                     $leads_proposta3 = (1.5 * ($leads_proposta - $leads_terreno) / 100);
                     $leads_proposta4 = (6 * ($leads_proposta - $leads_terreno) / 100);
+
+                    switch ($leads_status):
+                        case 0:
+                            $leads_status_txt = "<span style='color: red'><b>Perdido</b></span>";
+                            break;
+                        case 1:
+                            $leads_status_txt = "Aberto";
+                            break;
+                        case 2:
+                            $leads_status_txt = "<span style='color: green'><b>Ganho</b></span>";
+                            break;
+                    endswitch;
             ?>
                     <tr role="row">
-                        <td style="text-align: left" data-sort="<?= strtotime($leads_registration) ?>"><?= date("d/m/Y H:i", strtotime($leads_registration)) ?></td>
+                        <td style="text-align: left"><?= $leads_status_txt ?></td>
                         <td style="text-align: left"><?= $leads_name ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta, '2', ',', '.') ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_terreno, '2', ',', '.') ?></td>
@@ -66,9 +78,14 @@
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta3, '2', ',', '.') ?></td>
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta4, '2', ',', '.') ?></td>
                         <td>
-                            <div class='fl_right'>
-                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-notext icon-eye btn  btn_green"></a>
-                                <span rel='dashboard_header_search' callback="Leads" callback_action='delete' class='j_delete_action_confirm icon-cancel-circle btn btn_red  icon-notext' id='<?= $leads_id; ?>'></span>
+                            <div class='fl_left'>
+                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-notext icon-eye btn btn_blue"></a>
+                                <?php if ($leads_status == 1): ?>
+                                    <a class="btn btn_red icon-notext icon-bin btn-rounded j_swal_action wc_tooltip" callback="Leads" callback_action="delete" data-confirm-text="Cliente Perdido" data-confirm-message="Ao confirmar essa ação o seu Cliente / Lead será considerado Perdido! Quer mesmo continuar? " id="<?= $leads_id ?>"><span>Cliente Perdido</span></a>
+                                <?php endif; ?>
+                                <?php if ($leads_status == 0): ?>
+                                    <a class="btn btn_green icon-notext icon-checkmark btn-rounded j_swal_action wc_tooltip" callback="Leads" callback_action="reativar" data-confirm-text="Cliente Ativado" data-confirm-message="Ao confirmar essa ação o seu Cliente / Lead será considerado reativado e Aberto! Quer mesmo continuar? " id="<?= $leads_id ?>"><span>Cliente Aberto</span></a>
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>

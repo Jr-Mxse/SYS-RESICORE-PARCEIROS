@@ -40,8 +40,8 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 $PostData['leads_datebirth'] = (!empty($PostData['leads_datebirth']) ? Check::Nascimento($PostData['leads_datebirth']) : null);
             endif;
 
-            if (isset($PostData['leads_status'])) :
-                $PostData['leads_status'] = (!empty($PostData['leads_status']) ? '1' : '0');
+            if (!isset($PostData['leads_status'])) :
+                $PostData['leads_status'] = 1;
             endif;
 
             if (isset($PostData['leads_cell'])):
@@ -85,19 +85,81 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
             break;
 
         case 'delete':
-            $RegId = $PostData['del_id'];
+            $RegId = $PostData['id'];
             $Read->ExeRead(DB_LEADS, "WHERE leads_id = :user", "user={$RegId}");
             if (!$Read->getResult()) :
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO NÃO EXISTE:</b><br>Você tentou deletar um registro que não existe ou já foi removido!", E_USER_WARNING);
             else :
                 extract($Read->getResult()[0]);
 
-                if (file_exists("../../uploads/{$leads_thumb}") && !is_dir("../../uploads/{$leads_thumb}")) :
-                    unlink("../../uploads/{$leads_thumb}");
-                endif;
+                //Webhook PipeDrive
+                $url = 'https://n8n-webhook.zapidere.com.br/webhook/lead-perdido-painel';
+                $url .= "?lead={$RegId}";
 
-                $Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
+                try {
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => $url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                    ));
+
+                    $response = (array) json_decode(curl_exec($curl), true);
+                    curl_close($curl);
+                } catch (Exception $e) {
+                    $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
+                    echo json_encode($jSON);
+                    return;
+                }
+
+                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 0], "WHERE leads_id = :id", "id={$RegId}");
+                //$Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
                 $jSON['trigger'] = AjaxErro("<b>REGISTRO REMOVIDO COM SUCESSO!</b>");
+                $jSON['redirect'] = "dashboard.php?wc=leads/home";
+            endif;
+            break;
+
+            case 'reativar':
+            $RegId = $PostData['id'];
+            $Read->ExeRead(DB_LEADS, "WHERE leads_id = :user", "user={$RegId}");
+            if (!$Read->getResult()) :
+                $jSON['trigger'] = AjaxErro("<b>REGISTRO NÃO EXISTE:</b><br>Você tentou deletar um registro que não existe ou já foi removido!", E_USER_WARNING);
+            else :
+                extract($Read->getResult()[0]);
+
+                //Webhook PipeDrive
+                $url = 'https://n8n-webhook.zapidere.com.br/webhook/lead-perdido-painel';
+                $url .= "?lead={$RegId}";
+
+                try {
+                    $curl = curl_init();
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => $url,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                    ));
+
+                    $response = (array) json_decode(curl_exec($curl), true);
+                    curl_close($curl);
+                } catch (Exception $e) {
+                    $jSON['trigger'] = AjaxErro("<b class='icon-image'>ERRO:</b><br>" . $e->getMessage(), E_USER_WARNING);
+                    echo json_encode($jSON);
+                    return;
+                }
+
+                $Update->ExeUpdate(DB_LEADS, ["leads_status" => 1], "WHERE leads_id = :id", "id={$RegId}");
+                //$Delete->ExeDelete(DB_LEADS, "WHERE leads_id = :user", "user={$leads_id}");
+                $jSON['trigger'] = AjaxErro("<b>REGISTRO REATIVADO COM SUCESSO!</b>");
                 $jSON['redirect'] = "dashboard.php?wc=leads/home";
             endif;
             break;

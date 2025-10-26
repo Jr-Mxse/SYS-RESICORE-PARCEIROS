@@ -101,14 +101,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                 $nome = explode(" ", $PostData['user_name'])[0];
                 $destino["numero"] = "55" . $PostData['user_cell'];
-                $destino["mensagem"] = "Bom dia {$nome}! Tudo bem?\n 
-Nosso parceiro {$_SESSION['userLoginParceiros']['user_name']} cadastrou você para participar de sua equipe em nosso Painel de Parceiros.\n
-Para ativar o seu cadastro, basta clicar no link abaixo e completar o seu cadastro.\n
-Ao ativar, você terá acesso à todos os treinamentos e a Plataforma de Parceiros Residere.\n
-👉 {$link}\n
-Ficamos à disposição para o que precisar.\n
-Um grande abraço,\n
-Equipe Grupo Residere";
+                $destino["mensagem"] = "Bom dia {$nome}! Tudo bem?\nNosso parceiro {$_SESSION['userLoginParceiros']['user_name']} cadastrou você para participar de sua equipe em nosso Painel de Parceiros.\nPara ativar o seu cadastro, basta clicar no link abaixo e completar o seu cadastro.\nAo ativar, você terá acesso à todos os treinamentos e a Plataforma de Parceiros Residere.\n👉 {$link}\nFicamos à disposição para o que precisar.\nUm grande abraço,\nEquipe Grupo Residere";
 
                 $envio = envioZapParceiro($destino);
                 if ($envio["status"] == "PENDING"):
