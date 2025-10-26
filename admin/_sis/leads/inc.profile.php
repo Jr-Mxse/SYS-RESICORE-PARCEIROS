@@ -4,7 +4,7 @@
     </div>
     <div class="panel" style="border-radius: 0 0 5px 5px">
         <form class="j_tab_home tab_create" name="leads_manager" action="" method="post" enctype="multipart/form-data">
-            <?php if ($RegTp != "editar"): ?>
+            <?php if ($RegTp == "editar"): ?>
                 <input type="hidden" name="callback" value="Leads" />
                 <input type="hidden" name="callback_action" value="manager" />
                 <input type="hidden" name="leads_id" value="<?= $RegId; ?>" />
