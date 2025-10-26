@@ -65,14 +65,16 @@ define('DB_EAD_COURSES_BONUS', 'ead_courses_bonus'); //Tabela de bônus para cur
 define('DB_EAD_COURSES_SEGMENTS', 'ead_courses_segments'); //Tabela de segmentos de cursos
 define('DB_EAD_MODULES', 'ead_modules'); //Tabela de módulos
 define('DB_EAD_CLASSES', 'ead_classes'); //Tabela de aulas
-define('DB_EAD_ENROLLMENTS', 'ead_enrollments'); //Tabela de matrículas
-define('DB_EAD_ORDERS', 'ead_orders'); //Tabela de pedidos
 define('DB_EAD_SUPPORT', 'ead_support'); //Tabela de dúvidas
+
+define('DB_EAD_ORDERS', 'ead_orders_parceiros'); //Tabela de pedidos
+define('DB_EAD_ENROLLMENTS', 'ead_enrollments_parceiros'); //Tabela de matrículas
+define('DB_EAD_STUDENT_CLASSES', 'ead_student_classes_parceiros'); //Tabela de matrículas
+
+//Falta Implementar (se necessário)
 define('DB_EAD_SUPPORT_REPLY', 'ead_support_reply'); //Tabela de respostas
-define('DB_EAD_STUDENT_CLASSES', 'ead_student_classes'); //Tabela de matrículas
 define('DB_EAD_STUDENT_CERTIFICATES', 'ead_student_certificates'); //Tabela de certificados
 define('DB_EAD_STUDENT_DOWNLOADS', 'ead_student_downloads'); //Tabela de downloads do curso
-
 
 /*
   AUTO LOAD DE CLASSES
