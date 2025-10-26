@@ -18,12 +18,12 @@ if ($Filtro[0]):
 endif;
 
 if ($Filtro[1]):
-    $sqlWhere .= $sqlWhere ? " OR ": "";
+    $sqlWhere .= $sqlWhere ? " OR " : "";
     $sqlWhere .= "leads_status='1'";
 endif;
 
 if ($Filtro[2]):
-    $sqlWhere .= $sqlWhere ? " OR ": "";
+    $sqlWhere .= $sqlWhere ? " OR " : "";
     $sqlWhere .= "leads_status='2'";
 endif;
 ?>
@@ -144,13 +144,8 @@ endif;
                         <td style="text-align: left" data-sort="<?= $leads_proposta ?>"><?= "R$ " . number_format($leads_proposta4, '2', ',', '.') ?></td>
                         <td>
                             <div class='fl_left'>
-                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-eye btn btn_blue"> Visualizar</a>
-                                <?php if ($leads_status == 1): ?>
-                                    <a class="btn btn_red icon-notext icon-bin btn-rounded j_swal_action" callback="Leads" callback_action="delete" data-confirm-text="Cliente Perdido" data-confirm-message="Ao confirmar essa ação o seu Cliente / Lead será considerado Perdido! Quer mesmo continuar? " id="<?= $leads_id ?>"> Cliente Perdido</a>
-                                <?php endif; ?>
-                                <?php if ($leads_status == 0): ?>
-                                    <a class="btn btn_green icon-notext icon-checkmark btn-rounded j_swal_action" callback="Leads" callback_action="reativar" data-confirm-text="Cliente Ativado" data-confirm-message="Ao confirmar essa ação o seu Cliente / Lead será considerado reativado e Aberto! Quer mesmo continuar? " id="<?= $leads_id ?>"> Cliente Aberto</a>
-                                <?php endif; ?>
+                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>" class="post_single_center icon-eye btn btn_gray" style="margin: 2px"> Visualizar</a>
+                                <a title="Editar" href="dashboard.php?wc=leads/create&id=<?= $leads_id ?>&tp=editar" class="post_single_center icon-pencil btn btn_blue" style="margin: 2px"> Editar</a>
                             </div>
                         </td>
                     </tr>
