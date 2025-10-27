@@ -1,10 +1,3 @@
-<header class="dashboard_header">
-    <div class="dashboard_header_title">
-        <h1 class="icon-users">Novo Lead Residere</h1>
-    </div>
-</header>
-
-<div class="dashboard_content">
 <div class="wizard_backdrop" id="wizardBackdrop" style="display: none;"></div>
 
 <div class="wizard_modal" id="wizardModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wizardTitle">
