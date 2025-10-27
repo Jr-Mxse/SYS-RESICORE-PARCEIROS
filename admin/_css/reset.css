@@ -529,7 +529,7 @@ form .section{
     max-width: 80%;
     padding: 20px 20px 0 0;
     cursor: pointer;
-    z-index: 999;
+    z-index: 30000;
 }
 
 .trigger_modal .trigger{
