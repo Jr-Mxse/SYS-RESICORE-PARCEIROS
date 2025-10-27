@@ -41,17 +41,17 @@
             <div class="wizard_step_content active" data-step="1">
                 <div class="wizard_form_group">
                     <label class="wizard_label">Nome completo <span class="wizard_required">*</span></label>
-                    <input type="text" name="nome_completo" class="wizard_input" placeholder="Nome completo" required>
+                    <input type="text" name="leads_name" class="wizard_input" placeholder="Nome completo" required>
                 </div>
 
                 <div class="wizard_form_row">
                     <div class="wizard_form_group wizard_half">
                         <label class="wizard_label">Telefone / WhatsApp <span class="wizard_required">*</span></label>
-                        <input type="tel" name="telefone" class="wizard_input" placeholder="Telefone / WhatsApp" required>
+                        <input type="tel" name="leads_cell" class="formPhone wizard_input" placeholder="Telefone / WhatsApp" required>
                     </div>
                     <div class="wizard_form_group wizard_half">
                         <label class="wizard_label">E-mail</label>
-                        <input type="email" name="email" class="wizard_input" placeholder="E-mail">
+                        <input type="email" name="email_email" class="wizard_input" placeholder="E-mail">
                     </div>
                 </div>
 
@@ -74,7 +74,7 @@
                         <button type="button" class="wizard_option_btn" data-value="em_negociacao">Em negociação</button>
                         <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                     </div>
-                    <input type="hidden" name="possui_terreno" value="sim_proprio">
+                    <input type="hidden" name="leads_terreno" value="sim_proprio">
                 </div>
 
                 <div class="wizard_form_group">

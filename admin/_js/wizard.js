@@ -214,16 +214,16 @@
         var data = {};
         
         if (step === 1) {
-            // Etapa 1: Dados do Cliente
-            data.nome_completo = getFieldValue('nome_completo');
-            data.telefone = getFieldValue('telefone');
-            data.email = getFieldValue('email');
+            // 🟩 Etapa 1: Dados do Cliente
+            data.leads_name = getFieldValue('leads_name');
+            data.leads_cell = getFieldValue('leads_cell');
+            data.email_email = getFieldValue('email_email');
             data.cidade_interesse = getFieldValue('cidade_interesse');
-            data.possui_terreno = getFieldValue('possui_terreno');
+            data.leads_terreno = getFieldValue('leads_terreno');
             data.endereco_terreno = getFieldValue('endereco_terreno');
             
         } else if (step === 2) {
-            // Etapa 2: Perfil do Interesse
+            // 🟦 Etapa 2: Perfil do Interesse
             data.tipo_construcao = getFieldValue('tipo_construcao');
             data.faixa_investimento = getFieldValue('faixa_investimento');
             data.parcela_bolso = getFieldValue('parcela_bolso');
@@ -234,7 +234,7 @@
             data.comentarios_parceiro = getFieldValue('comentarios_parceiro');
             
         } else if (step === 3) {
-            // Etapa 3: Qualificação
+            // 🟧 Etapa 3: Qualificação
             data.visitou_casa = getFieldValue('visitou_casa');
             data.finalidade_imovel = getFieldValue('finalidade_imovel');
             data.prazo_contato = getFieldValue('prazo_contato');
@@ -244,6 +244,7 @@
         
         return data;
     }
+
     
     // Obter valores de checkbox como array
     function getCheckboxValuesArray(name) {
@@ -304,39 +305,68 @@
 
     function openWizardModal(targetSel) {
         var $m = $(targetSel || '#wizardModal');
-        if (!$m.length) { console.warn('[Wizard] Modal não encontrada:', targetSel); return; }
+        var $backdrop = $('#wizardBackdrop');
+        
+        if (!$m.length) { 
+            console.warn('[Wizard] Modal não encontrada:', targetSel); 
+            return; 
+        }
+        
+        // Mostrar backdrop
+        $backdrop.css('display', 'block');
+        setTimeout(function() {
+            $backdrop.addClass('is-open');
+        }, 10);
+        
+        // Mostrar modal
         $m.addClass('is-open').attr('aria-hidden', 'false');
         $('body').addClass('modal-open');
     }
 
     function closeWizardModal(targetSel) {
         var $m = $(targetSel || '#wizardModal');
+        var $backdrop = $('#wizardBackdrop');
+        
         if (!$m.length) { return; }
+        
+        // Remover classes
         $m.removeClass('is-open').attr('aria-hidden', 'true');
+        $backdrop.removeClass('is-open');
         $('body').removeClass('modal-open');
+        
+        // Esconder backdrop após animação
+        setTimeout(function() {
+            $backdrop.css('display', 'none');
+        }, 300);
     }
 
     // Abrir ao clicar em qualquer elemento marcado
     $(document).on('click', '[data-wizard="open"], .jOpenWizard', function (e) {
-    e.preventDefault(); // impede navegação
-    var target = $(this).data('wizard-target') || '#wizardModal';
-    // Se quiser passar algum contexto à modal, você pode ler outros data-* aqui.
-    openWizardModal(target);
+        e.preventDefault();
+        var target = $(this).data('wizard-target') || '#wizardModal';
+        openWizardModal(target);
     });
 
-  // Fechar: botões/links com data-wizard="close", o X da modal, overlay, etc.
-    $(document).on('click', '[data-wizard="close"], .jCloseWizard, .wizard_backdrop', function (e) {
+    // Fechar: botões/links com data-wizard="close", o X da modal, overlay, etc.
+    $(document).on('click', '[data-wizard="close"], .jCloseWizard', function (e) {
+        e.preventDefault();
         var target = $(this).data('wizard-target') || '#wizardModal';
         closeWizardModal(target);
     });
 
-  // Fechar no ESC
-    $(document).on('keydown', function (e) {
-        if (e.key === 'Escape') closeWizardModal('#wizardModal');
+    // Fechar ao clicar no backdrop
+    $(document).on('click', '.wizard_backdrop', function () {
+        closeWizardModal('#wizardModal');
     });
 
-  // Exemplo: ao concluir o wizard, redirecionar se o gatilho tiver data-wizard-redirect
-  // (chame isso quando o usuário terminar o passo a passo)
+    // Fechar no ESC
+    $(document).on('keydown', function (e) {
+        if (e.key === 'Escape' && $('#wizardModal').hasClass('is-open')) {
+            closeWizardModal('#wizardModal');
+        }
+    });
+
+    // Exemplo: ao concluir o wizard, redirecionar se o gatilho tiver data-wizard-redirect
     window.finishWizardAndMaybeRedirect = function (triggerEl) {
         var $t = $(triggerEl);
         var redirect = $t.data('wizard-redirect');
@@ -425,12 +455,14 @@
     
     // Mostrar resumo
     function showReview() {
-        setReviewValue('review_nome_completo', getFieldValue('nome_completo'));
-        setReviewValue('review_telefone', getFieldValue('telefone'));
-        setReviewValue('review_email', getFieldValue('email'));
+        // 🟩 Etapa 1: Dados do Cliente
+        setReviewValue('review_nome_completo', getFieldValue('leads_name'));
+        setReviewValue('review_telefone', getFieldValue('leads_cell'));
+        setReviewValue('review_email', getFieldValue('email_email'));
         setReviewValue('review_cidade_interesse', getFieldValue('cidade_interesse'));
-        setReviewValue('review_possui_terreno', formatValue(getFieldValue('possui_terreno')));
+        setReviewValue('review_possui_terreno', formatValue(getFieldValue('leads_terreno')));
         
+        // 🟦 Etapa 2: Perfil do Interesse
         setReviewValue('review_tipo_construcao', formatValue(getFieldValue('tipo_construcao')));
         setReviewValue('review_faixa_investimento', getSelectText('faixa_investimento'));
         setReviewValue('review_parcela_bolso', getSelectText('parcela_bolso'));
@@ -438,11 +470,13 @@
         setReviewValue('review_expectativa_inicio', getSelectText('expectativa_inicio'));
         setReviewValue('review_conhece_residere', formatValue(getFieldValue('conhece_residere')));
         
+        // 🟧 Etapa 3: Qualificação
         setReviewValue('review_visitou_casa', formatValue(getFieldValue('visitou_casa')));
         setReviewValue('review_finalidade_imovel', formatValue(getFieldValue('finalidade_imovel')));
         setReviewValue('review_prazo_contato', getSelectText('prazo_contato'));
         setReviewValue('review_credito_aprovado', formatValue(getFieldValue('credito_aprovado')));
     }
+
     
     // Auxiliar para pegar valor de campo
     function getFieldValue(name) {
@@ -643,7 +677,7 @@
             firstBtn.classList.add('active');
         }
         
-        var possuiTerreno = document.querySelector('[name="possui_terreno"]');
+        var possuiTerreno = document.querySelector('[name="leads_terreno"]');
         if (possuiTerreno) {
             possuiTerreno.value = 'sim_proprio';
         }
