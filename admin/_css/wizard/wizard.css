@@ -48,6 +48,7 @@
 .wizard_modal_container {
     position: relative;
     max-width: 900px;
+    width: 100%;
 }
 
 /* Animação de entrada do conteúdo */
