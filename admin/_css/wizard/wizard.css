@@ -1,9 +1,142 @@
+/* ========================================
+   MODAL BACKDROP E CONTAINER
+   ======================================== */
+
+/* Backdrop - Fundo escuro atrás da modal */
+.wizard_backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.wizard_backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal Container Principal */
+.wizard_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
+}
+
+.wizard_modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wizard_modal_container {
+    position: relative;
+    max-width: 500px;
+}
+
+/* Animação de entrada do conteúdo */
+.wizard_modal.is-open .wizard_container {
+    animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Botão Fechar (X) */
+.wizard_modal_close {
+    position: absolute;
+    top: -20px;
+    right: -25px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #3dd598 0%, #45b7d1 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    padding: 0;
+}
+
+.wizard_modal_close:hover {
+    transform: rotate(90deg);
+}
+
+.wizard_modal_close svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+}
+
+/* Prevenir scroll do body quando modal aberta */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0;
+}
+
+/* Container do Wizard dentro da Modal */
 .wizard_container {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
     margin: 0 auto;
     background: #0e1118;
     border-radius: 12px;
     padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
 }
+
+/* Scrollbar customizada para o container */
+.wizard_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.wizard_container::-webkit-scrollbar-track {
+    background: #1a1d2e;
+    border-radius: 4px;
+}
+
+.wizard_container::-webkit-scrollbar-thumb {
+    background: #3d4255;
+    border-radius: 4px;
+}
+
+.wizard_container::-webkit-scrollbar-thumb:hover {
+    background: #45b7d1;
+}
+
+/* ========================================
+   WIZARD COMPONENTS (seu CSS existente)
+   ======================================== */
 
 /* Progress Bar */
 .wizard_progress_bar {
@@ -208,7 +341,7 @@
     color: #3dd598;
 }
 
-/* Checkbox Group - Estilizado */
+/* Checkbox Group */
 .wizard_checkbox_group {
     display: flex;
     flex-wrap: wrap;
@@ -218,14 +351,13 @@
 .wizard_checkbox_label {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 3px;
     cursor: pointer;
     font-size: 14px;
     color: #a0a3bd;
     padding: 8px 12px;
     border-radius: 6px;
     transition: all 0.3s ease;
-    position: relative;
 }
 
 .wizard_checkbox_label:hover {
@@ -234,17 +366,16 @@
 
 .wizard_checkbox_label input[type="checkbox"] {
     appearance: none;
-    -webkit-appearance: none;
     width: 20px;
     height: 20px;
     border: 2px solid #3d4255;
     border-radius: 4px;
+    padding: 10px;
     cursor: pointer;
     position: relative;
     transition: all 0.3s ease;
     background: #1a1d2e;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
 }
 
 .wizard_checkbox_label input[type="checkbox"]:hover {
@@ -268,11 +399,6 @@
     transform: rotate(45deg);
 }
 
-.wizard_checkbox_label input[type="checkbox"]:checked + span {
-    color: #3dd598;
-    font-weight: 500;
-}
-
 /* Upload Area */
 .wizard_upload_area {
     border: 2px dashed #3d4255;
@@ -288,14 +414,39 @@
     background: rgba(69, 183, 209, 0.05);
 }
 
+ .wizard_file_list {
+     margin-top: 16px;
+     display: flex;
+     flex-direction: column;
+     gap: 8px;
+}
+ .wizard_file_item {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 10px 12px;
+     background: #1a1d2e;
+     border-radius: 6px;
+     font-size: 13px;
+}
+ .wizard_file_item span {
+     color: #fff;
+}
+ .wizard_file_remove {
+     background: transparent;
+     border: none;
+     color: #ff6b6b;
+     cursor: pointer;
+     padding: 4px 8px;
+     font-size: 12px;
+}
+ .wizard_file_remove:hover {
+     text-decoration: underline;
+}
+
 .wizard_upload_icon {
     color: #6c7080;
     margin-bottom: 12px;
-}
-
-.wizard_upload_icon svg {
-    width: 48px;
-    height: 48px;
 }
 
 .wizard_upload_text {
@@ -309,41 +460,7 @@
     color: #6c7080;
 }
 
-.wizard_file_list {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.wizard_file_item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 12px;
-    background: #1a1d2e;
-    border-radius: 6px;
-    font-size: 13px;
-}
-
-.wizard_file_item span {
-    color: #fff;
-}
-
-.wizard_file_remove {
-    background: transparent;
-    border: none;
-    color: #ff6b6b;
-    cursor: pointer;
-    padding: 4px 8px;
-    font-size: 12px;
-}
-
-.wizard_file_remove:hover {
-    text-decoration: underline;
-}
-
-/* Navigation Buttons - Sempre visíveis */
+/* Navigation Buttons */
 .wizard_navigation {
     display: flex;
     justify-content: space-between;
@@ -363,12 +480,6 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
-}
-
-.wizard_btn svg {
-    width: 16px;
-    height: 16px;
-    stroke-width: 2;
 }
 
 .wizard_btn_secondary {
@@ -394,16 +505,50 @@
 .wizard_btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-    transform: none !important;
 }
 
-/* Review/Resumo - Etapa 4 */
+/* Success Screen */
+.wizard_success_container {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.wizard_success_icon {
+    width: 120px;
+    height: 120px;
+    border: 3px solid #3dd598;
+    border-radius: 50%;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successPulse 0.6s ease;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   ETAPA 4: RESUMO
+   ======================================== */
+
 .wizard_review_title {
     text-align: center;
     color: #a0a3bd;
-    font-size: 16px;
-    font-weight: 400;
-    margin-bottom: 30px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 40px;
 }
 
 .wizard_review_section {
@@ -447,14 +592,17 @@
     font-weight: 500;
 }
 
-/* Success Screen - Etapa 5 - */
+/* ========================================
+   ETAPA 5: SUCESSO
+   ======================================== */
+
 .wizard_success_container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    padding: 25px 40px;
+    padding: 60px 40px;
     max-width: 700px;
     margin: 0 auto;
 }
@@ -557,26 +705,87 @@
     display: none;
 }
 
+/* ========================================
+   RESPONSIVE - ETAPAS 4 E 5
+   ======================================== */
 
-/* Responsive */
 @media (max-width: 768px) {
+    .wizard_review_grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wizard_success_container {
+        padding: 40px 20px;
+    }
+    
+    .wizard_success_icon {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .wizard_success_icon svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wizard_review_title {
+        font-size: 16px;
+    }
+    
+    .wizard_review_section_title {
+        font-size: 14px;
+    }
+    
+    .wizard_success_message {
+        font-size: 14px;
+    }
+    
+    .wizard_btn_success {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .wizard_modal {
+        padding: 10px;
+        align-items: flex-start;
+    }
+    
     .wizard_container {
         padding: 24px;
+        max-height: 95vh;
+        border-radius: 8px;
+    }
+    
+    .wizard_modal_close {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
     }
     
     .wizard_steps_indicator {
         flex-direction: column;
-        gap: 20px;
+        gap: 16px;
     }
     
     .wizard_step_line {
         width: 2px;
-        height: 30px;
+        height: 24px;
         margin: 0;
     }
     
     .wizard_form_row {
         flex-direction: column;
+        gap: 0;
     }
     
     .wizard_button_group {
@@ -587,7 +796,33 @@
         width: 100%;
     }
     
-    .wizard_checkbox_group {
-        flex-direction: column;
+    .wizard_navigation {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+    
+    .wizard_btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .wizard_container {
+        padding: 20px;
+    }
+    
+    .wizard_title {
+        font-size: 14px;
+    }
+    
+    .wizard_step_number {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .wizard_step_label {
+        font-size: 11px;
     }
 }

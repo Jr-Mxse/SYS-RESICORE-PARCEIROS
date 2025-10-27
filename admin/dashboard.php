@@ -159,6 +159,9 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
         endif;
         ?>
 
+     <?php require "wizard/modal_wizard.inc.php"; ?>
+
+
         <nav class="dashboard_nav" id="dashboardNav">
             <?php /*
             <span class="mobile_menu">

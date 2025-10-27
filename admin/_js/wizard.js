@@ -301,6 +301,48 @@
             }
         }
     }
+
+    function openWizardModal(targetSel) {
+        var $m = $(targetSel || '#wizardModal');
+        if (!$m.length) { console.warn('[Wizard] Modal não encontrada:', targetSel); return; }
+        $m.addClass('is-open').attr('aria-hidden', 'false');
+        $('body').addClass('modal-open');
+    }
+
+    function closeWizardModal(targetSel) {
+        var $m = $(targetSel || '#wizardModal');
+        if (!$m.length) { return; }
+        $m.removeClass('is-open').attr('aria-hidden', 'true');
+        $('body').removeClass('modal-open');
+    }
+
+    // Abrir ao clicar em qualquer elemento marcado
+    $(document).on('click', '[data-wizard="open"], .jOpenWizard', function (e) {
+    e.preventDefault(); // impede navegação
+    var target = $(this).data('wizard-target') || '#wizardModal';
+    // Se quiser passar algum contexto à modal, você pode ler outros data-* aqui.
+    openWizardModal(target);
+    });
+
+  // Fechar: botões/links com data-wizard="close", o X da modal, overlay, etc.
+    $(document).on('click', '[data-wizard="close"], .jCloseWizard, .wizard_backdrop', function (e) {
+        var target = $(this).data('wizard-target') || '#wizardModal';
+        closeWizardModal(target);
+    });
+
+  // Fechar no ESC
+    $(document).on('keydown', function (e) {
+        if (e.key === 'Escape') closeWizardModal('#wizardModal');
+    });
+
+  // Exemplo: ao concluir o wizard, redirecionar se o gatilho tiver data-wizard-redirect
+  // (chame isso quando o usuário terminar o passo a passo)
+    window.finishWizardAndMaybeRedirect = function (triggerEl) {
+        var $t = $(triggerEl);
+        var redirect = $t.data('wizard-redirect');
+        closeWizardModal('#wizardModal');
+        if (redirect) window.location.href = redirect;
+    };
     
     // Atualizar interface
     function updateUI() {

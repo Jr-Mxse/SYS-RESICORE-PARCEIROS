@@ -11,6 +11,20 @@
         <span class="menu-text">Meus Clientes / Leads</span>
     </a>
 </li>
+
+<?php if($Admin['user_id'] == 1): ?>
+<li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/create') ? 'active' : ''; ?>">
+    <a  href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>" 
+        class="jOpenWizard" 
+        data-wizard="open" 
+        data-wizard-target="#wizardModal" data-wizard-redirect="" title="Meu Perfil" data-tooltip="Meu Perfil">
+        <i class="icon-user"></i>
+        <span class="menu-text">Wizard</span>
+    </a>
+</li>
+<?php endif; ?>
+
+
 <?php if (in_array($Admin["user_id"], [1, 234, 147])): ?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
     <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
@@ -59,6 +73,7 @@
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
+
 <span class="mobile_menu_mobile_fechar">
     <div class="mobile_menu_mobile_box_fechar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-testid="IconThumbsUp" class="sc-dYOqWG fxtfcv">
