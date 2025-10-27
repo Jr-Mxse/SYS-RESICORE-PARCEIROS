@@ -591,6 +591,180 @@ form .section{
     text-transform: uppercase;
 }
 
+
+    /* =================== */
+/* MODAL ACESSÍVEL */
+/* =================== */
+
+/* =================== */
+/* MODALS */
+/* =================== */
+.modal_box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.modal_box.is_open {
+    display: flex;
+}
+
+.modal_content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 700px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.modal_small {
+    width: 420px;
+}
+
+.modal_content h2 {
+    margin: 0 0 25px 0;
+    font-size: 22px;
+    color: #333;
+}
+
+.modal_close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    width: 32px;
+    height: 32px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.modal_close:hover {
+    color: #dc3545;
+}
+
+/* =================== */
+/* FORMULÁRIOS */
+/* =================== */
+
+/* Formulário 3 Colunas */
+.form_grid .form_row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form_col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Formulário 1 Coluna */
+.form_single {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Campos */
+.form_grid label,
+.form_single label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.form_grid input,
+.form_grid select,
+.form_grid textarea,
+.form_single input,
+.form_single select,
+.form_single textarea {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form_grid input:focus,
+.form_grid select:focus,
+.form_grid textarea:focus,
+.form_single input:focus,
+.form_single select:focus,
+.form_single textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* =================== */
+/* SENHA COM TOGGLE */
+/* =================== */
+.password_wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password_wrapper input {
+    width: 100%;
+    padding-right: 45px;
+}
+
+.btn_toggle_password {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.btn_toggle_password:hover {
+    color: #333;
+}
+
+.btn_toggle_password i {
+    font-size: 18px;
+}
+
+/* =================== */
+/* RESPONSIVO */
+/* =================== */
+@media (max-width: 768px) {
+    .form_grid .form_row {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal_content {
+        padding: 20px;
+        width: 100%;
+    }
+}
+
+
+
 /*CODE*/
 .code {
     background-color: #f9f2f4;

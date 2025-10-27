@@ -1471,6 +1471,66 @@ $(function () {
         }, 'json');
         return false;
     });
+
+
+    // ***************** MODAL CUSTOM **************
+     let lastFocus;
+
+    // Abrir modal
+    $('[data-modal]').on('click', function() {
+        lastFocus = this;
+        const modalID = $(this).data('modal');
+        const $modal = $('#' + modalID);
+        
+        $modal.addClass('is_open').attr('aria-hidden', 'false');
+        $('body').css('overflow', 'hidden');
+        
+        // Foco no primeiro input
+        setTimeout(() => {
+            $modal.find('input:first, textarea:first').focus();
+        }, 100);
+    });
+
+    // Fechar modal
+    $('.modal_close').on('click', function() {
+        fecharModal($(this).closest('.modal_box'));
+    });
+
+    // Clique fora fecha
+    $('.modal_box').on('click', function(e) {
+        if ($(e.target).is('.modal_box')) {
+            fecharModal($(this));
+        }
+    });
+
+    // ESC fecha
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape' && $('.modal_box.is_open').length) {
+            fecharModal($('.modal_box.is_open'));
+        }
+    });
+
+    function fecharModal($modal) {
+        $modal.removeClass('is_open').attr('aria-hidden', 'true');
+        $('body').css('overflow', '');
+        if (lastFocus) $(lastFocus).focus();
+    }
+
+    // Toggle de senha
+    $('.btn_toggle_password').on('click', function() {
+        const $input = $(this).siblings('input');
+        const $icon = $(this).find('i');
+        
+        if ($input.attr('type') === 'password') {
+            $input.attr('type', 'text');
+            $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+            $(this).attr('aria-label', 'Ocultar senha');
+        } else {
+            $input.attr('type', 'password');
+            $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            $(this).attr('aria-label', 'Mostrar senha');
+        }
+    });
 });
 
 //FUNÇÕES
