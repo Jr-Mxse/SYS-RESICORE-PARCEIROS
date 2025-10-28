@@ -5,7 +5,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    width: 280px;
+    width: 280px; /* Desktop: sempre expandido */
     height: 100vh;
     background: #0e1118;
     overflow-y: auto;
@@ -13,83 +13,26 @@
     z-index: 1000;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     transition: width 0.3s ease, left 0.3s ease;
-    
-    /* Firefox - scrollbar fina */
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-/* ========================================
-   SCROLLBAR WEBKIT (Chrome, Edge, Safari)
-======================================== */
-
-/* Largura da scrollbar - bem fina */
-.dashboard_nav::-webkit-scrollbar {
-    width: 4px; /* Bem fina - igual editores modernos */
-}
-
-/* Track (fundo) - transparente ou quase invisível */
-.dashboard_nav::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Thumb (barra que arrasta) */
-.dashboard_nav::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15); /* Bem sutil */
-    border-radius: 10px;
-}
-
-/* Thumb ao passar o mouse - fica um pouco mais visível */
-.dashboard_nav::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* Thumb quando está sendo arrastado */
-.dashboard_nav::-webkit-scrollbar-thumb:active {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-/* ========================================
-   VARIAÇÃO: SCROLLBAR OVERLAY (flutuante)
-======================================== */
-
-/* Se quiser que a scrollbar apareça só quando passar o mouse */
-.dashboard_nav {
-    scrollbar-gutter: stable; /* Evita shift de layout */
 }
 
 .dashboard_nav::-webkit-scrollbar {
     width: 6px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.dashboard_nav:hover::-webkit-scrollbar {
-    opacity: 1;
-}
-
-/* ========================================
-   VERSÃO ULTRA-MINIMALISTA (3px)
-======================================== */
-
-.dashboard_nav::-webkit-scrollbar {
-    width: 3px; /* Ainda mais fina */
 }
 
 .dashboard_nav::-webkit-scrollbar-track {
-    background: transparent;
-    margin: 10px 0; /* Espaçamento nas pontas */
+    background: #34495e;
 }
 
 .dashboard_nav::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
+    background: #1abc9c;
+    border-radius: 3px;
 }
 
-.dashboard_nav::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
+.dashboard_nav_toggle {
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+    background: #0e1118;
 }
-
 
 .menu-toggle-btn {
     background: transparent;
@@ -883,7 +826,7 @@
 .dashboard_header {
     width: 100%;
     background: #fff;
-    /*padding: 20px 25px;*/
+    padding: 20px 25px;
     border-top: 1px solid #EBEBEB;
     border-bottom: 1px solid #EBEBEB;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);

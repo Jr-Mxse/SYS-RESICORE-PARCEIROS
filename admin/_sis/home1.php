@@ -1,4 +1,4 @@
-<header class="dashboard_header"></header>
+<header class="dashboard_header" style="padding: 0px"></header>
 <div class="dashboard_content">
     <section class="dashboard_cards_container">
 
