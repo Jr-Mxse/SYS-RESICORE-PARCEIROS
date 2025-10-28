@@ -49,7 +49,7 @@ $getView = ($getViewInput == 'home' ? 'home' . ADMIN_MODE : $getViewInput);
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
     <meta name="robots" content="noindex, nofollow" />
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins:300,400,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:300,500' rel='stylesheet' type='text/css'>
     <link rel="base" href="<?= BASE; ?>/admin/">
     <link rel="shortcut icon" href="_img/favicon.png" />

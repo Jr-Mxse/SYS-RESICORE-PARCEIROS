@@ -163,7 +163,7 @@ endif;
                         $leads_status_txt = "<span style='color: red'><b>Perdido</b></span>";
                         break;
                         case 1:
-                        $leads_status_txt = "Aberto";
+                        $leads_status_txt = "<span class='font_blue'><b>Aberto</b></span>";
                         break;
                         case 2:
                         $leads_status_txt = "<span style='color: green'><b>Ganho</b></span>";

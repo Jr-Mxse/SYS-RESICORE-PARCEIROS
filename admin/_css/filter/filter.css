@@ -1,9 +1,10 @@
 .filter-container {
-    background: #0e1118;
+    background: #fff;
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 24px;
     transition: all 0.3s ease;
+    border: 1px solid #eee;
 }
 
 .filter-container:hover {
@@ -35,6 +36,7 @@
     margin: 0;
     font-size: 18px;
     font-weight: 600;
+    color: #222;
 }
 
 .btn-clear-filters {
@@ -45,7 +47,8 @@
     background: transparent;
     border: 1px solid #00b494;
     border-radius: 8px;
-    color: #fff;
+    color: #00b494;
+    font-weight: 600;
     font-size: 13px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -70,8 +73,10 @@
     align-items: center;
     gap: 12px;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background-color: #fcfcfc;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #e1e1e1;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -82,9 +87,9 @@
 }
 
 .filter-checkbox.active {
-    background: rgba(108, 92, 231, 0.15);
-    border-color: #6c5ce7;
-    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+    background: #eee;
+    border-color: #ffffff;
+    box-shadow: 0 0 0 3px #eee;
 }
 
 .filter-checkbox input[type="checkbox"] {
@@ -97,7 +102,7 @@
     position: relative;
     width: 20px;
     height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid #eee;
     border-radius: 6px;
     background: transparent;
     transition: all 0.3s ease;
@@ -125,7 +130,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #fff;
+    color: #222;
     font-size: 14px;
     font-weight: 500;
     flex: 1;

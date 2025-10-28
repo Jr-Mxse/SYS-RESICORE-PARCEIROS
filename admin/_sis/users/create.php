@@ -158,14 +158,29 @@ endif;
                 <h2>Minhas Equipes </h2>
             </div>
             <div class="panel" style="border-radius: 0 0 5px 5px;">
-                <?php
-                if ($Admin["user_perfil"] == 1):
-                ?>
-                    <h3>Para conseguir realizar cadastro de Equipe e seus integrantes (seja uma imobiliária ou grupo de vendedores), você precisa solicitar ao seu Especialista Residere para alterar o seu perfil para Perfil Gestor.</h3>
-                    <br><br><br>
-                    <a class="btn btn_blue btn_xlarge btn_pulse j_swal_action" callback="Users" callback_action="migrar_perfil" data-confirm-text="Migrar Perfil" data-confirm-message="Ao confirmar essa ação, nosso especialista entrará em contato e atualizará o seu Perfil. Podemos continuar? " id="<?= $Admin["user_id"] ?>">
-                        <b>Solicitar para Migrar Perfil para Gestor</b>
-                    </a>
+
+                <?php if ($Admin["user_perfil"] == 1): ?>
+                <div class="info_block info">
+                    <div class="info_content">
+                        <div class="info_icon">
+                            <i class="icon-users icon-notext"></i>
+                        </div>
+                        <div class="info_text">
+                            <h3>Perfil Gestor Necessário</h3>
+                            <p>Para conseguir realizar cadastro de Equipe e seus integrantes, você precisa solicitar ao seu Especialista para alterar o seu perfil.</p>
+                        </div>
+                    </div>
+                    <div class="info_action">
+                        <a class="btn btn_blue btn_xlarge btn_pulse j_swal_action" 
+                           callback="Users" 
+                           callback_action="migrar_perfil" 
+                           data-confirm-text="Migrar Perfil" 
+                           data-confirm-message="Ao confirmar essa ação, nosso especialista entrará em contato. Podemos continuar?" 
+                           id="<?= $Admin['user_id'] ?>">
+                            <b>Solicitar Migração de Perfil</b>
+                        </a>
+                    </div>
+                </div>
                 <?php
                 else:
                     $vday = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime(date("Y-m-d H:i:s"))));

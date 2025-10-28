@@ -8555,38 +8555,42 @@ endif;
                         <h2 id="title_3col">Cadastro Completo</h2>
                         
                         <form class="form_grid">
-                            <div class="form_row">
-                                <div class="form_col">
-                                    <label for="nome">Nome:</label>
-                                    <input type="text" id="nome" required>
-                                </div>
-                                <div class="form_col">
-                                    <label for="email">Email:</label>
-                                    <input type="email" id="email" required>
-                                </div>
-                                <div class="form_col">
-                                    <label for="telefone">Telefone:</label>
-                                    <input type="tel" id="telefone">
-                                </div>
+                            <div class="label_33">
+                                <label class="label">
+                                    <label class="legend">Nome:</label>
+                                    <input type="text" required>
+                                </label>
+
+                                 <label class="label">
+                                    <label class="legend">Email:</label>
+                                    <input type="email" required>
+                                </label>
+
+                                 <label class="label">
+                                    <label class="legend">Telefone:</label>
+                                    <input type="number" required>
+                                </label>
                             </div>
 
-                            <div class="form_row">
-                                <div class="form_col">
-                                    <label for="endereco">Endereço:</label>
-                                    <input type="text" id="endereco">
-                                </div>
-                                <div class="form_col">
-                                    <label for="cidade">Cidade:</label>
-                                    <input type="text" id="cidade">
-                                </div>
-                                <div class="form_col">
-                                    <label for="estado">Estado:</label>
-                                    <select id="estado">
+                            <div class="label_33">
+                                <label class="label">
+                                    <span class="legend">Endereço:</span>
+                                    <input type="text">
+                                </label>
+
+                                <label class="label">
+                                    <span class="legend">Cidade:</span>
+                                    <input type="text">
+                                </label>
+
+                                <label class="label">
+                                    <span class="legend">Estado:</span>
+                                    <select>
                                         <option>SP</option>
                                         <option>RJ</option>
                                         <option>MG</option>
                                     </select>
-                                </div>
+                                </label>
                             </div>
 
                             <button type="submit" class="btn btn_green">Enviar</button>
@@ -8603,19 +8607,27 @@ endif;
                         <h2 id="title_1col">Contato Rápido</h2>
                         
                         <form class="form_single">
-                            <label for="nome2">Nome Completo:</label>
-                            <input type="text" id="nome2" required>
+                            <label class="label">
+                                <span class="legend">Nome Completo:</span>
+                                <input type="text" required>
+                            </label>
 
-                            <label for="email2">Email:</label>
-                            <input type="email" id="email2" required>
+                            <label class="label">
+                                <span class="legend">Email:</span>
+                                <input type="email" required>
+                            </label>
 
-                            <label for="assunto">Assunto:</label>
-                            <input type="text" id="assunto" required>
+                            <label class="label">
+                                <span class="legend">Assunto:</span>
+                                <input type="text" required>
+                            </label>
 
-                            <label for="mensagem">Mensagem:</label>
-                            <textarea id="mensagem" rows="5"></textarea>
+                            <label class="label">
+                                <span class="legend">Mensagem:</span>
+                                <textarea rows="5"></textarea>
+                            </label>
 
-                            <button type="submit" class="btn btn_blue">Enviar Mensagem</button>
+                            <button type="submit" class="btn btn_blue btn_large">Enviar Mensagem</button>
                         </form>
                     </div>
                 </div>
