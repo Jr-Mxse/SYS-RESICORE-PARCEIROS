@@ -26,6 +26,7 @@ endif;
             <a class='conf_menu wc_tab' href='#forms'><span class="icon-keyboard">Formulários</span></a>
             <a class='conf_menu wc_tab' href='#buttons'><span class="icon-plus">Botões</span></a>
             <a class='conf_menu wc_tab' href='#icons'><span class="icon-IcoMoon">Ícones</span></a>
+            <a class='conf_menu wc_tab' href='#modal'><span class="icon-IcoMoon">Modal</span></a>
         </div>
         <div class="tab_contents">
             <div class="wc_tab_target wc_active" id="panels">
@@ -573,6 +574,7 @@ endif;
                 </div>
             </div>
             <!--CLOSE BOXES-->
+
 
             <div class="wc_tab_target ds_none" id="forms">
                 <div class="box box100">
@@ -8530,11 +8532,124 @@ endif;
             </div>
             <!--CLOSE ICONS-->
 
+            <!-- MODAL -->
+            <div class="wc_tab_target" id="modal">
+
+                <div class="box box100">
+                    <div class="panel_header">
+                        <h2 class="icon-display">Modais</h2>
+                    </div>
+                </div>
+
+                     <!-- Botões de Abertura -->
+                <button class="btn btn_green" data-modal="modal_form_3col">Formulário 3 Colunas</button>
+                <button class="btn btn_blue" data-modal="modal_form_1col">Formulário 1 Coluna</button>
+                <button class="btn btn_yellow" data-modal="modal_senha">Ver Senha</button>
+
+                <!-- =================== -->
+                <!-- MODAL: Formulário 3 Colunas -->
+                <!-- =================== -->
+                <div class="modal_box" id="modal_form_3col" role="dialog" aria-modal="true" aria-labelledby="title_3col" aria-hidden="true">
+                    <div class="modal_content">
+                        <button class="modal_close" aria-label="Fechar">&times;</button>
+                        <h2 id="title_3col">Cadastro Completo</h2>
+                        
+                        <form class="form_grid">
+                            <div class="form_row">
+                                <div class="form_col">
+                                    <label for="nome">Nome:</label>
+                                    <input type="text" id="nome" required>
+                                </div>
+                                <div class="form_col">
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" required>
+                                </div>
+                                <div class="form_col">
+                                    <label for="telefone">Telefone:</label>
+                                    <input type="tel" id="telefone">
+                                </div>
+                            </div>
+
+                            <div class="form_row">
+                                <div class="form_col">
+                                    <label for="endereco">Endereço:</label>
+                                    <input type="text" id="endereco">
+                                </div>
+                                <div class="form_col">
+                                    <label for="cidade">Cidade:</label>
+                                    <input type="text" id="cidade">
+                                </div>
+                                <div class="form_col">
+                                    <label for="estado">Estado:</label>
+                                    <select id="estado">
+                                        <option>SP</option>
+                                        <option>RJ</option>
+                                        <option>MG</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn_green">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- =================== -->
+                <!-- MODAL: Formulário 1 Coluna -->
+                <!-- =================== -->
+                <div class="modal_box" id="modal_form_1col" role="dialog" aria-modal="true" aria-labelledby="title_1col" aria-hidden="true">
+                    <div class="modal_content">
+                        <button class="modal_close" aria-label="Fechar">&times;</button>
+                        <h2 id="title_1col">Contato Rápido</h2>
+                        
+                        <form class="form_single">
+                            <label for="nome2">Nome Completo:</label>
+                            <input type="text" id="nome2" required>
+
+                            <label for="email2">Email:</label>
+                            <input type="email" id="email2" required>
+
+                            <label for="assunto">Assunto:</label>
+                            <input type="text" id="assunto" required>
+
+                            <label for="mensagem">Mensagem:</label>
+                            <textarea id="mensagem" rows="5"></textarea>
+
+                            <button type="submit" class="btn btn_blue">Enviar Mensagem</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- =================== -->
+                <!-- MODAL: Ver Senha -->
+                <!-- =================== -->
+                <div class="modal_box" id="modal_senha" role="dialog" aria-modal="true" aria-labelledby="title_senha" aria-hidden="true">
+                    <div class="modal_content modal_small">
+                        <button class="modal_close" aria-label="Fechar">&times;</button>
+                        <h2 id="title_senha">Digite sua Senha</h2>
+                        
+                        <form class="form_single">
+                         <label class="label">
+                            <span class="legend">Senha:</span>
+                            <div class="password_wrapper">
+                                <input type="password" id="password" required>
+                                <button type="button" class="btn_toggle_password" aria-label="Mostrar senha">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </label>
+                            <button type="submit" class="btn btn_yellow">Confirmar</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <!--CLOSE MODAL-->
+
+
         </div>
     </div>
 </div>
-
-
 
 <!--PANELS CLIPBOARD-->
 <textarea id="panel_header_icon_action_subtitle" style="position: absolute; left: -10000px;">

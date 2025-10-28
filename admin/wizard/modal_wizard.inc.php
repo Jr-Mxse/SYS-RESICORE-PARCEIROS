@@ -36,7 +36,10 @@
             </div>
         </div>
 
-        <form id="wizardForm">
+        <form id="wizardForm" name="user_manager" action="" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="callback" value="Wizard" />
+            <input type="hidden" name="callback_action" value="manager" />
+
             <!-- ETAPA 1: Dados do Cliente -->
             <div class="wizard_step_content active" data-step="1">
                 <div class="wizard_form_group">
@@ -51,13 +54,13 @@
                     </div>
                     <div class="wizard_form_group wizard_half">
                         <label class="wizard_label">E-mail</label>
-                        <input type="email" name="email_email" class="wizard_input" placeholder="E-mail">
+                        <input type="email" name="leads_email" class="wizard_input" placeholder="E-mail">
                     </div>
                 </div>
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Cidade de interesse <span class="wizard_required">*</span></label>
-                    <select name="cidade_interesse" class="wizard_select" required>
+                    <select name="leads_cidade_interesse" class="wizard_select" required>
                         <option value="">Selecione a cidade</option>
                         <option value="Sarandi">Sarandi</option>
                         <option value="Maringá">Maringá</option>
@@ -79,7 +82,7 @@
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Endereço do terreno</label>
-                    <textarea name="endereco_terreno" class="wizard_textarea" placeholder="Rua, número, bairro..." rows="4"></textarea>
+                    <textarea name="leads_endereco_terreno" class="wizard_textarea" placeholder="Rua, número, bairro..." rows="4"></textarea>
                 </div>
             </div>
 
@@ -93,12 +96,12 @@
                         <button type="button" class="wizard_option_btn" data-value="geminada">Geminada</button>
                         <button type="button" class="wizard_option_btn" data-value="alto_padrao">Alto padrão</button>
                     </div>
-                    <input type="hidden" name="tipo_construcao" value="">
+                    <input type="hidden" name="leads_tipo_construcao" value="">
                 </div>
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Faixa de investimento prevista <span class="wizard_required">*</span></label>
-                    <select name="faixa_investimento" class="wizard_select" required>
+                    <select name="leads_faixa_investimento" class="wizard_select" required>
                         <option value="">Selecione a faixa</option>
                         <option value="ate_150k">Até R$ 150.000</option>
                         <option value="150k_250k">R$ 150.000 - R$ 250.000</option>
@@ -109,7 +112,7 @@
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Parcela que cabe no bolso <span class="wizard_required">*</span></label>
-                    <select name="parcela_bolso" class="wizard_select" required>
+                    <select name="leads_parcela_bolso" class="wizard_select" required>
                         <option value="">Selecione o valor</option>
                         <option value="ate_1k">Até R$ 1.000</option>
                         <option value="1k_2k">R$ 1.000 - R$ 2.000</option>
@@ -123,27 +126,27 @@
                     <label class="wizard_label">Forma de pagamento / entrada (múltiplas opções)</label>
                     <div class="wizard_checkbox_group">
                         <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="forma_pagamento[]" value="fgts">
+                            <input type="checkbox" name="leads_forma_pagamento[]" value="fgts">
                             <span>FGTS</span>
                         </label>
                         <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="forma_pagamento[]" value="consorcio">
+                            <input type="checkbox" name="leads_forma_pagamento[]" value="consorcio">
                             <span>Consórcio</span>
                         </label>
                         <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="forma_pagamento[]" value="carro">
+                            <input type="checkbox" name="leads_forma_pagamento[]" value="carro">
                             <span>Carro</span>
                         </label>
                         <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="forma_pagamento[]" value="outro_imovel">
+                            <input type="checkbox" name="leads_forma_pagamento[]" value="outro_imovel">
                             <span>Outro imóvel</span>
                         </label>
                         <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="forma_pagamento[]" value="a_vista">
+                            <input type="checkbox" name="leads_forma_pagamento[]" value="a_vista">
                             <span>À vista</span>
                         </label>
                         <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="forma_pagamento[]" value="financiamento">
+                            <input type="checkbox" name="leads_forma_pagamento[]" value="financiamento">
                             <span>Financiamento bancário</span>
                         </label>
                     </div>
@@ -151,7 +154,7 @@
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Expectativa para iniciar o projeto <span class="wizard_required">*</span></label>
-                    <select name="expectativa_inicio" class="wizard_select" required>
+                    <select name="leads_expectativa_inicio" class="wizard_select" required>
                         <option value="">Selecione o prazo</option>
                         <option value="imediato">Imediato</option>
                         <option value="1_3_meses">1 a 3 meses</option>
@@ -168,11 +171,11 @@
                             <button type="button" class="wizard_option_btn" data-value="sim">Sim</button>
                             <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                         </div>
-                        <input type="hidden" name="conhece_residere" value="">
+                        <input type="hidden" name="leads_conhece_residere" value="">
                     </div>
                     <div class="wizard_form_group wizard_half" id="comoConheceuGroup" style="display: none;">
                         <label class="wizard_label">Como conheceu</label>
-                        <select name="como_conheceu" class="wizard_select">
+                        <select name="leads_como_conheceu" class="wizard_select">
                             <option value="">Selecione</option>
                             <option value="indicacao">Indicação</option>
                             <option value="redes_sociais">Redes sociais</option>
@@ -185,7 +188,7 @@
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Comentários do parceiro</label>
-                    <textarea name="comentarios_parceiro" class="wizard_textarea" placeholder="Observações importantes sobre este lead..." rows="4"></textarea>
+                    <textarea name="leads_comentarios_parceiro" class="wizard_textarea" placeholder="Observações importantes sobre este lead..." rows="4"></textarea>
                 </div>
             </div>
 
@@ -197,7 +200,7 @@
                         <button type="button" class="wizard_option_btn" data-value="sim">Sim</button>
                         <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                     </div>
-                    <input type="hidden" name="visitou_casa" value="">
+                    <input type="hidden" name="leads_visitou_casa" value="">
                 </div>
 
                 <div class="wizard_form_group">
@@ -207,12 +210,12 @@
                         <button type="button" class="wizard_option_btn" data-value="investir">Investir</button>
                         <button type="button" class="wizard_option_btn" data-value="a_decidir">A decidir</button>
                     </div>
-                    <input type="hidden" name="finalidade_imovel" value="">
+                    <input type="hidden" name="leads_finalidade_imovel" value="">
                 </div>
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Prazo preferido para contato <span class="wizard_required">*</span></label>
-                    <select name="prazo_contato" class="wizard_select" required>
+                    <select name="leads_prazo_contato" class="wizard_select" required>
                         <option value="">Selecione o prazo</option>
                         <option value="imediato">Imediato</option>
                         <option value="24h">Até 24 horas</option>
@@ -227,12 +230,12 @@
                         <button type="button" class="wizard_option_btn" data-value="sim">Sim</button>
                         <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                     </div>
-                    <input type="hidden" name="credito_aprovado" value="">
+                    <input type="hidden" name="leads_credito_aprovado" value="">
                 </div>
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Casas ou links de interesse</label>
-                    <textarea name="casas_interesse" class="wizard_textarea" placeholder="Cole aqui links de projetos ou casas que o cliente demonstrou interesse..." rows="4"></textarea>
+                    <textarea name="leads_casas_interesse" class="wizard_textarea" placeholder="Cole aqui links de projetos ou casas que o cliente demonstrou interesse..." rows="4"></textarea>
                 </div>
 
                 <div class="wizard_form_group">
@@ -247,7 +250,7 @@
                         </div>
                         <p class="wizard_upload_text">Clique para fazer upload ou arraste arquivos aqui</p>
                         <p class="wizard_upload_hint">Imagens, PDFs ou documentos</p>
-                        <input type="file" id="fileUpload" name="anexos[]" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
+                        <input type="file" id="fileUpload" name="leads_anexos[]" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
                     </div>
                     <div id="fileList" class="wizard_file_list"></div>
                 </div>

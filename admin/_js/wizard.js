@@ -1,28 +1,16 @@
-// wizard.js (JavaScript Puro - COM OPÇÃO DE AUTO-SAVE)
+// wizard.js (JavaScript Puro - PADRÃO SIMPLIFICADO)
 (function() {
     'use strict';
-    
-    // ====================================
-    // CONFIGURAÇÕES
-    // ====================================
-    var CONFIG = {
-        autoSave: true,  // true = salva a cada etapa | false = salva apenas no final
-        autoSaveUrl: 'salvar_etapa.php',  // URL para auto-save
-        finalSubmitUrl: 'processar_formulario.php'  // URL para envio final
-    };
-    // ====================================
     
     var currentStep = 1;
     var totalSteps = 3;
     var uploadedFiles = [];
-    var leadId = null;  // ID do lead salvo no banco
     
     // Elementos do DOM
     var btnProximo, btnVoltar, progressFill, uploadArea, fileInput, fileList, wizardForm, wizardContainer;
     
     // Função de inicialização
     function init() {
-        // Obter elementos
         btnProximo = document.getElementById('btnProximo');
         btnVoltar = document.getElementById('btnVoltar');
         progressFill = document.getElementById('progressFill');
@@ -32,228 +20,70 @@
         wizardForm = document.getElementById('wizardForm');
         wizardContainer = document.querySelector('.wizard_container');
         
-        // Verificar se elementos existem
         if (!btnProximo || !btnVoltar || !wizardForm) {
             console.error('Elementos principais não encontrados');
             return;
         }
         
-        // Adicionar eventos
         setupEvents();
         updateUI();
     }
     
     // Configurar eventos
     function setupEvents() {
-        // Botão Próximo
         btnProximo.addEventListener('click', function(e) {
             e.preventDefault();
             handleNext();
         });
         
-        // Botão Voltar
         btnVoltar.addEventListener('click', function(e) {
             e.preventDefault();
             handleBack();
         });
         
-        // Delegação de eventos para botões de opção
         document.body.addEventListener('click', function(e) {
             var target = e.target;
             
-            // Botões de opção
             if (target.classList.contains('wizard_option_btn')) {
                 e.preventDefault();
                 handleOptionButton(target);
             }
             
-            // Botão novo lead
             if (target.id === 'btnNovoLead') {
                 e.preventDefault();
                 resetForm();
             }
         });
         
-        // Upload de arquivos
         if (uploadArea && fileInput) {
-            uploadArea.addEventListener('click', function(e) {
-                console.log('Upload area clicada');
+            uploadArea.addEventListener('click', function() {
                 fileInput.click();
             });
             
-            var uploadChildren = uploadArea.querySelectorAll('*');
-            for (var i = 0; i < uploadChildren.length; i++) {
-                uploadChildren[i].addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    fileInput.click();
-                });
-            }
-            
             fileInput.addEventListener('change', function() {
-                console.log('Arquivos selecionados:', this.files.length);
                 if (this.files && this.files.length > 0) {
                     handleFiles(this.files);
                 }
             });
             
-            // Drag and drop
             uploadArea.addEventListener('dragover', handleDragOver);
             uploadArea.addEventListener('dragleave', handleDragLeave);
             uploadArea.addEventListener('drop', handleDrop);
-        } else {
-            console.error('Upload area ou file input não encontrados');
         }
     }
     
     // Manipular próximo
     function handleNext() {
         if (currentStep < totalSteps) {
-            // Salvar etapa atual se auto-save estiver ativo
-            if (CONFIG.autoSave) {
-                saveCurrentStep(function() {
-                    currentStep++;
-                    updateUI();
-                });
-            } else {
-                currentStep++;
-                updateUI();
-            }
+            currentStep++;
+            updateUI();
         } else if (currentStep === totalSteps) {
-            // Salvar etapa 3 antes de mostrar resumo
-            if (CONFIG.autoSave) {
-                saveCurrentStep(function() {
-                    showReview();
-                    currentStep = 4;
-                    updateUI();
-                });
-            } else {
-                showReview();
-                currentStep = 4;
-                updateUI();
-            }
+            showReview();
+            currentStep = 4;
+            updateUI();
         } else if (currentStep === 4) {
             submitForm();
         }
-    }
-    
-    // Salvar etapa atual via AJAX
-    function saveCurrentStep(callback) {
-        var formData = new FormData();
-        
-        // Adicionar ID do lead se já existir
-        if (leadId) {
-            formData.append('lead_id', leadId);
-        }
-        
-        // Adicionar etapa atual
-        formData.append('etapa', currentStep);
-        
-        // Coletar dados da etapa atual
-        var stepData = getStepData(currentStep);
-        for (var key in stepData) {
-            if (stepData.hasOwnProperty(key)) {
-                if (Array.isArray(stepData[key])) {
-                    for (var i = 0; i < stepData[key].length; i++) {
-                        formData.append(key + '[]', stepData[key][i]);
-                    }
-                } else {
-                    formData.append(key, stepData[key]);
-                }
-            }
-        }
-        
-        // Adicionar arquivos se estiver na etapa 3
-        if (currentStep === 3) {
-            for (var j = 0; j < uploadedFiles.length; j++) {
-                formData.append('anexo_' + j, uploadedFiles[j]);
-            }
-        }
-        
-        console.log('=== SALVANDO ETAPA ' + currentStep + ' ===');
-        
-        // Fazer requisição AJAX
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', CONFIG.autoSaveUrl, true);
-        
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                try {
-                    var response = JSON.parse(xhr.responseText);
-                    console.log('Etapa salva com sucesso:', response);
-                    
-                    // Salvar ID do lead se retornado
-                    if (response.lead_id) {
-                        leadId = response.lead_id;
-                    }
-                    
-                    // Executar callback
-                    if (callback) callback();
-                    
-                } catch (e) {
-                    console.error('Erro ao processar resposta:', e);
-                    if (callback) callback();
-                }
-            } else {
-                console.error('Erro ao salvar etapa:', xhr.status);
-                // Continuar mesmo com erro
-                if (callback) callback();
-            }
-        };
-        
-        xhr.onerror = function() {
-            console.error('Erro de rede ao salvar etapa');
-            // Continuar mesmo com erro
-            if (callback) callback();
-        };
-        
-        xhr.send(formData);
-    }
-    
-    // Obter dados da etapa específica
-    function getStepData(step) {
-        var data = {};
-        
-        if (step === 1) {
-            // 🟩 Etapa 1: Dados do Cliente
-            data.leads_name = getFieldValue('leads_name');
-            data.leads_cell = getFieldValue('leads_cell');
-            data.email_email = getFieldValue('email_email');
-            data.cidade_interesse = getFieldValue('cidade_interesse');
-            data.leads_terreno = getFieldValue('leads_terreno');
-            data.endereco_terreno = getFieldValue('endereco_terreno');
-            
-        } else if (step === 2) {
-            // 🟦 Etapa 2: Perfil do Interesse
-            data.tipo_construcao = getFieldValue('tipo_construcao');
-            data.faixa_investimento = getFieldValue('faixa_investimento');
-            data.parcela_bolso = getFieldValue('parcela_bolso');
-            data.forma_pagamento = getCheckboxValuesArray('forma_pagamento[]');
-            data.expectativa_inicio = getFieldValue('expectativa_inicio');
-            data.conhece_residere = getFieldValue('conhece_residere');
-            data.como_conheceu = getFieldValue('como_conheceu');
-            data.comentarios_parceiro = getFieldValue('comentarios_parceiro');
-            
-        } else if (step === 3) {
-            // 🟧 Etapa 3: Qualificação
-            data.visitou_casa = getFieldValue('visitou_casa');
-            data.finalidade_imovel = getFieldValue('finalidade_imovel');
-            data.prazo_contato = getFieldValue('prazo_contato');
-            data.credito_aprovado = getFieldValue('credito_aprovado');
-            data.casas_interesse = getFieldValue('casas_interesse');
-        }
-        
-        return data;
-    }
-
-    
-    // Obter valores de checkbox como array
-    function getCheckboxValuesArray(name) {
-        var checkboxes = document.querySelectorAll('[name="' + name + '"]:checked');
-        var values = [];
-        for (var i = 0; i < checkboxes.length; i++) {
-            values.push(checkboxes[i].value);
-        }
-        return values;
     }
     
     // Manipular voltar
@@ -274,30 +104,22 @@
         if (!group) return;
         
         var hiddenInput = group.nextElementSibling;
-        
-        // Remove active de todos
         var allButtons = group.querySelectorAll('.wizard_option_btn');
+        
         for (var i = 0; i < allButtons.length; i++) {
             allButtons[i].classList.remove('active');
         }
         
-        // Adiciona active no clicado
         button.classList.add('active');
         
-        // Atualiza hidden input
         if (hiddenInput && hiddenInput.type === 'hidden') {
             var dataValue = button.getAttribute('data-value');
             hiddenInput.value = dataValue;
             
-            // Lógica especial para "conhece_residere"
-            if (hiddenInput.name === 'conhece_residere') {
+            if (hiddenInput.name === 'leads_conhece_residere') {
                 var comoConheceuGroup = document.getElementById('comoConheceuGroup');
                 if (comoConheceuGroup) {
-                    if (dataValue === 'sim') {
-                        comoConheceuGroup.style.display = 'block';
-                    } else {
-                        comoConheceuGroup.style.display = 'none';
-                    }
+                    comoConheceuGroup.style.display = dataValue === 'sim' ? 'block' : 'none';
                 }
             }
         }
@@ -307,18 +129,13 @@
         var $m = $(targetSel || '#wizardModal');
         var $backdrop = $('#wizardBackdrop');
         
-        if (!$m.length) { 
-            console.warn('[Wizard] Modal não encontrada:', targetSel); 
-            return; 
-        }
+        if (!$m.length) return;
         
-        // Mostrar backdrop
         $backdrop.css('display', 'block');
         setTimeout(function() {
             $backdrop.addClass('is-open');
         }, 10);
         
-        // Mostrar modal
         $m.addClass('is-open').attr('aria-hidden', 'false');
         $('body').addClass('modal-open');
     }
@@ -327,56 +144,39 @@
         var $m = $(targetSel || '#wizardModal');
         var $backdrop = $('#wizardBackdrop');
         
-        if (!$m.length) { return; }
+        if (!$m.length) return;
         
-        // Remover classes
         $m.removeClass('is-open').attr('aria-hidden', 'true');
         $backdrop.removeClass('is-open');
         $('body').removeClass('modal-open');
         
-        // Esconder backdrop após animação
         setTimeout(function() {
             $backdrop.css('display', 'none');
         }, 300);
     }
 
-    // Abrir ao clicar em qualquer elemento marcado
     $(document).on('click', '[data-wizard="open"], .jOpenWizard', function (e) {
         e.preventDefault();
-        var target = $(this).data('wizard-target') || '#wizardModal';
-        openWizardModal(target);
+        openWizardModal($(this).data('wizard-target') || '#wizardModal');
     });
 
-    // Fechar: botões/links com data-wizard="close", o X da modal, overlay, etc.
     $(document).on('click', '[data-wizard="close"], .jCloseWizard', function (e) {
         e.preventDefault();
-        var target = $(this).data('wizard-target') || '#wizardModal';
-        closeWizardModal(target);
+        closeWizardModal($(this).data('wizard-target') || '#wizardModal');
     });
 
-    // Fechar ao clicar no backdrop
     $(document).on('click', '.wizard_backdrop', function () {
         closeWizardModal('#wizardModal');
     });
 
-    // Fechar no ESC
     $(document).on('keydown', function (e) {
         if (e.key === 'Escape' && $('#wizardModal').hasClass('is-open')) {
             closeWizardModal('#wizardModal');
         }
     });
-
-    // Exemplo: ao concluir o wizard, redirecionar se o gatilho tiver data-wizard-redirect
-    window.finishWizardAndMaybeRedirect = function (triggerEl) {
-        var $t = $(triggerEl);
-        var redirect = $t.data('wizard-redirect');
-        closeWizardModal('#wizardModal');
-        if (redirect) window.location.href = redirect;
-    };
     
     // Atualizar interface
     function updateUI() {
-        // Atualizar conteúdo das etapas
         var allContents = document.querySelectorAll('.wizard_step_content');
         for (var i = 0; i < allContents.length; i++) {
             allContents[i].classList.remove('active');
@@ -387,14 +187,12 @@
             activeContent.classList.add('active');
         }
         
-        // Gerenciar classe success_mode
         if (currentStep === 5) {
             wizardContainer.classList.add('success_mode');
         } else {
             wizardContainer.classList.remove('success_mode');
         }
         
-        // Atualizar indicadores
         var allSteps = document.querySelectorAll('.wizard_step');
         for (var j = 0; j < allSteps.length; j++) {
             allSteps[j].classList.remove('active', 'completed');
@@ -409,7 +207,6 @@
             }
         }
         
-        // Atualizar linhas
         var allLines = document.querySelectorAll('.wizard_step_line');
         for (var k = 0; k < allLines.length; k++) {
             var lineNum = k + 1;
@@ -420,25 +217,18 @@
             }
         }
         
-        // Barra de progresso
         var progressPercent = currentStep >= 4 ? 100 : (currentStep / totalSteps) * 100;
         if (progressFill) {
             progressFill.style.width = progressPercent + '%';
         }
         
-        // Navegação
         var navigation = document.querySelector('.wizard_navigation');
         if (navigation) {
             navigation.style.display = currentStep === 5 ? 'none' : 'flex';
         }
         
-        // Botão voltar
         btnVoltar.disabled = currentStep === 1;
-        
-        // Botão próximo
         updateNextButton();
-        
-        // Scroll
         window.scrollTo(0, 0);
     }
     
@@ -455,36 +245,28 @@
     
     // Mostrar resumo
     function showReview() {
-        // 🟩 Etapa 1: Dados do Cliente
         setReviewValue('review_nome_completo', getFieldValue('leads_name'));
         setReviewValue('review_telefone', getFieldValue('leads_cell'));
-        setReviewValue('review_email', getFieldValue('email_email'));
-        setReviewValue('review_cidade_interesse', getFieldValue('cidade_interesse'));
+        setReviewValue('review_email', getFieldValue('leads_email'));
+        setReviewValue('review_cidade_interesse', getFieldValue('leads_cidade_interesse'));
         setReviewValue('review_possui_terreno', formatValue(getFieldValue('leads_terreno')));
-        
-        // 🟦 Etapa 2: Perfil do Interesse
-        setReviewValue('review_tipo_construcao', formatValue(getFieldValue('tipo_construcao')));
-        setReviewValue('review_faixa_investimento', getSelectText('faixa_investimento'));
-        setReviewValue('review_parcela_bolso', getSelectText('parcela_bolso'));
-        setReviewValue('review_forma_pagamento', getCheckboxValues('forma_pagamento[]'));
-        setReviewValue('review_expectativa_inicio', getSelectText('expectativa_inicio'));
-        setReviewValue('review_conhece_residere', formatValue(getFieldValue('conhece_residere')));
-        
-        // 🟧 Etapa 3: Qualificação
-        setReviewValue('review_visitou_casa', formatValue(getFieldValue('visitou_casa')));
-        setReviewValue('review_finalidade_imovel', formatValue(getFieldValue('finalidade_imovel')));
-        setReviewValue('review_prazo_contato', getSelectText('prazo_contato'));
-        setReviewValue('review_credito_aprovado', formatValue(getFieldValue('credito_aprovado')));
+        setReviewValue('review_tipo_construcao', formatValue(getFieldValue('leads_tipo_construcao')));
+        setReviewValue('review_faixa_investimento', getSelectText('leads_faixa_investimento'));
+        setReviewValue('review_parcela_bolso', getSelectText('leads_parcela_bolso'));
+        setReviewValue('review_forma_pagamento', getCheckboxValues('leads_forma_pagamento[]'));
+        setReviewValue('review_expectativa_inicio', getSelectText('leads_expectativa_inicio'));
+        setReviewValue('review_conhece_residere', formatValue(getFieldValue('leads_conhece_residere')));
+        setReviewValue('review_visitou_casa', formatValue(getFieldValue('leads_visitou_casa')));
+        setReviewValue('review_finalidade_imovel', formatValue(getFieldValue('leads_finalidade_imovel')));
+        setReviewValue('review_prazo_contato', getSelectText('leads_prazo_contato'));
+        setReviewValue('review_credito_aprovado', formatValue(getFieldValue('leads_credito_aprovado')));
     }
-
     
-    // Auxiliar para pegar valor de campo
     function getFieldValue(name) {
         var field = document.querySelector('[name="' + name + '"]');
         return field ? field.value : '';
     }
     
-    // Auxiliar para pegar texto de select
     function getSelectText(name) {
         var select = document.querySelector('[name="' + name + '"]');
         if (select && select.selectedIndex >= 0) {
@@ -493,20 +275,16 @@
         return '-';
     }
     
-    // Auxiliar para pegar valores de checkbox
     function getCheckboxValues(name) {
         var checkboxes = document.querySelectorAll('[name="' + name + '"]:checked');
         var values = [];
         for (var i = 0; i < checkboxes.length; i++) {
             var label = checkboxes[i].nextElementSibling;
-            if (label) {
-                values.push(label.textContent);
-            }
+            if (label) values.push(label.textContent);
         }
         return values.length > 0 ? values.join(', ') : '-';
     }
     
-    // Auxiliar para setar valor no resumo
     function setReviewValue(id, value) {
         var element = document.getElementById(id);
         if (element) {
@@ -514,7 +292,6 @@
         }
     }
     
-    // Formatar valores
     function formatValue(value) {
         if (!value) return '-';
         
@@ -536,7 +313,7 @@
         return map[value] || value;
     }
     
-    // Drag and drop handlers
+    // Drag and drop
     function handleDragOver(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -563,9 +340,7 @@
         }
     }
     
-    // Processar arquivos
     function handleFiles(files) {
-        console.log('Processando', files.length, 'arquivo(s)');
         for (var i = 0; i < files.length; i++) {
             addFile(files[i]);
         }
@@ -573,7 +348,6 @@
     
     function addFile(file) {
         uploadedFiles.push(file);
-        console.log('Arquivo adicionado:', file.name);
         
         var fileItem = document.createElement('div');
         fileItem.className = 'wizard_file_item';
@@ -614,50 +388,45 @@
         return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     }
     
-    // Submeter formulário final
+    // Submeter formulário final usando o padrão com jQuery ajaxSubmit
     function submitForm() {
-        var formData = new FormData(wizardForm);
+        var $form = $(wizardForm);
+        var callback = $form.find('input[name="callback"]').val();
+        var callback_action = $form.find('input[name="callback_action"]').val();
         
-        // Adicionar ID do lead se existir
-        if (leadId) {
-            formData.append('lead_id', leadId);
-        }
-        
-        // Adicionar arquivos
+        // Adicionar arquivos ao formulário
         for (var i = 0; i < uploadedFiles.length; i++) {
-            formData.append('anexo_' + i, uploadedFiles[i]);
+            var fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = 'leads_anexos[]';
+            fileInput.files = uploadedFiles[i];
+            $form.append(fileInput);
         }
         
-        formData.append('finalizar', '1');
-        
-        console.log('=== ENVIANDO FORMULÁRIO FINAL ===');
-        console.log('Lead ID:', leadId);
-        console.log('Total de arquivos:', uploadedFiles.length);
-        
-        // Envio real
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', CONFIG.finalSubmitUrl, true);
-        
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('Sucesso:', xhr.responseText);
-                currentStep = 5;
-                updateUI();
-            } else {
-                console.error('Erro:', xhr.status);
+        $form.ajaxSubmit({
+            url: '_ajax/' + callback + '.ajax.php',
+            data: {callback_action: callback_action},
+            dataType: 'json',
+            uploadProgress: function (evento, posicao, total, completo) {
+                var porcento = completo + '%';
+                console.log('Upload:', porcento);
+            },
+            success: function (data) {
+                if (data.trigger) {
+                    Trigger(data.trigger);
+                }
+                
+                if (!data.error) {
+                    currentStep = 5;
+                    updateUI();
+                } else {
+                    alert('Erro ao enviar formulário');
+                }
+            },
+            error: function() {
                 alert('Erro ao enviar formulário');
             }
-        };
-        
-        xhr.onerror = function() {
-            console.error('Erro de rede');
-            alert('Erro ao enviar formulário');
-        };
-        
-        xhr.send(formData);
-        
-        // Remova o comentário abaixo se quiser testar sem PHP
-        // setTimeout(function() { currentStep = 5; updateUI(); }, 1000);
+        });
     }
     
     // Resetar formulário
@@ -665,7 +434,6 @@
         wizardForm.reset();
         uploadedFiles = [];
         fileList.innerHTML = '';
-        leadId = null;
         
         var allButtons = document.querySelectorAll('.wizard_option_btn');
         for (var i = 0; i < allButtons.length; i++) {
@@ -692,10 +460,24 @@
         updateUI();
     }
     
-    // Inicializar quando DOM estiver pronto
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
     }
 })();
+
+//############## MODAL MESSAGE
+function Trigger(Message) {
+    $('.trigger_ajax').fadeOut('fast', function () {
+        $(this).remove();
+    });
+    $('body').before("<div class='trigger_modal'>" + Message + "</div>");
+    $('.trigger_ajax').fadeIn();
+}
+
+function TriggerClose() {
+    $('.trigger_ajax').fadeOut('fast', function () {
+        $(this).remove();
+    });
+}
