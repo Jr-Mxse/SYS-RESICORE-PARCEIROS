@@ -155,11 +155,6 @@ endif;
 
         <article class="box box100 wc_tab_target" id="equipes" style="padding: 0; margin: 0; display: none;">
             <div class="panel_header default">
-                <?php if ($Admin["user_perfil"] == 2): ?>
-                    <span>
-                        <a href="dashboard.php?wc=users/address&user=<?= $user_id; ?>" class="btn btn_green icon-plus a icon-notext"></a>
-                    </span>
-                <?php endif; ?>
                 <h2>Minhas Equipes </h2>
             </div>
             <div class="panel" style="border-radius: 0 0 5px 5px;">
