@@ -652,6 +652,11 @@ form .section{
     height: 32px;
     line-height: 1;
     transition: color 0.2s;
+    background: #eee;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal_close:hover {
