@@ -34,6 +34,7 @@ endif;
             <div class="box_conf_menu verfical">
                 <a class='conf_menu wc_tab wc_active' href='#profile'><i class="icon-user"></i> Perfil</a>
                 <a class='conf_menu wc_tab' href='#address'><i class="icon-home"></i> Endereços</a>
+                <a class='conf_menu wc_tab' href='#equipes'><i class="icon-users"></i> Minhas Equipes</a>
             </div>
         </div>
         <article class="wc_tab_target wc_active" id="profile">
@@ -151,14 +152,87 @@ endif;
                 <div class="clear"></div>
             </div>
         </article>
+
+        <article class="box box100 wc_tab_target" id="equipes" style="padding: 0; margin: 0; display: none;">
+            <div class="panel_header default">
+                <?php if ($Admin["user_perfil"] == 2): ?>
+                    <span>
+                        <a href="dashboard.php?wc=users/address&user=<?= $user_id; ?>" class="btn btn_green icon-plus a icon-notext"></a>
+                    </span>
+                <?php endif; ?>
+                <h2>Minhas Equipes </h2>
+            </div>
+            <div class="panel" style="border-radius: 0 0 5px 5px;">
+                <?php
+                if ($Admin["user_perfil"] == 1):
+                ?>
+                    <h3>Para conseguir realizar cadastro de Equipe e seus integrantes (seja uma imobiliária ou grupo de vendedores), você precisa solicitar ao seu Especialista Residere para alterar o seu perfil para Perfil Gestor.</h3>
+                    <br><br><br>
+                    <a class="btn btn_blue btn_xlarge btn_pulse j_swal_action" callback="Users" callback_action="migrar_perfil" data-confirm-text="Migrar Perfil" data-confirm-message="Ao confirmar essa ação, nosso especialista entrará em contato e atualizará o seu Perfil. Podemos continuar? " id="<?= $Admin["user_id"] ?>">
+                        <b>Solicitar para Migrar Perfil para Gestor</b>
+                    </a>
+                <?php
+                else:
+                    $vday = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime(date("Y-m-d H:i:s"))));
+                    $Delete->ExeDelete(DB_USERS, "WHERE (user_name IS NULL OR user_name='') AND user_id_principal={$Admin["user_id"]}", "");
+
+                    $apiTable = "table01";
+                    Datatable($apiTable, "", "[1, 'desc'],[2, 'asc']");
+                ?>
+                    <table id="<?= $apiTable ?>" class="display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr role="row" style="background: #CCC">
+                                <th style="text-align: left;">Cadastro</th>
+                                <th style="text-align: left;">Nome da Empresa</th>
+                                <th style="text-align: left;">CNPJ</th>
+                                <th style="text-align: left;">Endereço</th>
+                                <th style="text-align: left;">Quant. Integrantes</th>
+                                <th style="text-align: left;"></th>
+                            </tr>
+                        </thead>
+
+                        <body>
+                            <?php
+                            $Read->ExeRead(DB_USERS, "WHERE user_id_principal={$Admin["user_id"]}", "");
+                            if ($Read->getResult()):
+                                foreach ($Read->getResult() as $Reg) :
+                                    extract($Reg);
+
+                                    $qEquipe = 0;
+                                    $Read->ExeRead(DB_USERS, "WHERE user_associado={$Reg["user_id"]}", "");
+                                    $qEquipe = $Read->getRowCount();
+
+                            ?>
+                                    <tr role="row">
+                                        <td style="text-align: left" data-sort="<?= strtotime($user_registration) ?>"><?= date("d/m/Y H:i", strtotime($user_registration)) ?></td>
+                                        <td style="text-align: left"><?= $user_name ?></td>
+                                        <td style="text-align: left"><?= $user_document ?></td>
+                                        <td style="text-align: left"><?= $addr_street ?></td>
+                                        <td style="text-align: left"><?= $qEquipe ?></td>
+                                        <td>
+                                            <div class='fl_right'>
+                                                <a title="Editar" href="dashboard.php?wc=organizacao/create&id=<?= $user_id ?>" class="post_single_center icon-notext icon-eye btn  btn_green"></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                            <?php
+                                endforeach;
+                            endif;
+                            ?>
+                        </body>
+                    </table>
+                <?php endif; ?>
+                <div class="clear"></div>
+            </div>
+        </article>
     </div>
 
     <div class="box box30">
-       <div class="panel">
+        <div class="panel">
             <?php
-        $Image = (file_exists("../uploads/{$user_thumb}") && !is_dir("../uploads/{$user_thumb}") ? "uploads/{$user_thumb}" : 'admin/_img/no_avatar.jpg');
-        ?>
-        <img class="user_thumb" style="width: 100%;" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="" title="" />
-       </div>
+            $Image = (file_exists("../uploads/{$user_thumb}") && !is_dir("../uploads/{$user_thumb}") ? "uploads/{$user_thumb}" : 'admin/_img/no_avatar.jpg');
+            ?>
+            <img class="user_thumb" style="width: 100%;" src="../tim.php?src=<?= $Image; ?>&w=400&h=400" alt="" title="" />
+        </div>
     </div>
 </div>

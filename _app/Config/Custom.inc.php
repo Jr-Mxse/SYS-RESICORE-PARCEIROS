@@ -36,6 +36,7 @@ define('DB_PARCEIROS', 'parceiros');
 define('DB_PARCEIROS_ADDR', 'parceiros_address');
 define('DB_PARCEIROS_DOC', 'parceiros_documentos');
 define('DB_PARCEIROS_CONVITE', 'parceiros_convite');
+define('DB_PARCEIROS_MIGRAR', 'parceiros_migrar');
 define('DB_LEADS', 'parceiros_leads');
 define('LEVEL_PARCEIROS', 6);
 

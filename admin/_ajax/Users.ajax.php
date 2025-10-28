@@ -31,6 +31,43 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
     //SELECIONA AÇÃO
     switch ($Case):
+        case 'migrar_perfil':
+            $UserId = $PostData['id'];
+            $Read->ExeRead(DB_USERS, "WHERE user_id = :user", "user={$UserId}");
+            if (!$Read->getResult()):
+                $jSON['trigger'] = AjaxErro("<b class='icon-warning'>USUÁRIO NÃO EXISTE:</b> Olá, você tentou migrar um usuário que não existe ou já foi removido!", E_USER_WARNING);
+            else:
+                extract($Read->getResult()[0]);
+                $Read->ExeRead(DB_PARCEIROS_MIGRAR, "WHERE parceiro_id = :user AND migrar_status=0", "user={$UserId}");
+                if ($Read->getResult()):
+                    $jSON['trigger'] = AjaxErro("<b class='icon-warning'>SOLICITAÇÃO JÁ REALIZADA:</b> Olá, você já solicitou a migração do seu perfil, em breve nossa equipe estará entrando em contato.", E_USER_WARNING);
+                else:
+
+                    $RegCreate = [
+                        'parceiro_id' => $_SESSION['userLoginParceiros']['user_id']
+                    ];
+                    $Create->ExeCreate(DB_PARCEIROS_MIGRAR, $RegCreate);
+
+                    $link = "https://resicore.com.br/admin/dashboard.php?wc=parceiros/create&id={$_SESSION['userLoginParceiros']['user_id']}";
+                    if (isset($relacionamento_id)):
+                        $Read->ExeRead("users", "WHERE user_id = {$relacionamento_id}", "");
+                        if ($Read->getResult()):
+                            $especialista = $Read->getResult()[0];
+                            if ($especialista["user_cell"]):
+                                $especialista["user_name"] = explode(" ",  $especialista["user_name"])[0];
+                                $destino["numero"] = "55" .str_replace(["(", ")", " ", "-", ".", "/"], "", $especialista["user_cell"]);
+                                $destino["mensagem"] = "Olá {$especialista["user_name"]}, o parceiro {$user_name} solicitou que seja migrado o seu perfil para Gestor de Equipes.\nAcesse o ResiCore e ajuste por favor:\n{$link}";
+                                $envio = envioZapResidere($destino);
+                            endif;
+                        endif;
+                    endif;
+
+                    $jSON['trigger'] = AjaxErro("<b class='icon-checkmark'>SOLICITAÇÃO REALIZADA COM SUCESSO!</b>");
+                    $jSON['redirect'] = "dashboard.php?wc=users/home";
+                endif;
+            endif;
+            break;
+
         case 'manager':
             $UserId = $PostData['user_id'];
             unset($PostData['user_id'], $PostData['user_thumb']);

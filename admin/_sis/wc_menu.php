@@ -12,35 +12,23 @@
     </a>
 </li>
 
-<?php if($Admin['user_id'] == 1): ?>
-<li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/create') ? 'active' : ''; ?>">
-    <a  href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>" 
-        class="jOpenWizard" 
-        data-wizard="open" 
-        data-wizard-target="#wizardModal" data-wizard-redirect="" title="Meu Perfil" data-tooltip="Meu Perfil">
-        <i class="icon-user"></i>
-        <span class="menu-text">Wizard</span>
-    </a>
-</li>
-<?php endif; ?>
+<?php if ($Admin["user_perfil"] == 2): ?>
+    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
+        <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
+            <i class="icon-office"></i>
+            <span class="menu-text">Minhas Equipes</span>
+        </a>
+    </li>
+    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
+        <a title="Minha Equipe" href="dashboard.php?wc=organizacao/equipe" data-tooltip="Minha Equipe">
+            <i class="icon-users"></i>
+            <span class="menu-text">Integrantes da Equipe</span>
+        </a>
+    </li>
+<?php
+endif;
+?>
 
-
-<?php if (in_array($Admin["user_id"], [1, 234, 147])): ?>
-<li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
-    <a title="Leads" href="dashboard.php?wc=organizacao/home" data-tooltip="Leads">
-        <i class="icon-office"></i>
-        <span class="menu-text">Minhas Equipes</span>
-    </a>
-</li>
-
-<li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'organizacao/home') ? 'active' : ''; ?>">
-    <a title="Minha Equipe" href="dashboard.php?wc=organizacao/equipe" data-tooltip="Minha Equipe">
-        <i class="icon-users"></i>
-        <span class="menu-text">Integrantes da Equipe</span>
-    </a>
-</li>
-
-<?php endif;?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'especialista/create') ? 'active' : ''; ?>">
     <a title="Especialista Associado" href="dashboard.php?wc=especialista/create" data-tooltip="Especialista">
         <span style="display: flex;gap: 10px;">
@@ -51,14 +39,12 @@
         </span>
     </a>
 </li>
-<?php if (in_array($Admin["user_id"], [1, 234, 147])): ?>
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'cursos/home') ? 'active' : ''; ?>">
     <a title="ResiH" href="dashboard.php?wc=cursos/home" data-tooltip="Academia">
         <i class="icon-books"></i>
         <span class="menu-text">Aprender e Crescer</span>
     </a>
 </li>
-<?php endif; ?>
 
 <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/create') ? 'active' : ''; ?>">
     <a title="Meu Perfil" href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>" data-tooltip="Meu Perfil">
@@ -73,6 +59,18 @@
         <span class="menu-text">ResiPlace</span>
     </a>
 </li>
+
+<?php if ($Admin['user_id'] == 1): ?>
+    <li class="dashboard_nav_menu_li <?= strstr($getViewInput, 'users/create') ? 'active' : ''; ?>">
+        <a href="dashboard.php?wc=users/create&id=<?= $Admin['user_id']; ?>"
+            class="jOpenWizard"
+            data-wizard="open"
+            data-wizard-target="#wizardModal" data-wizard-redirect="" title="Meu Perfil" data-tooltip="Meu Perfil">
+            <i class="icon-user"></i>
+            <span class="menu-text">Wizard (teste)</span>
+        </a>
+    </li>
+<?php endif; ?>
 
 <span class="mobile_menu_mobile_fechar">
     <div class="mobile_menu_mobile_box_fechar">
