@@ -604,8 +604,11 @@
     background: #fbfbfb;
 }
 
-.wc_ead_home_courses_course_thumb{
+.wc_ead_home_courses_course_thumb {
     position: relative;
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .wc_ead_home_courses_course_bonus{
@@ -630,6 +633,16 @@
 .wc_ead_home_courses_course_content{
     text-align: center;
     padding: 15px;
+    background: #0e1118 !important;
+    overflow: hidden;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.wc_ead_course h1 a {
+    border-bottom: 3px solid transparent !important;
+    color: #fff !important;
+    text-decoration: underline;
 }
 
 .wc_ead_home_courses_course_content h1{

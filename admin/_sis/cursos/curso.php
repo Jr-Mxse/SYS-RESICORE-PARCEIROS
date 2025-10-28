@@ -320,35 +320,29 @@ $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
                                              title='Estudar {$class_title}'>{$class_title}</a>"
                                         : $class_title); ?>
                                 </span>
-                            </h1>
-                            <p class="row">
+                            </h1><p class="row">
                                 <span class="icon-hour-glass wc_tooltip"><?= $class_time; ?>min.
                                     <span class="wc_tooltip_balloon">É o tempo desta aula!</span>
                                 </span>
-                            </p>
-                            <p class="row views">
+                            </p><p class="row views">
                                 <span class="icon-stats-dots wc_tooltip"><?= $ClassViews; ?>
                                     <span class="wc_tooltip_balloon">Quantas vezes você viu!</span>
                                 </span>
-                            </p>
-                            <p class="row">
+                            </p><p class="row">
                                 <span class="icon-clock wc_tooltip"><?= $ClassPlay; ?>
                                     <span class="wc_tooltip_balloon">Último acesso!</span>
                                 </span>
-                            </p>
-                            <p class="row">
+                            </p><p class="row">
                                 <span class="icon-bubbles3 wc_tooltip"><?= $TaskSupport; ?>
                                     <span class="wc_tooltip_balloon">Minha dúvida!</span>
                                 </span>
-                            </p>
-                            <p class="row">
+                            </p><p class="row">
                                 <span class="wc_tooltip <?= $ClassCheck ? "icon-checkmark" : 'icon-checkmark2'; ?>">
                                     <?= $ClassCheck ? $ClassCheck : "00/00/00"; ?>
                                     <span class="wc_tooltip_balloon">Marcou como concluída!</span>
                                 </span>
                             </p>
-                        </article>
-                <?php
+                        </article> <?php
                     endforeach;
                 endif;
                 ?>
