@@ -114,7 +114,7 @@ endif;
 
 
     <?php
-    $vday = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime(date("Y-m-d H:i:s"))));
+    $vday = date('Y-m-d H:i:s', strtotime('-10 minutes'));
     $Delete->ExeDelete(DB_LEADS, "WHERE (leads_name IS NULL OR leads_name='') AND leads_registration<='{$vday}'", "");
 
     $apiTable = "table01";

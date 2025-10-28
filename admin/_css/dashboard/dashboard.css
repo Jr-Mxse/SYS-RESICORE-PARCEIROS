@@ -826,7 +826,7 @@
 .dashboard_header {
     width: 100%;
     background: #fff;
-    padding: 20px 25px;
+    /*padding: 20px 25px;*/
     border-top: 1px solid #EBEBEB;
     border-bottom: 1px solid #EBEBEB;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
