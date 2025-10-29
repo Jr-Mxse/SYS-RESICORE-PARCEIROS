@@ -21,8 +21,10 @@ else:
             exit;
         endif;
 
-        $Read->LinkResult("users", "user_id", $course_author, "user_name, user_lastname");
+        $Read->LinkResult("users", "user_id", $course_author, "user_name, user_lastname, user_thumb");
         $CourseTutor = $Read->getResult()[0];
+
+        $CoverTutor = (file_exists("../uploads/{$CourseTutor['user_thumb']}") && !is_dir("../uploads/{$CourseTutor['user_thumb']}") ? "uploads/{$CourseTutor['user_thumb']}" : 'admin/_img/no_avatar.jpg');
 
         $Read->LinkResult(DB_EAD_COURSES_SEGMENTS, "segment_id", $course_segment);
         if ($Read->getResult()):
@@ -145,49 +147,96 @@ $Table2 = DB_EAD_CLASSES;
 $Read->FullRead("SELECT {$Table2}.class_id, {$Table2}.class_name, {$Table2}.class_title FROM {$Table1}, {$Table2} WHERE {$Table1}.course_id = :course AND {$Table1}.module_id = {$Table2}.module_id AND {$Table2}.class_id NOT IN(SELECT class_id FROM " . DB_EAD_STUDENT_CLASSES . " WHERE user_id = :user AND course_id = :course AND student_class_check IS NOT NULL) ORDER BY {$Table1}.module_order ASC, {$Table2}.class_order ASC LIMIT 1", "user={$Admin['user_id']}&course={$course_id}");
 $ClassPending = ($Read->getResult() ? $Read->getResult()[0] : null);
 ?>
-<article class="wc_ead_course_course jwc_ead_restrict">
-    <div class="wc_ead_content">
-        <header class="wc_ead_course_course_header">
-            <img src="<?= $course_cover; ?>" alt="<?= $course_title; ?>" title="<?= $course_title; ?>" />
-            <h1 class="icon-lab">Curso <?= $course_title; ?></h1>
-        </header>
-
-        <div class="box box25">
-            <p class="icon icon-mic icon-notext"></p>
-            <p class="title">Tutor do Curso</p>
-            <p><?= "{$CourseTutor['user_name']} {$CourseTutor['user_lastname']}"; ?></p>
+<article class="ead_course_overview">
+    <div class="ead_course_container">
+        
+        <!-- THUMB / CAPA -->
+        <div class="ead_course_thumb">
+            <img src="<?= $course_cover; ?>" alt="<?= $course_title; ?>" title="<?= $course_title; ?>">
         </div>
 
-        <div class="box box25">
-            <p class="icon icon-clock icon-notext"></p>
-            <p class="title">Duração do Curso</p>
-            <p><?= $ClassTime; ?>h em <?= $ClassCount; ?> aulas</p>
-        </div>
-
-        <div class="box box25">
-            <p class="icon icon-stats-bars2 icon-notext"></p>
-            <p class="title">Seu Andamento</p>
-            <div class="progress">
-                <span class="progress_bar" style="width: <?= $CourseCompletedPercent ?>%;">
-                    <?= $CourseCompletedPercent; ?>%
-                </span>
+        <!-- INFORMAÇÕES DO CURSO -->
+        <div class="ead_course_details">
+            
+            <!-- TUTOR -->
+            <div class="ead_detail_item">
+                <div class="ead_icon_box">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/>
+                        <path d="M4 20v-1a7.003 7.003 0 0 1 14 0v1H4z"/>
+                    </svg>
+                </div>
+                <div class="ead_info_box">
+                    <p class="ead_info_label">Tutor do Curso</p>
+                    <div class="ead_tutor">
+                        <img src="../tim.php?src=<?= $CoverTutor; ?>&w=400&h=400" alt="">
+                        <span><?= "{$CourseTutor['user_name']} {$CourseTutor['user_lastname']}"; ?></span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="box box25">
-            <p class="icon icon-play2 icon-notext"></p>
-            <p class="title">Próxima Aula</p>
-            <p>
-                <?= !empty($ClassPending)
-                    ? "<a href='dashboard.php?wc=cursos/tarefa&task={$ClassPending['class_name']}' 
-                         title='{$ClassPending['class_title']}' 
-                         class='wc_tooltip'>
-                         Continue de Onde Parou
-                         <span class=\"wc_tooltip_balloon\">{$ClassPending['class_title']}</span>
-                       </a>"
-                    : "Nenhuma tarefa pendente!"
-                ?>
-            </p>
+            <!-- DURAÇÃO -->
+            <div class="ead_detail_item">
+                <div class="ead_icon_box">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <div class="ead_info_box">
+                    <p class="ead_info_label">Duração do Curso</p>
+                    <p class="ead_info_value"><?= $ClassTime; ?> horas aula</p>
+                </div>
+            </div>
+
+            <!-- ANDAMENTO -->
+            <div class="ead_detail_item">
+                <div class="ead_icon_box">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 19h16M4 15h10M4 11h6M4 7h2"/>
+                    </svg>
+                </div>
+                <div class="ead_info_box">
+                    <p class="ead_info_label">Seu Andamento</p>
+                    <div class="ead_progress_group">
+                        <div class="ead_progress_label">10% Assistido</div>
+                        <div class="ead_progress_bar">
+                            <span class="ead_progress_fill ead_blue" style="width:10%;"></span>
+                        </div>
+                    </div>
+                    <div class="ead_progress_group">
+                        <div class="ead_progress_label">2% Concluído</div>
+                        <div class="ead_progress_bar">
+                            <span class="ead_progress_fill ead_green" style="width:2%;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRÓXIMA AULA -->
+            <div class="ead_detail_item ead_next_class">
+                <div class="ead_icon_box">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polygon points="10 8 16 12 10 16 10 8"/>
+                    </svg>
+                </div>
+                <div class="ead_info_box">
+                    <p class="ead_info_label">Próxima Aula</p>
+                    <p class="ead_info_value">
+                        <?php if (!empty($ClassPending)): ?>
+                            <a href="dashboard.php?wc=cursos/tarefa&task=<?= $ClassPending['class_name']; ?>" 
+                               class="ead_next_link">
+                                Continue de onde parou →
+                            </a>
+                            <small class="ead_next_title"><?= $ClassPending['class_title']; ?></small>
+                        <?php else: ?>
+                            <span class="ead_no_next">Nenhuma tarefa pendente!</span>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 </article>
