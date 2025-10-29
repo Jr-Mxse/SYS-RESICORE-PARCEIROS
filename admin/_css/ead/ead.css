@@ -1580,3 +1580,139 @@
         width: 100%;
     }
 }
+
+/************ page cursos ***************/
+.ead_course_overview {
+    background: linear-gradient(90deg, #252932, #0e1118);
+    padding: 30px;
+    display: flex;
+}
+
+.ead_course_container {
+    display: flex;
+    align-items: stretch;
+    gap: 40px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+/* Thumb */
+.ead_course_thumb {
+    flex: 1;
+    background: #000;
+    height: max-content;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ead_course_thumb img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* Painel lateral */
+.ead_course_details {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    gap: 24px;
+}
+
+/* Itens */
+.ead_detail_item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.ead_icon_box {
+    width: 25px;
+    height: 25px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.ead_icon_box svg {
+    width: 15px;
+    height: 15px;
+}
+
+.ead_info_label {
+    font-size: 0.9rem;
+    color: #ffffffa6;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.ead_info_value {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.ead_tutor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ead_tutor img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+/* Barras de progresso */
+.ead_progress_group { margin-top: 6px; }
+.ead_progress_label { font-size: 0.85rem; color: #e6f7ff; margin-bottom: 4px; }
+
+.ead_progress_bar {
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    height: 8px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ead_progress_fill {
+    display: block;
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.3s ease-in-out;
+}
+
+.ead_progress_fill.ead_blue { background: #00b7ff; }
+.ead_progress_fill.ead_green { background: #00c853; }
+
+/* Próxima Aula */
+.ead_next_class .ead_next_link {
+    color: #1abc9c;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.ead_next_title {
+    display: block;
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-top: 2px;
+}
+.ead_no_next {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+    .ead_course_container { flex-direction: column; }
+    .ead_course_thumb { height: 220px; }
+}
