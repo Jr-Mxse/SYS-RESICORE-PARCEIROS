@@ -83,7 +83,7 @@
                 <div class="dashboard_card_content">
                     <h3 class="dashboard_card_title">Comissão Potêncial</h3>
                     <?php
-                    $Read->FullRead("SELECT SUM(leads_proposta) AS total FROM " . DB_LEADS . " WHERE parceiros_id = :id", "id={$Admin['user_id']}");
+                    $Read->FullRead("SELECT SUM(leads_proposta) AS total FROM " . DB_LEADS . " WHERE parceiros_id = :id AND leads_status=1", "id={$Admin['user_id']}");
                     $total = $Read->getResult()[0]["total"];
                     $leads_terreno = (20 * $total / 100);
                     $leads_previsto = (6 * ($total - $leads_terreno) / 100);
