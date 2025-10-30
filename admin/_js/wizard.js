@@ -5,6 +5,7 @@
     var currentStep = 1;
     var totalSteps = 3;
     var uploadedFiles = [];
+    var isViewMode = false;
     
     // Elementos do DOM
     var btnProximo, btnVoltar, progressFill, uploadArea, fileInput, fileList, wizardForm, wizardContainer;
@@ -71,9 +72,99 @@
             uploadArea.addEventListener('drop', handleDrop);
         }
     }
+
+    // ==================================================
+    // 🔹 VALIDAÇÃO DE ETAPA
+    // ==================================================
+    function validateCurrentStep() {
+        if (isViewMode) {
+            return true;
+        }
+        
+        var currentContent = document.querySelector('.wizard_step_content[data-step="' + currentStep + '"]');
+        if (!currentContent) return true;
+        
+        var requiredFields = currentContent.querySelectorAll('input[required], select[required], textarea[required]');
+        var isValid = true;
+        var firstInvalidField = null;
+        
+        var oldErrors = currentContent.querySelectorAll('.wizard_field_error');
+        for (var i = 0; i < oldErrors.length; i++) {
+            oldErrors[i].remove();
+        }
+        
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = requiredFields[i];
+            var fieldGroup = field.closest('.wizard_form_group');
+            
+            field.classList.remove('wizard_input_error');
+            
+            var isEmpty = false;
+            
+            if (field.type === 'checkbox' || field.type === 'radio') {
+                var groupName = field.name;
+                var checked = currentContent.querySelectorAll('input[name="' + groupName + '"]:checked');
+                isEmpty = checked.length === 0;
+            } else if (field.tagName === 'SELECT') {
+                isEmpty = !field.value || field.value === '';
+            } else {
+                isEmpty = !field.value.trim();
+            }
+            
+            if (isEmpty) {
+                isValid = false;
+                field.classList.add('wizard_input_error');
+                
+                if (!firstInvalidField) {
+                    firstInvalidField = field;
+                }
+                
+                if (fieldGroup) {
+                    var errorMsg = document.createElement('div');
+                    errorMsg.className = 'wizard_field_error';
+                    errorMsg.textContent = 'Este campo é obrigatório';
+                    fieldGroup.appendChild(errorMsg);
+                }
+            }
+        }
+        
+        var hiddenFields = currentContent.querySelectorAll('input[type="hidden"][required]');
+        for (var j = 0; j < hiddenFields.length; j++) {
+            var hidden = hiddenFields[j];
+            if (!hidden.value || hidden.value === '') {
+                isValid = false;
+                var group = hidden.previousElementSibling;
+                if (group && group.classList.contains('wizard_button_group')) {
+                    group.classList.add('wizard_button_group_error');
+                    
+                    if (!firstInvalidField) {
+                        firstInvalidField = group;
+                    }
+                    
+                    var errorMsg = document.createElement('div');
+                    errorMsg.className = 'wizard_field_error';
+                    errorMsg.textContent = 'Selecione uma opção';
+                    group.parentNode.appendChild(errorMsg);
+                }
+            }
+        }
+        
+        if (firstInvalidField) {
+            firstInvalidField.focus();
+            firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        return isValid;
+    }
     
     // Manipular próximo
     function handleNext() {
+        if (currentStep <= totalSteps) {
+            if (!validateCurrentStep()) {
+                return; 
+            }
+        }
+        
         if (currentStep < totalSteps) {
             currentStep++;
             updateUI();
@@ -157,11 +248,24 @@
 
     $(document).on('click', '[data-wizard="open"], .jOpenWizard', function (e) {
         e.preventDefault();
+        
+        // Remove ID se existir
+        $('[name="leads_id"]').remove();
+        
+        // Configura modo novo
+        configurarModoModal('new');
+        
         openWizardModal($(this).data('wizard-target') || '#wizardModal');
     });
 
     $(document).on('click', '[data-wizard="close"], .jCloseWizard', function (e) {
         e.preventDefault();
+        
+        // Reseta modo
+        isViewMode = false;
+        $('[name="leads_id"]').remove();
+        $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', false);
+        
         closeWizardModal($(this).data('wizard-target') || '#wizardModal');
     });
 
@@ -236,10 +340,17 @@
     function updateNextButton() {
         if (currentStep < totalSteps) {
             btnProximo.innerHTML = 'Próximo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+            btnProximo.style.display = 'block';
         } else if (currentStep === 3) {
             btnProximo.innerHTML = 'Revisar dados <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+            btnProximo.style.display = 'block';
         } else if (currentStep === 4) {
-            btnProximo.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Enviar Lead';
+            if (isViewMode) {
+                btnProximo.style.display = 'none';
+            } else {
+                btnProximo.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Enviar Lead';
+                btnProximo.style.display = 'block';
+            }
         }
     }
     
@@ -388,43 +499,37 @@
         return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     }
     
-    // Submeter formulário final usando o padrão com jQuery ajaxSubmit
+    // Submeter formulário
     function submitForm() {
-        var $form = $(wizardForm);
-        var callback = $form.find('input[name="callback"]').val();
-        var callback_action = $form.find('input[name="callback_action"]').val();
-        
-        // Adicionar arquivos ao formulário
+        var formData = new FormData(wizardForm);
+
         for (var i = 0; i < uploadedFiles.length; i++) {
-            var fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.name = 'leads_anexos[]';
-            fileInput.files = uploadedFiles[i];
-            $form.append(fileInput);
+            formData.append('file[]', uploadedFiles[i]);
         }
-        
-        $form.ajaxSubmit({
-            url: '_ajax/' + callback + '.ajax.php',
-            data: {callback_action: callback_action},
+
+        $.ajax({
+            url: '_ajax/Leads.ajax.php',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
             dataType: 'json',
-            uploadProgress: function (evento, posicao, total, completo) {
-                var porcento = completo + '%';
-                console.log('Upload:', porcento);
-            },
-            success: function (data) {
+            success: function(data) {
                 if (data.trigger) {
                     Trigger(data.trigger);
                 }
                 
-                if (!data.error) {
+                if (data.error) {
+                    return;
+                }
+                
+                if (data.success) {
                     currentStep = 5;
                     updateUI();
-                } else {
-                    alert('Erro ao enviar formulário');
                 }
             },
             error: function() {
-                alert('Erro ao enviar formulário');
+                Trigger("<b class='icon-warning'>ERRO:</b> Falha ao enviar formulário");
             }
         });
     }
@@ -434,6 +539,10 @@
         wizardForm.reset();
         uploadedFiles = [];
         fileList.innerHTML = '';
+        
+        isViewMode = false;
+        $('[name="leads_id"]').remove();
+        $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', false);
         
         var allButtons = document.querySelectorAll('.wizard_option_btn');
         for (var i = 0; i < allButtons.length; i++) {
@@ -465,6 +574,176 @@
     } else {
         init();
     }
+
+    // ============================================
+    // 🔧 FUNÇÕES AUXILIARES (Reutilizáveis)
+    // ============================================
+    
+    function preencherFormularioLead(lead) {
+        $('[name="leads_name"]').val(lead.leads_name || '');
+        $('[name="leads_cell"]').val(lead.leads_cell || '');
+        $('[name="leads_email"]').val(lead.leads_email || '');
+        $('[name="leads_cidade_interesse"]').val(lead.leads_cidade_interesse || '');
+        $('[name="leads_endereco_terreno"]').val(lead.leads_endereco_terreno || '');
+        $('[name="leads_expectativa_inicio"]').val(lead.leads_expectativa_inicio || '');
+        $('[name="leads_prazo_contato"]').val(lead.leads_prazo_contato || '');
+        $('[name="leads_faixa_investimento"]').val(lead.leads_faixa_investimento || '');
+        $('[name="leads_parcela_bolso"]').val(lead.leads_parcela_bolso || '');
+        $('[name="leads_comentarios_parceiro"]').val(lead.leads_comentarios_parceiro || '');
+        $('[name="leads_casas_interesse"]').val(lead.leads_casas_interesse || '');
+
+        if (lead.leads_terreno) {
+            $('[name="leads_terreno"]').val(lead.leads_terreno);
+            ativarBotao('.wizard_option_btn[data-value="' + lead.leads_terreno + '"]');
+        }
+
+        if (lead.leads_tipo_construcao) {
+            $('[name="leads_tipo_construcao"]').val(lead.leads_tipo_construcao);
+            ativarBotaoNaEtapa(2, lead.leads_tipo_construcao);
+        }
+
+        if (lead.leads_conhece_residere) {
+            $('[name="leads_conhece_residere"]').val(lead.leads_conhece_residere);
+            ativarBotaoPorNome('leads_conhece_residere', lead.leads_conhece_residere);
+            
+            if (lead.leads_conhece_residere === 'sim') {
+                $('#comoConheceuGroup').show();
+                $('[name="leads_como_conheceu"]').val(lead.leads_como_conheceu || '');
+            } else {
+                $('#comoConheceuGroup').hide();
+            }
+        }
+
+        if (lead.leads_visitou_casa) {
+            $('[name="leads_visitou_casa"]').val(lead.leads_visitou_casa);
+            ativarBotaoPorNome('leads_visitou_casa', lead.leads_visitou_casa);
+        }
+
+        if (lead.leads_finalidade_imovel) {
+            $('[name="leads_finalidade_imovel"]').val(lead.leads_finalidade_imovel);
+            ativarBotaoPorNome('leads_finalidade_imovel', lead.leads_finalidade_imovel);
+        }
+
+        if (lead.leads_credito_aprovado) {
+            $('[name="leads_credito_aprovado"]').val(lead.leads_credito_aprovado);
+            ativarBotaoPorNome('leads_credito_aprovado', lead.leads_credito_aprovado);
+        }
+
+        $('input[name="leads_forma_pagamento[]"]').prop('checked', false);
+        if (lead.leads_forma_pagamento) {
+            try {
+                const formas = JSON.parse(lead.leads_forma_pagamento);
+                formas.forEach(function(valor) {
+                    $('input[name="leads_forma_pagamento[]"][value="' + valor + '"]').prop('checked', true);
+                });
+            } catch(e) {
+                console.error('Erro ao parsear formas de pagamento:', e);
+            }
+        }
+    }
+    
+    function ativarBotao(seletor) {
+        $('.wizard_option_btn').removeClass('active');
+        $(seletor).first().addClass('active');
+    }
+    
+    function ativarBotaoNaEtapa(etapa, valor) {
+        $('[data-step="' + etapa + '"] .wizard_button_group').first()
+            .find('.wizard_option_btn').removeClass('active');
+        $('[data-step="' + etapa + '"] .wizard_button_group').first()
+            .find('.wizard_option_btn[data-value="' + valor + '"]').addClass('active');
+    }
+    
+    function ativarBotaoPorNome(nomeCampo, valor) {
+        $('[name="' + nomeCampo + '"]').closest('.wizard_form_group')
+            .find('.wizard_option_btn').removeClass('active');
+        $('[name="' + nomeCampo + '"]').closest('.wizard_form_group')
+            .find('.wizard_option_btn[data-value="' + valor + '"]').addClass('active');
+    }
+    
+    function carregarDadosLead(leadId, callback) {
+        $.post('_ajax/Leads.ajax.php', {
+            callback: 'Leads',
+            callback_action: 'load',
+            lead_id: leadId
+        }, function(data) {
+            if (data.error) {
+                Trigger("<b class='icon-warning'>ERRO:</b> " + data.error);
+                return;
+            }
+
+            if (data.lead && callback) {
+                callback(data.lead);
+            }
+        }, 'json').fail(function() {
+            Trigger("<b class='icon-warning'>ERRO:</b> Falha ao carregar dados do lead.");
+        });
+    }
+    
+    function configurarModoModal(modo) {
+        if (modo === 'view') {
+            isViewMode = true;
+            $('#wizardTitle').text('Visualizar dados do cliente');
+            $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', true);
+        } else if (modo === 'edit') {
+            isViewMode = false;
+            $('#wizardTitle').text('Editar dados do cliente');
+            $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', false);
+        } else {
+            isViewMode = false;
+            $('#wizardTitle').text('Preencha as informações do cliente em 3 etapas');
+            $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', false);
+        }
+    }
+    
+    // ============================================
+    // 📝 EDITAR LEAD
+    // ============================================
+    $(document).on('click', '.jEditLead', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let leadId = $(this).data('id');
+
+        carregarDadosLead(leadId, function(lead) {
+            if ($('[name="leads_id"]').length === 0) {
+                $('#wizardForm').prepend('<input type="hidden" name="leads_id" value="">');
+            }
+            $('[name="leads_id"]').val(leadId);
+
+            preencherFormularioLead(lead);
+            configurarModoModal('edit');
+
+            currentStep = 1;
+            updateUI();
+            openWizardModal('#wizardModal');
+        });
+    });
+
+    // ============================================
+    // 👁️ VISUALIZAR LEAD
+    // ============================================
+    $(document).on('click', '.jViewLead', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let leadId = $(this).data('id');
+
+        carregarDadosLead(leadId, function(lead) {
+            if ($('[name="leads_id"]').length === 0) {
+                $('#wizardForm').prepend('<input type="hidden" name="leads_id" value="">');
+            }
+            $('[name="leads_id"]').val(leadId);
+
+            preencherFormularioLead(lead);
+            configurarModoModal('view');
+
+            currentStep = 1;
+            updateUI();
+            openWizardModal('#wizardModal');
+        });
+    });
+
 })();
 
 //############## MODAL MESSAGE

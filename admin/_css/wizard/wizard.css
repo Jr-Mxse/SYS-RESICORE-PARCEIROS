@@ -822,3 +822,33 @@ body.modal-open {
         font-size: 11px;
     }
 }
+
+
+/* Erros de validação */
+.wizard_input_error,
+.wizard_select.wizard_input_error {
+    border-color: #e74c3c !important;
+    background-color: rgba(231, 76, 60, 0.05) !important;
+}
+
+.wizard_button_group_error {
+    border: 2px solid #e74c3c;
+    border-radius: 8px;
+    padding: 4px;
+    background-color: rgba(231, 76, 60, 0.03);
+}
+
+.wizard_field_error {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.wizard_field_error::before {
+    content: "⚠";
+    font-size: 14px;
+}
