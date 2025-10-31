@@ -73,12 +73,12 @@
                 <div class="wizard_form_group">
                     <label class="wizard_label">Possui terreno? <span class="wizard_required">*</span></label>
                     <div class="wizard_button_group">
-                        <button type="button" class="wizard_option_btn active" data-value="sim_proprio">Sim próprio</button>
+                        <button type="button" class="wizard_option_btn" data-value="sim_proprio">Sim próprio</button>
                         <button type="button" class="wizard_option_btn" data-value="sim_familiar">Sim familiar</button>
                         <button type="button" class="wizard_option_btn" data-value="em_negociacao">Em negociação</button>
                         <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                     </div>
-                    <input type="hidden" name="leads_terreno" value="sim_proprio">
+                    <input type="hidden" name="leads_terreno" value="" required>
                 </div>
 
                 <div class="wizard_form_group">
@@ -97,7 +97,7 @@
                         <button type="button" class="wizard_option_btn" data-value="geminada">Geminada</button>
                         <button type="button" class="wizard_option_btn" data-value="alto_padrao">Alto padrão</button>
                     </div>
-                    <input type="hidden" name="leads_tipo_construcao" value="">
+                    <input type="hidden" name="leads_tipo_construcao" value="" required>
                 </div>
 
                 <div class="wizard_form_group">
@@ -172,7 +172,7 @@
                             <button type="button" class="wizard_option_btn" data-value="sim">Sim</button>
                             <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                         </div>
-                        <input type="hidden" name="leads_conhece_residere" value="">
+                        <input type="hidden" name="leads_conhece_residere" value="" required>
                     </div>
                     <div class="wizard_form_group wizard_half" id="comoConheceuGroup" style="display: none;">
                         <label class="wizard_label">Como conheceu</label>
@@ -201,7 +201,7 @@
                         <button type="button" class="wizard_option_btn" data-value="sim">Sim</button>
                         <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                     </div>
-                    <input type="hidden" name="leads_visitou_casa" value="">
+                    <input type="hidden" name="leads_visitou_casa" value="" required>
                 </div>
 
                 <div class="wizard_form_group">
@@ -211,7 +211,7 @@
                         <button type="button" class="wizard_option_btn" data-value="investir">Investir</button>
                         <button type="button" class="wizard_option_btn" data-value="a_decidir">A decidir</button>
                     </div>
-                    <input type="hidden" name="leads_finalidade_imovel" value="">
+                    <input type="hidden" name="leads_finalidade_imovel" value="" required>
                 </div>
 
                 <div class="wizard_form_group">
@@ -231,7 +231,7 @@
                         <button type="button" class="wizard_option_btn" data-value="sim">Sim</button>
                         <button type="button" class="wizard_option_btn" data-value="nao">Não</button>
                     </div>
-                    <input type="hidden" name="leads_credito_aprovado" value="">
+                    <input type="hidden" name="leads_credito_aprovado" value="" required>
                 </div>
 
                 <div class="wizard_form_group">
@@ -251,7 +251,7 @@
                         </div>
                         <p class="wizard_upload_text">Clique para fazer upload ou arraste arquivos aqui</p>
                         <p class="wizard_upload_hint">Imagens, PDFs ou documentos</p>
-                        <input type="file" id="fileUpload" name="file[]" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
+                        <input type="file" id="fileUpload" name="file[]" multiple accept="image/*" style="display: none;">
                     </div>
                     <div id="fileList" class="wizard_file_list"></div>
                 </div>

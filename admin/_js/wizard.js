@@ -128,12 +128,13 @@
             }
         }
         
-        var hiddenFields = currentContent.querySelectorAll('input[type="hidden"][required]');
+      var hiddenFields = currentContent.querySelectorAll('input[type="hidden"][required]');
         for (var j = 0; j < hiddenFields.length; j++) {
             var hidden = hiddenFields[j];
             if (!hidden.value || hidden.value === '') {
                 isValid = false;
                 var group = hidden.previousElementSibling;
+                
                 if (group && group.classList.contains('wizard_button_group')) {
                     group.classList.add('wizard_button_group_error');
                     
@@ -148,6 +149,7 @@
                 }
             }
         }
+
         
         if (firstInvalidField) {
             firstInvalidField.focus();
