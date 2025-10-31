@@ -37,7 +37,7 @@
         </div>
 
         <form id="wizardForm" name="user_manager" action="" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="callback" value="Leads" />
+            <input type="hidden" name="callback" value="Leads2" />
             <input type="hidden" name="callback_action" value="manager" />
             <input type="hidden" name="parceiros_id" value="<?= $Admin['user_id']; ?>" />
 
@@ -250,7 +250,7 @@
                             </svg>
                         </div>
                         <p class="wizard_upload_text">Clique para fazer upload ou arraste arquivos aqui</p>
-                        <p class="wizard_upload_hint">Imagens, PDFs ou documentos</p>
+                        <p class="wizard_upload_hint">Imagens</p>
                         <input type="file" id="fileUpload" name="file[]" multiple accept="image/*" style="display: none;">
                     </div>
                     <div id="fileList" class="wizard_file_list"></div>

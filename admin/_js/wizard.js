@@ -500,7 +500,7 @@
         var i = Math.floor(Math.log(bytes) / Math.log(k));
         return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     }
-    
+
     // Submeter formulário
     function submitForm() {
         var formData = new FormData(wizardForm);
@@ -509,8 +509,13 @@
             formData.append('file[]', uploadedFiles[i]);
         }
 
+        // Desabilita botão e mostra loading
+        btnProximo.disabled = true;
+        var originalText = btnProximo.innerHTML;
+        btnProximo.innerHTML = '<svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg> Enviando...';
+
         $.ajax({
-            url: '_ajax/Leads.ajax.php',
+            url: '_ajax/Leads2.ajax.php',
             type: 'POST',
             data: formData,
             processData: false,
@@ -522,19 +527,31 @@
                 }
                 
                 if (data.error) {
+                    // Restaura botão em caso de erro
+                    btnProximo.disabled = false;
+                    btnProximo.innerHTML = originalText;
                     return;
                 }
                 
                 if (data.success) {
                     currentStep = 5;
                     updateUI();
+                    
+                    // Reload após 2 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
                 }
             },
             error: function() {
+                // Restaura botão em caso de erro
+                btnProximo.disabled = false;
+                btnProximo.innerHTML = originalText;
                 Trigger("<b class='icon-warning'>ERRO:</b> Falha ao enviar formulário");
             }
         });
     }
+
     
     // Resetar formulário
     function resetForm() {
@@ -664,8 +681,8 @@
     }
     
     function carregarDadosLead(leadId, callback) {
-        $.post('_ajax/Leads.ajax.php', {
-            callback: 'Leads',
+        $.post('_ajax/Leads2.ajax.php', {
+            callback: 'Leads2',
             callback_action: 'load',
             lead_id: leadId
         }, function(data) {
@@ -683,20 +700,69 @@
     }
     
     function configurarModoModal(modo) {
+        var uploadSection = document.querySelector('.wizard_upload_area');
+        var fileListSection = document.getElementById('fileList');
+        
         if (modo === 'view') {
             isViewMode = true;
             $('#wizardTitle').text('Visualizar dados do cliente');
             $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', true);
+            
+            // Esconde upload, mostra lista de arquivos
+            if (uploadSection) {
+                uploadSection.style.display = 'none';
+            }
+            if (fileListSection) {
+                fileListSection.style.display = 'block';
+            }
         } else if (modo === 'edit') {
             isViewMode = false;
             $('#wizardTitle').text('Editar dados do cliente');
             $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', false);
+            
+            // Mostra ambos
+            if (uploadSection) {
+                uploadSection.style.display = 'block';
+            }
+            if (fileListSection) {
+                fileListSection.style.display = 'block';
+            }
         } else {
             isViewMode = false;
             $('#wizardTitle').text('Preencha as informações do cliente em 3 etapas');
             $('#wizardForm input, #wizardForm select, #wizardForm textarea, #wizardForm button.wizard_option_btn').prop('disabled', false);
+            
+            // Mostra ambos
+            if (uploadSection) {
+                uploadSection.style.display = 'block';
+            }
+            if (fileListSection) {
+                fileListSection.innerHTML = ''; // Limpa em novo lead
+            }
         }
     }
+
+    function adicionarArquivoLead(nomeArquivo, urlArquivo) {
+        var fileList = document.getElementById('fileList');
+        
+        var fileItem = document.createElement('div');
+        fileItem.className = 'wizard_file_item';
+        
+        var fileName = document.createElement('span');
+        fileName.textContent = nomeArquivo;
+        
+        var downloadBtn = document.createElement('a');
+        downloadBtn.className = 'wizard_file_download';
+        downloadBtn.href = urlArquivo;
+        downloadBtn.target = '_blank';
+        downloadBtn.textContent = 'Baixar';
+        downloadBtn.style.marginLeft = '10px';
+        
+        fileItem.appendChild(fileName);
+        fileItem.appendChild(downloadBtn);
+        fileList.appendChild(fileItem);
+    }
+
     
     // ============================================
     // 📝 EDITAR LEAD
@@ -715,6 +781,13 @@
 
             preencherFormularioLead(lead);
             configurarModoModal('edit');
+
+            // Adiciona arquivos do lead se existirem
+            if (lead.leads_arquivos && Array.isArray(lead.leads_arquivos)) {
+                lead.leads_arquivos.forEach(function(arquivo) {
+                    adicionarArquivoLead(arquivo.nome, arquivo.url);
+                });
+            }
 
             currentStep = 1;
             updateUI();

@@ -14,7 +14,7 @@ usleep(50000);
 
 //DEFINE O CALLBACK E RECUPERA O POST
 $jSON = null;
-$CallBack = 'Leads';
+$CallBack = 'Leads2';
 $PostData = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
 //VALIDA AÇÃO
@@ -227,7 +227,7 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 }
 
                 // Upload de arquivos
-                if (!empty($_FILES['file']) && !empty($_FILES['file']['name'][0])) :
+                if (!empty($_FILES['file'])) :
                     $File = $_FILES['file'];
                     $gbFiles = [];
                     $gbCount = count($File['type']);
@@ -241,7 +241,6 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
 
                     foreach ($gbFiles as $gbLoop => $UploadFile):
                         $gbLoop++;
-                        $Upload = new Upload;
                         $Upload->Image($UploadFile, "lead_{$RegId}_{$gbLoop}_" . time(), 1200, 'leads');
 
                         if ($Upload->getResult()):
