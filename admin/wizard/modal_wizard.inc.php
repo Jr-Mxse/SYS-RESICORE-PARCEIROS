@@ -91,14 +91,30 @@
             <!-- ETAPA 2: Perfil do Interesse -->
             <div class="wizard_step_content" data-step="2">
                 <div class="wizard_form_group">
-                    <label class="wizard_label">Tipo de construção desejada <span class="wizard_required">*</span></label>
-                    <div class="wizard_button_group">
+                    <label class="wizard_label">Tipo de construção <span class="wizard_required">*</span></label>
+                   <div class="wizard_button_group">
                         <button type="button" class="wizard_option_btn" data-value="casa_terrea">Casa térrea</button>
-                        <button type="button" class="wizard_option_btn" data-value="sobrado">Sobrado</button>
-                        <button type="button" class="wizard_option_btn" data-value="geminada">Geminada</button>
-                        <button type="button" class="wizard_option_btn" data-value="alto_padrao">Alto padrão</button>
+                        <button type="button" class="wizard_option_btn" data-value="sobrado">Casa assobradada / Sobrado</button>
+                        <button type="button" class="wizard_option_btn" data-value="galpao_industrial">Galpão Industrial</button>
+                        <button type="button" class="wizard_option_btn" data-value="salao_comercial">Salão Comercial</button>
                     </div>
+
                     <input type="hidden" name="leads_tipo_construcao" value="" required>
+                </div>
+
+                   <div class="wizard_form_group">
+                    <label class="wizard_label">
+                        Padrão de acabamento <span class="wizard_required">*</span>
+                    </label>
+
+                    <div class="wizard_button_group">
+                        <button type="button" class="wizard_option_btn" data-value="basico">Básico</button>
+                        <button type="button" class="wizard_option_btn" data-value="medio">Médio</button>
+                        <button type="button" class="wizard_option_btn" data-value="alto">Alto</button>
+                        <button type="button" class="wizard_option_btn" data-value="luxo">Luxo</button>
+                    </div>
+
+                    <input type="hidden" name="leads_padrao_acabamento" value="" required>
                 </div>
 
                 <div class="wizard_form_group">
