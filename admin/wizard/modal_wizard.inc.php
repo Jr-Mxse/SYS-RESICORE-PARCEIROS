@@ -61,13 +61,14 @@
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Cidade de interesse <span class="wizard_required">*</span></label>
-                    <select name="leads_cidade_interesse" class="wizard_select" required>
+                    <input type="email" name="leads_cidade_interesse" class="wizard_input" placeholder="E-mail">
+                    <!-- <select name="leads_cidade_interesse" class="wizard_select" required>
                         <option value="">Selecione a cidade</option>
                         <option value="Sarandi">Sarandi</option>
                         <option value="Maringá">Maringá</option>
                         <option value="Paiçandu">Paiçandu</option>
                         <option value="Marialva">Marialva</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div class="wizard_form_group">
@@ -104,10 +105,10 @@
                     <label class="wizard_label">Faixa de investimento prevista <span class="wizard_required">*</span></label>
                     <select name="leads_faixa_investimento" class="wizard_select" required>
                         <option value="">Selecione a faixa</option>
-                        <option value="ate_150k">Até R$ 150.000</option>
-                        <option value="150k_250k">R$ 150.000 - R$ 250.000</option>
-                        <option value="250k_400k">R$ 250.000 - R$ 400.000</option>
-                        <option value="400k_mais">Acima de R$ 400.000</option>
+                       <option value="500k_700k">R$ 500.000 - R$ 700.000</option>
+                        <option value="700k_900k">R$ 700.000 - R$ 900.000</option>
+                        <option value="1m_1_2m">R$ 1.000.000 - R$ 1.200.000</option>
+                        <option value="acima_1_2m">Acima de R$ 1.200.000</option>
                     </select>
                 </div>
 
@@ -115,21 +116,16 @@
                     <label class="wizard_label">Parcela que cabe no bolso <span class="wizard_required">*</span></label>
                     <select name="leads_parcela_bolso" class="wizard_select" required>
                         <option value="">Selecione o valor</option>
-                        <option value="ate_1k">Até R$ 1.000</option>
-                        <option value="1k_2k">R$ 1.000 - R$ 2.000</option>
-                        <option value="2k_3k">R$ 2.000 - R$ 3.000</option>
-                        <option value="3k_5k">R$ 3.000 - R$ 5.000</option>
-                        <option value="5k_mais">Acima de R$ 5.000</option>
+                       <option value="4k_6k">R$ 4.000 - R$ 6.000</option>
+                        <option value="6k_8k">R$ 6.000 - R$ 8.000</option>
+                        <option value="8k_10k">R$ 8.000 - R$ 10.000</option>
+                        <option value="acima_10k">Acima de R$ 10.000</option>
                     </select>
                 </div>
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Forma de pagamento / entrada (múltiplas opções)</label>
                     <div class="wizard_checkbox_group">
-                        <label class="wizard_checkbox_label">
-                            <input type="checkbox" name="leads_forma_pagamento[]" value="fgts">
-                            <span>FGTS</span>
-                        </label>
                         <label class="wizard_checkbox_label">
                             <input type="checkbox" name="leads_forma_pagamento[]" value="consorcio">
                             <span>Consórcio</span>
