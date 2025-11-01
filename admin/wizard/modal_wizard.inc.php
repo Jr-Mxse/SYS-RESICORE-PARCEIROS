@@ -61,7 +61,7 @@
 
                 <div class="wizard_form_group">
                     <label class="wizard_label">Cidade de interesse <span class="wizard_required">*</span></label>
-                    <input type="email" name="leads_cidade_interesse" class="wizard_input" placeholder="E-mail">
+                    <input type="text" name="leads_cidade_interesse" class="wizard_input" placeholder="Ex: Maringá" required>
                     <!-- <select name="leads_cidade_interesse" class="wizard_select" required>
                         <option value="">Selecione a cidade</option>
                         <option value="Sarandi">Sarandi</option>
