@@ -151,50 +151,47 @@ if ($PostData && $PostData['callback_action'] && $PostData['callback'] == $CallB
                 // Converte faixa de investimento
                 if (!empty($PostData['leads_faixa_investimento'])) {
                     switch ($PostData['leads_faixa_investimento']) {
-                        case 'ate_150k':
-                            $PostData['faixa_preco_min'] = 0;
-                            $PostData['faixa_preco_max'] = 150000;
+                        case '500k_700k':
+                            $PostData['faixa_preco_min'] = 500000;
+                            $PostData['faixa_preco_max'] = 700000;
                             break;
-                        case '150k_250k':
-                            $PostData['faixa_preco_min'] = 150000;
-                            $PostData['faixa_preco_max'] = 250000;
+                        case '700k_900k':
+                            $PostData['faixa_preco_min'] = 700000;
+                            $PostData['faixa_preco_max'] = 900000;
                             break;
-                        case '250k_400k':
-                            $PostData['faixa_preco_min'] = 250000;
-                            $PostData['faixa_preco_max'] = 400000;
+                        case '1m_1_2m':
+                            $PostData['faixa_preco_min'] = 1000000;
+                            $PostData['faixa_preco_max'] = 1200000;
                             break;
-                        case '400k_mais':
-                            $PostData['faixa_preco_min'] = 400000;
-                            $PostData['faixa_preco_max'] = null;
+                        case 'acima_1_2m':
+                            $PostData['faixa_preco_min'] = 1200000;
+                            $PostData['faixa_preco_max'] = null; // acima
                             break;
                     }
                 }
 
-                // Converte parcela
+                // Converte parcela que cabe no bolso
                 if (!empty($PostData['leads_parcela_bolso'])) {
                     switch ($PostData['leads_parcela_bolso']) {
-                        case 'ate_1k':
-                            $PostData['parcela_min'] = 0;
-                            $PostData['parcela_max'] = 1000;
+                        case '4k_6k':
+                            $PostData['parcela_min'] = 4000;
+                            $PostData['parcela_max'] = 6000;
                             break;
-                        case '1k_2k':
-                            $PostData['parcela_min'] = 1000;
-                            $PostData['parcela_max'] = 2000;
+                        case '6k_8k':
+                            $PostData['parcela_min'] = 6000;
+                            $PostData['parcela_max'] = 8000;
                             break;
-                        case '2k_3k':
-                            $PostData['parcela_min'] = 2000;
-                            $PostData['parcela_max'] = 3000;
+                        case '8k_10k':
+                            $PostData['parcela_min'] = 8000;
+                            $PostData['parcela_max'] = 10000;
                             break;
-                        case '3k_5k':
-                            $PostData['parcela_min'] = 3000;
-                            $PostData['parcela_max'] = 5000;
-                            break;
-                        case '5k_mais':
-                            $PostData['parcela_min'] = 5000;
-                            $PostData['parcela_max'] = null;
+                        case 'acima_10k':
+                            $PostData['parcela_min'] = 10000;
+                            $PostData['parcela_max'] = null; // acima
                             break;
                     }
                 }
+
 
                 // INSERT ou UPDATE
                 if ($isUpdate) {
