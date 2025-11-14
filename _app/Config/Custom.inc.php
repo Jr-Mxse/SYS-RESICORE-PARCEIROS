@@ -208,12 +208,9 @@ function ajusteFotoPerfil($user_thumb)
 {
     $localPath = "../uploads/{$user_thumb}";
     $fallbackURL = "https://www.resicore.com.br/uploads/{$user_thumb}";
-    $fallbackURL2 = "https://www.resih.com.br/uploads/{$user_thumb}";
 
     if (remoteFileExists($fallbackURL)) {
         return $fallbackURL;
-    } elseif (remoteFileExists($fallbackURL2)) {
-        return $fallbackURL2;
     } else {
         return "admin/_img/no_avatar.jpg";
     }
@@ -222,13 +219,10 @@ function ajusteFotoPerfil($user_thumb)
 function ajusteFotoCurso($course_cover)
 {
     $localPath = "../uploads/{$course_cover}";
-    $fallbackURL = "https://www.resih.com.br/uploads/{$course_cover}";
-    $fallbackURL2 = "https://www.resicore.com.br/uploads/{$course_cover}";
+    $fallbackURL = "https://www.resicore.com.br/uploads/{$course_cover}";
 
     if (remoteFileExists($fallbackURL)) {
         return $fallbackURL;
-    } elseif (remoteFileExists($fallbackURL2)) {
-        return $fallbackURL2;
     } else {
         return "admin/_img/no_image.jpg";
     }
